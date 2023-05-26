@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import { Input, IconButton } from "@material-tailwind/react";
 import logo from "../../assets/logo.svg";
@@ -22,14 +22,14 @@ const links = [
 const currentYear = new Date().getFullYear();
 
 const Footer = () => {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = useState("");
   const onChange = ({ target }) => setEmail(target.value);
 
   return (
     <footer className="footer">
       <div className="mx-auto w-full max-w-7xl px-8">
         <div className="grid grid-cols-4">
-          <Typography as="img" src={logo} width="60%" />
+          <img src={logo} width="60%" alt="logo" />
           {links.map(({ title, items }) => (
             <ul key={title}>
               <Typography variant="small" color="blue-gray" className="mb-3 font-medium opacity-40">
@@ -45,7 +45,7 @@ const Footer = () => {
                   >
                     {link}
                   </Typography>
-                  {title == "Resource" && (
+                  {title === "Resource" && (
                     <>
                       <Typography as="p" color="black">
                         Subscribe to our newsletter for updates

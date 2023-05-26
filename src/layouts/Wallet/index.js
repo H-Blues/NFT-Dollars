@@ -89,7 +89,7 @@ const Wallet = ({ open, onClose }) => {
               sx={optionButtonStyle}
               onClick={() => {
                 activate(connectors.coinbaseWallet);
-                setProvider("walletConnect");
+                setProvider("coinbaseWallet");
                 onClose();
               }}
             >

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,7 +16,6 @@ import logo from "../../assets/logo.svg";
 import Wallet from "../Wallet";
 
 import { useWeb3React } from "@web3-react/core";
-import { connectors } from "../Wallet/connectors";
 import { truncateAddress } from "../Wallet/utils";
 
 const pages = ["Home", "Docs", "Borrow"];
@@ -28,7 +27,7 @@ const TransitionUp = (props) => {
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [walletModal, setWalletModal] = useState(false);
-  const { chainId, account, activate, deactivate, active } = useWeb3React();
+  const { chainId, account, deactivate, active } = useWeb3React();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -54,11 +53,6 @@ function ResponsiveAppBar() {
     refreshState();
     deactivate();
   };
-
-  useEffect(() => {
-    const provider = window.localStorage.getItem("provider");
-    if (provider) activate(connectors[provider]);
-  }, [chainId, account, activate]);
 
   return (
     <AppBar position="static" color="transparent">
@@ -157,13 +151,13 @@ function ResponsiveAppBar() {
         </Toolbar>
       </Container>
 
-      <Snackbar
+      {/* <Snackbar
         open={chainId !== 1}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         TransitionComponent={TransitionUp}
         message="Please Connect to Ethereum Mainnet"
         key="notice"
-      />
+      /> */}
     </AppBar>
   );
 }

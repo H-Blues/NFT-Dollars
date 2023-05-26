@@ -14,7 +14,7 @@ const walletconnect = new WalletConnectConnector({
 
 const walletlink = new WalletLinkConnector({
   url: `https://mainnet.infura.io/v3/${process.env.INFURA_KEY}`,
-  appName: "web3-react-demo",
+  appName: "nftdollars",
 });
 
 export const connectors = {

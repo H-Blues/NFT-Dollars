@@ -1,9 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   margin: 0;
 }
 
 body {
   background: url("/src/assets/bg.png");
-  background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
+  position: relative;
+  padding-bottom: 130vh; /* 为 footer 预留足够的空间 */
 }

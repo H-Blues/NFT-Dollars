@@ -5,6 +5,7 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
 import Home from "./pages/Home";
 import Header from "./layouts/Header";
+import Footer from "./layouts/Footer";
 import "./index.css";
 
 const getLibrary = (provider) => {
@@ -21,6 +22,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />}></Route>
         </Routes>
+        <Footer />
       </BrowserRouter>
     </Web3ReactProvider>
   );
