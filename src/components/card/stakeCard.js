@@ -1,0 +1,71 @@
+import {
+  Avatar,
+  Card,
+  CardBody,
+  CardFooter,
+  Typography,
+  Button,
+  Collapse,
+} from "@material-tailwind/react";
+
+import USDInput from "../input/usdInput";
+import PoolShareInput from "../input/poolShareInput";
+import stakeIcon from "../../assets/avatar.svg";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
+
+const title = "Stake";
+const icon = stakeIcon;
+const description = "Stake LQTY to earn a share of protocol fees in ETH and LUSD. ";
+const tip = "Enter the amount of NFTUSD";
+const operation = "Start Staking";
+
+const StakeCard = () => {
+  const [open, setOpen] = useState(false);
+  const [nftUSD, setNftUsd] = useState("");
+  const toggleOpen = () => {
+    setOpen((cur) => !cur);
+  };
+
+  const nftUsdChange = (value) => {
+    setNftUsd(value);
+    console.log("Received value from child component:", value);
+  };
+
+  return (
+    <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50">
+      <CardBody>
+        <div className="flex mb-4">
+          <Avatar src={icon} alt="pool" />
+          <Typography variant="h3" className="ml-6">
+            Stake
+          </Typography>
+        </div>
+        <Typography variant="p" className="inline mb-0">
+          {description}
+          <a href="#" className="inline-flex font-bold items-center hover:underline">
+            What is {title}?
+            <ArrowTopRightOnSquareIcon className="w-6 mb-1" />
+          </a>
+        </Typography>
+
+        <Collapse open={open}>
+          <div className="md:flex space-x-10">
+            <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} />
+            <PoolShareInput nftUSD={nftUSD} />
+          </div>
+        </Collapse>
+      </CardBody>
+
+      <CardFooter className="pt-0">
+        <a href="#" className="flex justify-end">
+          <Button color="amber" className="ml-auto text-white" onClick={toggleOpen}>
+            {operation}
+          </Button>
+        </a>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default StakeCard;
