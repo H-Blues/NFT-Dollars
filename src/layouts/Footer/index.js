@@ -28,10 +28,10 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="grid grid-cols-4">
-          <img src={logo} width="60%" alt="logo" />
+        <div className="grid grid-cols-2 md:grid-cols-4 space-y-4">
+          <img src={logo} alt="logo" className="m-auto w-1/3 md:w-1/2 col-span-2 md:col-span-1" />
           {links.map(({ title, items }) => (
-            <ul key={title}>
+            <ul key={title} className={title === "Resource" && "col-span-2 md:col-span-1"}>
               <Typography variant="small" color="blue-gray" className="mb-3 font-medium opacity-40">
                 {title}
               </Typography>

@@ -18,13 +18,13 @@ import Wallet from "../Wallet";
 import { useWeb3React } from "@web3-react/core";
 import { truncateAddress } from "../Wallet/utils";
 
-const pages = ["Home", "Docs", "Borrow"];
+const pages = ["Home", "Docs", "Borrow", "RiskyTroves"];
 
 const TransitionUp = (props) => {
   return <Slide {...props} direction="up" />;
 };
 
-function ResponsiveAppBar() {
+const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [walletModal, setWalletModal] = useState(false);
   const { chainId, account, deactivate, active } = useWeb3React();
@@ -160,5 +160,5 @@ function ResponsiveAppBar() {
       /> */}
     </AppBar>
   );
-}
+};
 export default ResponsiveAppBar;

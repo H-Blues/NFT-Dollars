@@ -11,5 +11,5 @@ body {
   background-size: cover;
   background-position: center;
   position: relative;
-  padding-bottom: 130vh; /* 为 footer 预留足够的空间 */
+  padding-bottom: 130vh;
 }

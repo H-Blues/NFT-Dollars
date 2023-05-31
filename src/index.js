@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
 import Home from "./pages/Home";
+import Borrow from "./pages/Borrow";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
 import "./index.css";
@@ -21,6 +22,7 @@ const App = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Home />}></Route>
+          <Route path="/borrow" element={<Borrow />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
