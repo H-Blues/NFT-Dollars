@@ -7,11 +7,10 @@ import Dashboard from "../components/statistics/dashboard";
 const Borrow = () => {
   useEffect(() => {
     const handleResize = () => {
-      document.body.style.paddingBottom = "80vh";
-      if (window.innerWidth > 1024) {
-        document.body.style.paddingBottom = "60vh";
-      }
+      const paddingBottom = window.innerWidth > 1024 ? "60vh" : "80vh";
+      document.body.style.paddingBottom = paddingBottom;
     };
+    handleResize();
     window.addEventListener("resize", handleResize);
   }, []);
 

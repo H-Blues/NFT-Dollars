@@ -1,33 +1,31 @@
 import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import { Link } from "react-router-dom";
+
+import { AppBar, Container, Box } from "@mui/material";
+import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Snackbar from "@mui/material/Snackbar";
-import Slide from "@mui/material/Slide";
+import { useWeb3React } from "@web3-react/core";
+import { truncateAddress } from "../Wallet/utils";
 
 import logo from "../../assets/logo.svg";
 import Wallet from "../Wallet";
 
-import { useWeb3React } from "@web3-react/core";
-import { truncateAddress } from "../Wallet/utils";
+const PAGES = ["Home", "Docs", "Borrow", "RiskyTroves"];
+const ROUTES = [
+  "/",
+  "https://sylvain-code.gitbook.io/nftdollars-white-paper/",
+  "/borrow",
+  "/record",
+];
 
-const pages = ["Home", "Docs", "Borrow", "RiskyTroves"];
+// const TransitionUp = (props) => {
+//   return <Slide {...props} direction="up" />;
+// };
 
-const TransitionUp = (props) => {
-  return <Slide {...props} direction="up" />;
-};
-
-const ResponsiveAppBar = () => {
+const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [walletModal, setWalletModal] = useState(false);
-  const { chainId, account, deactivate, active } = useWeb3React();
+  const { account, deactivate, active } = useWeb3React();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -58,63 +56,68 @@ const ResponsiveAppBar = () => {
     <AppBar position="static" color="transparent">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          {/* Desktop Logo */}
           <Box sx={{ display: { xs: "none", md: "flex" }, mr: 5 }}>
             <img src={logo} width="80vw" alt="NFT-Dollars" />
           </Box>
 
+          {/* Mobile Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton size="large" onClick={handleOpenNavMenu} color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
               anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
               keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              {/* Menu Items */}
+              {PAGES.map((page, index) => {
+                let route = ROUTES[index];
+                return (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center" component={Link} to={route}>
+                      {page}
+                    </Typography>
+                  </MenuItem>
+                );
+              })}
             </Menu>
           </Box>
 
+          {/* Mobile Logo */}
           <Box sx={{ display: { xs: "flex", md: "none" }, flexGrow: 1 }}>
             <img src={logo} width="80vw" alt="NFT-Dollars" />
           </Box>
 
+          {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "white",
-                  display: "block",
-                  textTransform: "capitalize",
-                  fontWeight: 500,
-                  fontSize: "1rem",
-                }}
-              >
-                {page}
-              </Button>
-            ))}
+            {/* Menu Buttons */}
+            {PAGES.map((page, index) => {
+              let route = ROUTES[index];
+              return (
+                <Link to={route} key={page}>
+                  <Button
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      textTransform: "capitalize",
+                      fontWeight: 500,
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {page}
+                  </Button>
+                </Link>
+              );
+            })}
           </Box>
 
+          {/* Wallet Connection */}
           {!active ? (
             <Button
               key="connect"
@@ -147,6 +150,7 @@ const ResponsiveAppBar = () => {
             </Button>
           )}
 
+          {/* Wallet Modal */}
           <Wallet open={walletModal} onClose={closeWalletConnection}></Wallet>
         </Toolbar>
       </Container>
@@ -161,4 +165,4 @@ const ResponsiveAppBar = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default Header;

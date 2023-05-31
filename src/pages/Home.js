@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import MaleFileImage from "../assets/MaleFile.svg";
@@ -28,6 +28,9 @@ const benefits = [
 
 const Home = () => {
   const [lockedValue, setLockedValue] = useState(7547692844);
+  useEffect(() => {
+    document.body.style.paddingBottom = "130vh";
+  }, []);
 
   return (
     <>

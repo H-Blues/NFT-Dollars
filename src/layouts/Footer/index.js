@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import { Input, IconButton } from "@material-tailwind/react";
 import logo from "../../assets/logo.svg";
-import "./index.css";
 
 const links = [
   {
@@ -26,7 +25,7 @@ const Footer = () => {
   const onChange = ({ target }) => setEmail(target.value);
 
   return (
-    <footer className="footer">
+    <footer className="absolute bottom-0 left-0 right-0 pt-4 bg-[#fbf8f0]">
       <div className="mx-auto w-full max-w-7xl px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 space-y-4">
           <img src={logo} alt="logo" className="m-auto w-1/3 md:w-1/2 col-span-2 md:col-span-1" />
