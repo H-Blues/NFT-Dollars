@@ -41,7 +41,7 @@ const StakeCard = () => {
             Stake
           </Typography>
         </div>
-        <Typography variant="p" className="inline mb-0">
+        <Typography variant="paragraph" className="inline mb-0">
           {description}
           <a href="#" className="inline-flex font-bold items-center hover:underline">
             What is {title}?

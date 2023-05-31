@@ -23,7 +23,7 @@ const dataList = [
 
 export default function Dashboard() {
   return (
-    <Card className="ml-12 mt-12 p-8 w-5/6 xl:mr-12 xl:ml-0 bg-transparent border-2">
+    <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent border-2">
       <CardHeader
         floated={false}
         shadow={false}
@@ -37,7 +37,7 @@ export default function Dashboard() {
           </Typography>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           <div className="flex mt-4 text-white ml-14 xl:ml-0">
             <Avatar src={priceIcon} alt="avatar" className="h-20 w-20 xl:h-14 xl:w-14" />
             <div className="flex flex-col items-start">

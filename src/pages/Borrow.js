@@ -7,13 +7,13 @@ import Dashboard from "../components/statistics/dashboard";
 const Borrow = () => {
   useEffect(() => {
     const handleResize = () => {
-      document.body.style.paddingBottom = "100vh";
+      document.body.style.paddingBottom = "80vh";
       if (window.innerWidth > 1024) {
         document.body.style.paddingBottom = "60vh";
       }
     };
     window.addEventListener("resize", handleResize);
-  }, [window.innerWidth]);
+  }, []);
 
   return (
     <div className="grid xl:grid-cols-3">
