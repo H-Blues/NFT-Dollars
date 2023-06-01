@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { Container, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-import { Link } from "react-router-dom";
 import { numberWithCommas } from "../utils/numberUtils";
 import MaleFileImage from "../assets/MaleFile.svg";
 import block1 from "../assets/index_block1.svg";
@@ -31,6 +31,8 @@ const BENEFITS = [
 
 const Home = () => {
   const [lockedValue, setLockedValue] = useState(7547692844);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const handleResize = () => {
       const paddingBottom = window.innerWidth > 768 ? "130vh" : "180vh";
@@ -72,15 +74,21 @@ const Home = () => {
         </Typography>
         <Typography variant="h4"> Borrow LUSC against ETH</Typography>
         <div className="flex flex-col mt-20 justify-center items-center space-y-4">
-          <Button className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300">
-            <Link to="/borrow">
-              <span className="font-bold text-lg">Borrow Now</span>
-            </Link>
+          <Button
+            className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"
+            onClick={() => {
+              navigate("/borrow");
+            }}
+          >
+            <span className="w-full font-bold text-lg">Borrow Now</span>
           </Button>
-          <Button className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300">
-            <Link to="/doc">
-              <span className="font-bold text-lg">Learn More</span>
-            </Link>
+          <Button
+            className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"
+            onClick={() => {
+              navigate("/doc");
+            }}
+          >
+            <span className="w-full font-bold text-lg">Learn More</span>
           </Button>
         </div>
         <div className="mt-10">
