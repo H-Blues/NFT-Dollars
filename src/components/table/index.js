@@ -1,9 +1,10 @@
 import React from "react";
+import { SvgIcon } from "@mui/material";
 import { Card, Typography, IconButton } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
+
 import CopyButton from "./copyButton";
 import { ReactComponent as EthLogo } from "../../assets/logos_ethereum.svg";
-import { SvgIcon } from "@mui/material";
 
 const TABLE_HEAD = ["Owner", "Collateral", "Debt(NFTUSD)", "Call Ratio"];
 

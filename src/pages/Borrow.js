@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import ExtractionCard from "../components/card/extraction";
+import ExtractionCard from "../components/card/extractionCard";
 import StabilityCard from "../components/card/stabilityPoolCard";
 import StakeCard from "../components/card/stakeCard";
 import Dashboard from "../components/statistics/dashboard";

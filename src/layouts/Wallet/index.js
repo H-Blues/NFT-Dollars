@@ -1,44 +1,20 @@
 import React from "react";
-import { Modal, Button, Box, Typography, SvgIcon } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
+import { SvgIcon } from "@mui/material";
+import {
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  IconButton,
+  Typography,
+  MenuItem,
+} from "@material-tailwind/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useWeb3React } from "@web3-react/core";
+
 import { connectors } from "./connectors";
 import { ReactComponent as MetamaskSvg } from "../../assets/metamask-logo.svg";
 import { ReactComponent as WallerSvg } from "../../assets/index-wallet.svg";
 import { ReactComponent as CoinbaseSvg } from "../../assets/index-coinbase.svg";
-
-const modalStyle = {
-  position: "absolute",
-  padding: "2em",
-  top: "40%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "20%",
-  maxWidth: "400px",
-  minWidth: "300px",
-  bgcolor: "background.paper",
-  borderRadius: "1rem",
-  fontFamily: "PingFang SC",
-};
-
-const closeButtonStyle = {
-  position: "absolute",
-  top: "10px",
-  right: "10px",
-  cursor: "pointer",
-};
-
-const optionButtonStyle = {
-  textTransform: "capitalize",
-  color: "black",
-  border: "none",
-  padding: "2%",
-  transition: "background-color 0.3s, color 0.3s",
-  "&:hover": {
-    backgroundColor: "orange",
-    color: "white",
-  },
-};
 
 const Wallet = ({ open, onClose }) => {
   const { activate } = useWeb3React();
@@ -48,57 +24,63 @@ const Wallet = ({ open, onClose }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
-      <Box className="modal-content" sx={modalStyle}>
-        <div style={closeButtonStyle} onClick={onClose}>
-          <ClearIcon color="transparent" />
-        </div>
-        <div>
-          <Typography variant="h5" style={{ display: { xs: "none", md: "flex" } }}>
-            Connect Wallet
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "column", marginTop: "1rem" }}>
-            <Button
-              key="metamask"
-              startIcon={<SvgIcon component={MetamaskSvg} />}
-              sx={{ ...optionButtonStyle }}
+    <Dialog size="xs" open={open} handler={onClose}>
+      <DialogHeader className="justify-between">
+        <Typography variant="h5" color="blue-gray">
+          Connect a Wallet
+        </Typography>
+        <IconButton color="blue-gray" size="sm" variant="text" onClick={onClose}>
+          <XMarkIcon strokeWidth={2} className="h-5 w-5" />
+        </IconButton>
+      </DialogHeader>
+      <DialogBody className="overflow-y-scroll pr-2">
+        <div className="mb-6 ">
+          <ul className="-ml-2 flex flex-col gap-1">
+            <MenuItem
+              className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.injected);
                 setProvider("injected");
                 onClose();
               }}
             >
-              Metamask
-            </Button>
+              <SvgIcon component={MetamaskSvg} className="h-6 w-6" />
+              <Typography color="blue-gray" variant="h6">
+                MetaMask
+              </Typography>
+            </MenuItem>
 
-            <Button
-              key="walletconnection"
-              startIcon={<SvgIcon component={WallerSvg} />}
-              sx={{ ...optionButtonStyle }}
+            <MenuItem
+              className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.walletConnect);
                 setProvider("walletConnect");
                 onClose();
               }}
             >
-              Wallet Connection
-            </Button>
-            <Button
-              key="coinbase"
-              startIcon={<SvgIcon component={CoinbaseSvg} />}
-              sx={optionButtonStyle}
+              <SvgIcon component={WallerSvg} className="h-6 w-6 rounded-md" />
+              <Typography color="blue-gray" variant="h6">
+                Wallet Connection
+              </Typography>
+            </MenuItem>
+
+            <MenuItem
+              className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.coinbaseWallet);
                 setProvider("coinbaseWallet");
                 onClose();
               }}
             >
-              Coinbase Wallet
-            </Button>
-          </Box>
+              <SvgIcon component={CoinbaseSvg} className="h-6 w-6 rounded-md" />
+              <Typography color="blue-gray" variant="h6">
+                Coinbase Wallet
+              </Typography>
+            </MenuItem>
+          </ul>
         </div>
-      </Box>
-    </Modal>
+      </DialogBody>
+    </Dialog>
   );
 };
 

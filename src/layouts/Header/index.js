@@ -5,7 +5,7 @@ import { AppBar, Container, Box } from "@mui/material";
 import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useWeb3React } from "@web3-react/core";
-import { truncateAddress } from "../Wallet/utils";
+import { truncateAddress } from "../../utils/numberUtils";
 
 import logo from "../../assets/logo.svg";
 import Wallet from "../Wallet";

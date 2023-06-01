@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Card,
@@ -8,11 +9,10 @@ import {
   Collapse,
 } from "@material-tailwind/react";
 
-import USDInput from "../input/usdInput";
-import PoolShareInput from "../input/poolShareInput";
 import poolIcon from "../../assets/avatar.svg";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import USDInput from "../input/usdInput";
+import PoolShareInput from "../input/poolShareInput";
 
 const title = "Stability Pool";
 const icon = poolIcon;
@@ -23,7 +23,7 @@ const operation = "Deposit";
 const StatbilityPoolCard = () => {
   const [open, setOpen] = useState(false);
   const [nftUSD, setNftUsd] = useState("");
-  const toggleOpen = () => {
+  const toggle = () => {
     setOpen((cur) => !cur);
   };
 
@@ -43,7 +43,10 @@ const StatbilityPoolCard = () => {
         </div>
         <Typography variant="paragraph" className="inline mb-0">
           {description}
-          <a href="#" className="inline-flex font-bold items-center hover:underline">
+          <a
+            href="https://sylvain-code.gitbook.io/nftdollars-white-paper/stability-pool"
+            className="inline-flex font-bold items-center hover:underline"
+          >
             What is {title}?
             <ArrowTopRightOnSquareIcon className="w-6 mb-1" />
           </a>
@@ -58,11 +61,18 @@ const StatbilityPoolCard = () => {
       </CardBody>
 
       <CardFooter className="pt-0">
-        <a href="#" className="flex justify-end">
-          <Button color="amber" className="ml-auto text-white" onClick={toggleOpen}>
-            {operation}
-          </Button>
-        </a>
+        <div className="flex justify-end">
+          {!open && (
+            <Button color="amber" className="ml-auto text-white" onClick={toggle}>
+              {operation}
+            </Button>
+          )}
+          {open && (
+            <Button color="amber" variant="outlined" className="ml-auto" onClick={toggle}>
+              Cancel
+            </Button>
+          )}
+        </div>
       </CardFooter>
     </Card>
   );

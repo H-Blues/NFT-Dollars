@@ -1,14 +1,12 @@
-import { Avatar, Card, CardHeader, CardBody, Typography, Button } from "@material-tailwind/react";
+import { Avatar, Card, CardHeader, CardBody, Typography } from "@material-tailwind/react";
+import { List, ListItem, Divider } from "@mui/material";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+
 import priceIcon from "../../assets/avatar.svg";
 import walletLeft from "../../assets/wallet-leftAnimal.svg";
 import walletRight from "../../assets/wallet-rightAnimal.svg";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import { Divider } from "@mui/material";
-
-const dataList = [
+const DATA = [
   { type: "Borrowing Fee", value: "0.50%" },
   { type: "TVL", value: "399K ETH" },
   { type: "Troves", value: 50 },
@@ -21,7 +19,7 @@ const dataList = [
   { type: "Kickback Rate", value: 0.2 },
 ];
 
-export default function Dashboard() {
+const Dashboard = () => {
   return (
     <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent border-2">
       <CardHeader
@@ -37,6 +35,7 @@ export default function Dashboard() {
           </Typography>
         </div>
 
+        {/* Price */}
         <div className="grid md:grid-cols-2 gap-4">
           <div className="flex mt-4 text-white ml-14 xl:ml-0">
             <Avatar src={priceIcon} alt="avatar" className="h-20 w-20 xl:h-14 xl:w-14" />
@@ -45,7 +44,9 @@ export default function Dashboard() {
               <p className="ml-4 font-bold xl:ml-1">$131.0938</p>
             </div>
           </div>
+
           <div className="flex gap-16 xl:gap-4 text-white">
+            {/* NFTdollars */}
             <div className="flex flex-col items-start">
               <p className="text-xl xl:text-xs">NFTdollars</p>
               <p className="font-bold">$11.02</p>
@@ -55,6 +56,8 @@ export default function Dashboard() {
                 <Avatar src={walletRight} alt="avatar" className="h-6 w-6" />
               </div>
             </div>
+
+            {/* NFTUSD */}
             <div className="flex flex-col items-start">
               <p className="text-xl xl:text-xs">NFTUSD</p>
               <p className="font-bold">$11.02</p>
@@ -68,18 +71,21 @@ export default function Dashboard() {
         </div>
       </CardHeader>
 
+      {/* Protocol */}
       <CardBody className="p-0 ml-8 xl:ml-0">
         <Typography variant="h5" color="white">
           Protocol
         </Typography>
         <div className="ml-0">
           <List dense="true" sx={{ marginLeft: "-18px" }}>
-            {dataList.map((item, index) => (
+            {DATA.map((item, index) => (
               <>
+                {/* Data item */}
                 <ListItem key={index}>
                   <span className="text-white">{item.type}</span>
                   <span className="ml-auto text-white">{item.value}</span>
                 </ListItem>
+                {/* Divider */}
                 <Divider sx={{ backgroundColor: "white" }} />
               </>
             ))}
@@ -88,4 +94,6 @@ export default function Dashboard() {
       </CardBody>
     </Card>
   );
-}
+};
+
+export default Dashboard;

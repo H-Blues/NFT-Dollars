@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import TransactionTable from "../components/table/transactionTable";
+import TransactionTable from "../components/table";
 import Dashboard from "../components/statistics/dashboard";
 
 const RiskyTroves = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import USDInput from "../input/usdInput";
+import USDInput from "../../input/usdInput";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 
@@ -27,7 +27,7 @@ const dataList = [
   },
 ];
 
-const Display = () => {
+const PreviewList = () => {
   const [nftUSD, setNftUsd] = useState("");
   const nftUsdChange = (value) => {
     setNftUsd(value);
@@ -50,4 +50,4 @@ const Display = () => {
   );
 };
 
-export default Display;
+export default PreviewList;

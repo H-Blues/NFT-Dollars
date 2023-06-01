@@ -1,3 +1,13 @@
+export const numberWithCommas = (number) => {
+  if (typeof number === "number") {
+    return number.toLocaleString();
+  }
+  if (typeof number === "string" && !isNaN(Number(number))) {
+    return Number(number).toLocaleString();
+  }
+  return number;
+};
+
 export const truncateAddress = (address) => {
   if (!address) return "No Account";
   const match = address.match(/^(0x[a-zA-Z0-9]{2})[a-zA-Z0-9]+([a-zA-Z0-9]{2})$/);

@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Avatar,
   Card,
@@ -9,10 +10,9 @@ import {
 } from "@material-tailwind/react";
 
 import Divider from "@mui/material/Divider";
-import ExtractionStepper from "../stepper/extractionStepper";
 import extractionIcon from "../../assets/avatar.svg";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import ExtractionStepper from "../stepper";
 
 const title = "Extraction";
 const icon = extractionIcon;
@@ -36,7 +36,10 @@ const ExtractionCard = () => {
         </div>
         <Typography variant="paragraph" className="inline mb-0">
           {description}
-          <a href="#" className="inline-flex font-bold items-center hover:underline">
+          <a
+            href="https://sylvain-code.gitbook.io/nftdollars-white-paper/extract-nftusd"
+            className="inline-flex font-bold items-center hover:underline"
+          >
             What is {title}?
             <ArrowTopRightOnSquareIcon className="w-6 mb-1" />
           </a>
@@ -49,7 +52,7 @@ const ExtractionCard = () => {
       </CardBody>
 
       <CardFooter className="pt-0">
-        <a href="#" className="flex justify-end">
+        <div className="flex justify-end">
           {!open && (
             <Button color="amber" className="ml-auto text-white" onClick={toggle}>
               {operation}
@@ -60,7 +63,7 @@ const ExtractionCard = () => {
               Cancel
             </Button>
           )}
-        </a>
+        </div>
       </CardFooter>
     </Card>
   );
