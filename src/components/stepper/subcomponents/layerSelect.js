@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Select, MenuItem } from "@mui/material";
+import { Box, Button, Select, MenuItem } from "@mui/material";
 import { layerOptions, addressOptions, idOptions } from "../data/selectOptions";
 
-const LayerSelect = () => {
+const LayerSelect = ({ next, back }) => {
   const [layer, setLayer] = useState("");
   const [address, setAddress] = useState("");
   const [id, setId] = useState("");
@@ -78,6 +78,30 @@ const LayerSelect = () => {
           </MenuItem>
         ))}
       </Select>
+
+      <Box sx={{ mb: 1 }}>
+        <div>
+          <Button
+            variant="contained"
+            disabled={!id}
+            onClick={next}
+            sx={{
+              mt: 1,
+              mr: 1,
+              backgroundColor: "orange",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "orange",
+              },
+            }}
+          >
+            Continue
+          </Button>
+          <Button disabled={true} onClick={back} sx={{ mt: 1, mr: 1 }}>
+            Back
+          </Button>
+        </div>
+      </Box>
     </div>
   );
 };

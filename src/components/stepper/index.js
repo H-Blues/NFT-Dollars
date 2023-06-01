@@ -71,31 +71,11 @@ const ExtractionStepper = () => {
             <StepLabel>{step.label}</StepLabel>
             <StepContent>
               <Typography>{step.description}</Typography>
-              {index === 0 && <LayerSelect />}
-              {index === 1 && <PreviewList />}
-              {index === STEPS.length - 1 && <ConfirmationList />}
-              <Box sx={{ mb: 2 }}>
-                <div>
-                  <Button
-                    variant="contained"
-                    onClick={handleNext}
-                    sx={{
-                      mt: 1,
-                      mr: 1,
-                      backgroundColor: "orange",
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "orange",
-                      },
-                    }}
-                  >
-                    {index === STEPS.length - 1 ? "Finish" : "Continue"}
-                  </Button>
-                  <Button disabled={index === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                    Back
-                  </Button>
-                </div>
-              </Box>
+              {index === 0 && <LayerSelect next={handleNext} back={handleBack} />}
+              {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
+              {index === STEPS.length - 1 && (
+                <ConfirmationList next={handleNext} back={handleBack} />
+              )}
             </StepContent>
           </Step>
         ))}

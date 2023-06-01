@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Box, Button } from "@mui/material";
 
 import USDInput from "../../input/usdInput";
 import List from "@mui/material/List";
@@ -27,7 +28,7 @@ const dataList = [
   },
 ];
 
-const PreviewList = () => {
+const PreviewList = ({ next, back }) => {
   const [nftUSD, setNftUsd] = useState("");
   const nftUsdChange = (value) => {
     setNftUsd(value);
@@ -46,6 +47,30 @@ const PreviewList = () => {
           </ListItem>
         ))}
       </List>
+
+      <Box sx={{ mb: 1 }}>
+        <div>
+          <Button
+            variant="contained"
+            disabled={!nftUSD}
+            onClick={next}
+            sx={{
+              mt: 1,
+              mr: 1,
+              backgroundColor: "orange",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "orange",
+              },
+            }}
+          >
+            Continue
+          </Button>
+          <Button color="warning" onClick={back} sx={{ mt: 1, mr: 1 }}>
+            Back
+          </Button>
+        </div>
+      </Box>
     </>
   );
 };
