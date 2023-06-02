@@ -43,7 +43,6 @@ const LayerSelect = ({ next, back }) => {
         onChange={handleLayerChange}
         className="mb-4 w-full rounded-lg h-10 border-amber-100"
       >
-        <MenuItem value="">Select Layer</MenuItem>
         {layerOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
@@ -57,7 +56,6 @@ const LayerSelect = ({ next, back }) => {
         disabled={!layer}
         className="mb-4 w-full rounded-lg h-10"
       >
-        <MenuItem value="">Select Address</MenuItem>
         {getAddressOptions(layer).map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
@@ -71,7 +69,6 @@ const LayerSelect = ({ next, back }) => {
         disabled={!address}
         className="mb-4 w-full rounded-lg h-10"
       >
-        <MenuItem value="">Select ID</MenuItem>
         {getIdOptions(address).map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
