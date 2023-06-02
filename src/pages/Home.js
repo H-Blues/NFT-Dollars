@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react";
 import { Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { numberWithCommas } from "../utils/numberUtils";
+import { numberWithCommas } from "../utils/number";
 import MaleFileImage from "../assets/MaleFile.svg";
 import block1 from "../assets/index_block1.svg";
 import block2 from "../assets/index_block2.svg";

@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
 import { AppBar, Container, Box } from "@mui/material";
 import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import { WalletIcon } from "@heroicons/react/24/solid";
 import { useWeb3React } from "@web3-react/core";
-import { truncateAddress } from "../../utils/numberUtils";
+import { ethers } from "ethers";
 
+import { truncateAddress } from "../../utils/number";
+import { contracts } from "../../utils/contracts";
 import logo from "../../assets/logo.svg";
-import Wallet from "../Wallet";
+import Wallet from "../../components/wallet";
 
 const PAGES = ["Home", "Docs", "Borrow", "RiskyTroves"];
 const ROUTES = [
@@ -25,6 +27,8 @@ const ROUTES = [
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [walletModal, setWalletModal] = useState(false);
+  const [usdBalance, setUSDBalance] = useState(0);
+  const [dollarBalance, setDollarBalance] = useState(0);
   const { account, deactivate, active } = useWeb3React();
 
   const handleOpenNavMenu = (event) => {
@@ -51,6 +55,18 @@ const Header = () => {
     refreshState();
     deactivate();
   };
+
+  useEffect(() => {
+    const getBalance = async () => {
+      if (account) {
+        let usdBalance = await contracts.nftUSD.balanceOf(account);
+        let dollarBalance = await contracts.nftDollar.balanceOf(account);
+        setUSDBalance(ethers.utils.formatEther(usdBalance));
+        setDollarBalance(ethers.utils.formatEther(dollarBalance));
+      }
+    };
+    getBalance();
+  }, [account]);
 
   return (
     <AppBar position="static" color="transparent">
@@ -117,6 +133,19 @@ const Header = () => {
             })}
           </Box>
 
+          {account && (
+            <div className="flex space-x-4 mr-4 text-white">
+              <WalletIcon className="none md:w-8 " />
+              <div className="grid place-items-center">
+                <span className="text-sm md:text-base">NFTdollars</span>
+                <span className="md:text-sm">$ {dollarBalance}</span>
+              </div>
+              <div className="grid place-items-center">
+                <span className="text-sm md:text-base">NFTUSD</span>
+                <span className="md:text-sm">$ {usdBalance}</span>
+              </div>
+            </div>
+          )}
           {/* Wallet Connection */}
           {!active ? (
             <Button
