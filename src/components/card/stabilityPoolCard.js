@@ -57,6 +57,9 @@ const StatbilityPoolCard = () => {
             <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} />
             <PoolShareInput nftUSD={nftUSD} />
           </div>
+          <div className="ml-6">
+            <Button color="orange">Submit</Button>
+          </div>
         </Collapse>
       </CardBody>
 

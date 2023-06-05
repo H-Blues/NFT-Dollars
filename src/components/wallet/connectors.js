@@ -3,7 +3,7 @@ import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 
 const injected = new InjectedConnector({
-  supportedChainIds: [1, 56],
+  supportedChainIds: [1, 56, 97],
 });
 
 const walletconnect = new WalletConnectConnector({

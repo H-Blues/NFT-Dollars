@@ -7,7 +7,7 @@ import walletLeft from "../../assets/wallet-leftAnimal.svg";
 import walletRight from "../../assets/wallet-rightAnimal.svg";
 
 const DATA = [
-  { type: "Borrowing Fee", value: "0.50%" },
+  { type: "Borrowing Fee", value: "4%" },
   { type: "TVL", value: "399K ETH" },
   { type: "Troves", value: 50 },
   { type: "NFTUSD supply", value: 2000 },
