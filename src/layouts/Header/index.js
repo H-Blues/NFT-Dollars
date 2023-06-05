@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AppBar, Container, Box } from "@mui/material";
 import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { WalletIcon } from "@heroicons/react/24/solid";
+import { WalletIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 
@@ -27,9 +27,9 @@ const ROUTES = [
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [walletModal, setWalletModal] = useState(false);
-  const [usdBalance, setUSDBalance] = useState(0);
-  const [dollarBalance, setDollarBalance] = useState(0);
-  const { account, deactivate, active } = useWeb3React();
+  const [usdBalance, setUSDBalance] = useState("0.0");
+  const [dollarBalance, setDollarBalance] = useState("0.0");
+  const { chainId, account, deactivate, active } = useWeb3React();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -66,7 +66,7 @@ const Header = () => {
       }
     };
     getBalance();
-  }, [account]);
+  }, [chainId, account]);
 
   return (
     <AppBar position="static" color="transparent">
@@ -134,7 +134,7 @@ const Header = () => {
           </Box>
 
           {account && (
-            <div className="flex space-x-4 mr-4 text-white">
+            <div className="hidden md:flex space-x-4 mr-4 text-white">
               <WalletIcon className="none md:w-8 " />
               <div className="grid place-items-center">
                 <span className="text-sm md:text-base">NFTdollars</span>
@@ -163,20 +163,16 @@ const Header = () => {
               Connect
             </Button>
           ) : (
-            <Button
-              key="connect"
-              onClick={disconnect}
-              sx={{
-                mr: 2,
-                color: "white",
-                borderRadius: "50px",
-                padding: "0.5% 3%",
-                fontSize: "1%",
-                border: "1px solid white",
-              }}
-            >
-              {truncateAddress(account)}
-            </Button>
+            <div className="items-center text-white text-sm">
+              <p>Connected as</p>
+              <span className="flex items-center">
+                <span>{truncateAddress(account)}</span>
+                <XMarkIcon
+                  className="ml-2 h-4 w-4 text-white cursor-pointer"
+                  onClick={disconnect}
+                />
+              </span>
+            </div>
           )}
 
           {/* Wallet Modal */}

@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Web3ReactProvider } from "@web3-react/core";
+import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
 import Home from "./pages/Home";
 import Borrow from "./pages/Borrow";
@@ -18,21 +18,55 @@ const getLibrary = (provider) => {
 };
 
 const App = () => {
+  const [chainId, setChainId] = useState(null);
+  const { active } = useWeb3React();
+
+  // Get chainId before wallet connected
+  useEffect(() => {
+    if (window.ethereum) {
+      setChainId(parseInt(window.ethereum.chainId, 16));
+      window.ethereum.on("chainChanged", (id) => {
+        setChainId(parseInt(id, 16));
+      });
+    }
+  }, []);
+
+  // Get chainId after wallet connected
+  useEffect(() => {
+    if (active) {
+      getLibrary(window.ethereum)
+        .getNetwork()
+        .then((network) => {
+          setChainId(network.chainId);
+        });
+    }
+  }, [active]);
+
   return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/doc" element={<Doc />}></Route>
-          <Route path="/borrow" element={<Borrow />}></Route>
-          <Route path="/record" element={<RiskyTroves />}></Route>
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </Web3ReactProvider>
+    <>
+      {chainId === 97 ? (
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/doc" element={<Doc />} />
+            <Route path="/borrow" element={<Borrow />} />
+            <Route path="/record" element={<RiskyTroves />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      ) : (
+        <div className="flex flex-col h-screen justify-center">
+          <p className="text-center">⚠️ Please switch network to Ethereum Mainnet!</p>
+        </div>
+      )}
+    </>
   );
 };
 
 const rootElement = createRoot(document.getElementById("root"));
-rootElement.render(<App />);
+rootElement.render(
+  <Web3ReactProvider getLibrary={getLibrary}>
+    <App />
+  </Web3ReactProvider>
+);
