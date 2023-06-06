@@ -16,12 +16,12 @@ import PreviewList from "./subcomponents/previewList";
 
 const STEPS = [
   {
-    label: "Select Layer",
-    description: `Choose the layer you do your transaction`,
+    label: "Select the layer and NFT",
+    description: `Choose the layer you to continue your transaction`,
   },
   {
     label: "Enter USD to Deposit",
-    description: "An ad group contains one or more ads which target a shared set of keywords.",
+    description: "Enter the USD your would like to deposit",
   },
   {
     label: "Check and Confirm",
@@ -29,6 +29,7 @@ const STEPS = [
   },
 ];
 
+// change the color of stepper component
 const stepStyle = {
   "& .Mui-active": {
     "&.MuiStepIcon-root": {
