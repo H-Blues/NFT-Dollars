@@ -77,17 +77,17 @@ const Dashboard = () => {
           Protocol
         </Typography>
         <div className="ml-0">
-          <List dense="true" sx={{ marginLeft: "-18px" }}>
+          <List dense={true} sx={{ marginLeft: "-18px" }}>
             {DATA.map((item, index) => (
-              <>
+              <div key={index}>
                 {/* Data item */}
-                <ListItem key={index}>
+                <ListItem>
                   <span className="text-white">{item.type}</span>
                   <span className="ml-auto text-white">{item.value}</span>
                 </ListItem>
                 {/* Divider */}
                 <Divider sx={{ backgroundColor: "white" }} />
-              </>
+              </div>
             ))}
           </List>
         </div>
