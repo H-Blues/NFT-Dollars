@@ -53,7 +53,7 @@ const Home = () => {
       {/* Benefits Section */}
       <div className="max-w-5xl mx-auto grid grid-cols-3 absolute top-1/2 left-0 right-0 bottom-0 mt-48">
         {BENEFITS.map(({ image, advantage, description }, index) => (
-          <div className="bg-transparent p-8 rounded-lg relative">
+          <div key={index} className="bg-transparent p-8 rounded-lg relative">
             {index !== 0 && (
               <div
                 style={{ width: "1px", height: "300px", backgroundColor: "#FBF8F0" }}
