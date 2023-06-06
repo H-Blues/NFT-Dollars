@@ -29,7 +29,6 @@ const StatbilityPoolCard = () => {
 
   const nftUsdChange = (value) => {
     setNftUsd(value);
-    console.log("Received value from child component:", value);
   };
 
   return (

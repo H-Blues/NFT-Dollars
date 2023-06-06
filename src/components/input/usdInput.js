@@ -12,7 +12,13 @@ const NFTInput = (props) => {
   return (
     <div className="md:w-full p-4">
       <div className="relative flex">
-        <Input color="orange" value={inputValue} label={props.title} onChange={handleChange} />
+        <Input
+          type="number"
+          color="orange"
+          value={inputValue}
+          label={props.title}
+          onChange={handleChange}
+        />
         {!props.isMax && (
           <Button color="orange" size="sm" className="!absolute right-1 top-1 rounded">
             max

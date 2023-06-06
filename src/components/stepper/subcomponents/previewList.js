@@ -32,14 +32,13 @@ const PreviewList = ({ next, back }) => {
   const [nftUSD, setNftUsd] = useState("");
   const nftUsdChange = (value) => {
     setNftUsd(value);
-    console.log("Received value from child component:", value);
   };
 
   return (
     <>
       <USDInput title="USD" tip="Enter the USD" inputValueChange={nftUsdChange} isMax="false" />
 
-      <List dense="true" sx={{ backgroundColor: "white", opacity: "0.6", borderRadius: "10px" }}>
+      <List dense={true} sx={{ backgroundColor: "white", opacity: "0.6", borderRadius: "10px" }}>
         {dataList.map((item, index) => (
           <ListItem key={index} className="list-item">
             <span style={{ fontWeight: "bold" }}>{item.type}</span>
