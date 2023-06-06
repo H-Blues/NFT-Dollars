@@ -1,90 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SvgIcon } from "@mui/material";
-import { Card, Typography, IconButton } from "@material-tailwind/react";
+import { Card, Typography, IconButton, Spinner } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 
 import CopyButton from "./copyButton";
 import { ReactComponent as EthLogo } from "../../assets/logos_ethereum.svg";
+import { getRiskyHistoryNumber, getRiskyHistoryData } from "../../utils/requests";
 
-const TABLE_HEAD = ["Owner", "Collateral", "Debt(NFTUSD)", "Call Ratio"];
+const tableHead = ["Owner", "Collateral", "Debt(NFTUSD)", "Call Ratio"];
 
-const TABLE_ROWS = [
-  {
-    owner: "0x6B9e23C56C23f207c0d1bca0925836f59B2Ce82C",
-    collateral: "ETH",
-    debt: "500 NFTUSD",
-    callRatio: "1.2",
-  },
-  {
-    owner: "0x9F3A7F9Dc7d5AbFcA49DD29D8Db66211eAd18484",
-    collateral: "BTC",
-    debt: "800 NFTUSD",
-    callRatio: "0.9",
-  },
-  {
-    owner: "0x3A46D245EF28C25e73F1c79C92C5a42245678090",
-    collateral: "ETH",
-    debt: "300 NFTUSD",
-    callRatio: "1.5",
-  },
-  {
-    owner: "0x4878d1D8B2496E7aE5722bDa45c21AB1a0d8Fb01",
-    collateral: "BTC",
-    debt: "700 NFTUSD",
-    callRatio: "0.8",
-  },
-  {
-    owner: "0xCf6dF08F24Cb0aC6e131e0db9185FbdDEcB3f6F1",
-    collateral: "ETH",
-    debt: "400 NFTUSD",
-    callRatio: "1.1",
-  },
-  {
-    owner: "0x3A46D245EF28C25e73F1c79C92C5a42245678090",
-    collateral: "ETH",
-    debt: "300 NFTUSD",
-    callRatio: "1.5",
-  },
-  {
-    owner: "0x4878d1D8B2496E7aE5722bDa45c21AB1a0d8Fb01",
-    collateral: "BTC",
-    debt: "700 NFTUSD",
-    callRatio: "0.8",
-  },
-  {
-    owner: "0xCf6dF08F24Cb0aC6e131e0db9185FbdDEcB3f6F1",
-    collateral: "ETH",
-    debt: "400 NFTUSD",
-    callRatio: "1.1",
-  },
-  {
-    owner: "0x4878d1D8B2496E7aE5722bDa45c21AB1a0d8Fb01",
-    collateral: "BTC",
-    debt: "700 NFTUSD",
-    callRatio: "0.8",
-  },
-  {
-    owner: "0xCf6dF08F24Cb0aC6e131e0db9185FbdDEcB3f6F1",
-    collateral: "ETH",
-    debt: "400 NFTUSD",
-    callRatio: "1.1",
-  },
-];
+export default function RiskyTrovesTable() {
+  const [active, setActive] = useState(1);
+  const [pageNumber, setPageNumber] = useState(10);
+  const [tableData, setTableData] = useState([]);
 
-export default function Example() {
-  const [active, setActive] = React.useState(1);
-
-  const next = () => {
-    if (active === 10) return;
-
+  const next = async () => {
+    if (active === pageNumber) return;
     setActive(active + 1);
+    setTableData(await getRiskyHistoryData(active + 1, 10));
   };
 
-  const prev = () => {
+  const prev = async () => {
     if (active === 1) return;
-
     setActive(active - 1);
+    setTableData(await getRiskyHistoryData(active - 1, 10));
   };
+
+  const refreshData = async () => {
+    const data = await getRiskyHistoryData(active, 10);
+    setTableData(data);
+    const pageNumber = Math.ceil((await getRiskyHistoryNumber()) / 10);
+    setPageNumber(pageNumber);
+  };
+
+  useEffect(() => {
+    refreshData();
+  }, []);
+
+  if (tableData.length === 0) {
+    return (
+      <div>
+        <Typography variant="h3" color="white" className="flex mb-2">
+          Risky Troves
+        </Typography>
+        <Spinner className="h-12 w-12" />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col">
@@ -93,7 +55,7 @@ export default function Example() {
           Risky Troves
         </Typography>
         <div className="flex ml-auto mt-2 gap-2">
-          <IconButton size="sm" variant="text" color="blue-gray">
+          <IconButton size="sm" variant="text" color="blue-gray" onClick={refreshData}>
             <ArrowPathIcon strokeWidth={2} className="h-4 w-4" />
           </IconButton>
           <IconButton
@@ -107,14 +69,14 @@ export default function Example() {
           </IconButton>
           <Typography color="gray" variant="small" className="font-normal mt-1">
             Page <strong className="text-blue-gray-900">{active}</strong> of{" "}
-            <strong className="text-blue-gray-900">10</strong>
+            <strong className="text-blue-gray-900">{pageNumber}</strong>
           </Typography>
           <IconButton
             size="sm"
             variant="outlined"
             color="blue-gray"
             onClick={next}
-            disabled={active === 10}
+            disabled={active === pageNumber}
           >
             <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
           </IconButton>
@@ -125,7 +87,7 @@ export default function Example() {
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>
-              {TABLE_HEAD.map((head) => (
+              {tableHead.map((head) => (
                 <th key={head} className="border-b border-blue-gray-100 bg-white bg-opacity-80 p-4">
                   <Typography
                     variant="small"
@@ -139,30 +101,30 @@ export default function Example() {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(({ owner, collateral, debt, callRatio }, index) => (
-              <tr key={owner} className="even:bg-blue-gray-50/50">
+            {tableData.map(({ Address, Coll_ratio, Debt, Collateral }, index) => (
+              <tr key={Address} className="even:bg-blue-gray-50/50">
                 <td className="flex p-4">
-                  <CopyButton textToCopy={owner} />
+                  <CopyButton textToCopy={Address} />
                   <Typography variant="small" color="blue-gray" className="font-normal">
-                    {owner}
+                    {Address}
                   </Typography>
                 </td>
                 <td>
                   <div className="flex p-2">
                     <SvgIcon component={EthLogo} viewBox="0 0 18 18" />
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                      {collateral}
+                      {Collateral}
                     </Typography>
                   </div>
                 </td>
                 <td className="p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
-                    {debt}
+                    {Debt}
                   </Typography>
                 </td>
                 <td className="p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
-                    {callRatio}
+                    {Coll_ratio}
                   </Typography>
                 </td>
               </tr>

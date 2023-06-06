@@ -4,7 +4,7 @@ import { layerOptions, addressOptions, idOptions } from "../data/selectOptions";
 import { Input, Typography } from "@material-tailwind/react";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
-// import fetchNFTAccountData from "../../../utils/requests";
+// import {getNFTAccountData} from "../../../utils/requests";
 // import { contracts } from "../../../utils/contracts";
 
 const NFTSelection = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }) => {
@@ -117,7 +117,7 @@ const LayerSelect = ({ next, back }) => {
   };
 
   const getIdOptions = (address) => {
-    // const selectedAddress = await fetchNFTAccountData(address);
+    // const selectedAddress = await getNFTAccountData(address);
     const selectedAddress = idOptions.find((option) => option.address === address);
     const otherAddressOptions = idOptions.find((option) => option.address === "other");
     return selectedAddress ? selectedAddress.ids : otherAddressOptions.ids;

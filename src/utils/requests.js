@@ -1,7 +1,10 @@
 import axios from "axios";
 
-const fetchNFTAccountData = async (account, contract = "") => {
-  const url = `https://restapi.nftscan.com/api/v2/account/own/${account}?erc_type=erc721&show_attribute=false&sort_field=&sort_direction=`;
+const nftScanUrl = "https://restapi.nftscan.com/api/v2";
+// const dataUrl = "http://20.231.201.88:4002/api";
+
+export const getNFTAccountData = async (account, contract = "") => {
+  const url = `${nftScanUrl}/account/own/${account}?erc_type=erc721&show_attribute=false&sort_field=&sort_direction=`;
   const apiKey = process.env.NFTSCAN_KEY;
 
   try {
@@ -12,9 +15,27 @@ const fetchNFTAccountData = async (account, contract = "") => {
     });
     return response.data;
   } catch (error) {
-    console.error("Error:", error);
+    console.error("Error in getNFTAccountData:", error);
     throw error;
   }
 };
 
-export default fetchNFTAccountData;
+export const getRiskyHistoryNumber = async () => {
+  try {
+    const response = await axios.get(`/api/getCounts`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error in getRiskyHistoryNumber:", error);
+    throw error;
+  }
+};
+
+export const getRiskyHistoryData = async (page, number) => {
+  try {
+    const response = await axios.get(`/api/riskyTroves?start=${page}&count=${number}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error in getRiskyHistoryData:", error);
+    throw error;
+  }
+};
