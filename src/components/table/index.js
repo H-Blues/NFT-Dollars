@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useQueries } from "react-query";
 import { SvgIcon } from "@mui/material";
 import { Card, Typography, IconButton, Spinner } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -11,39 +12,36 @@ const tableHead = ["Owner", "Collateral", "Debt(NFTUSD)", "Call Ratio"];
 
 export default function RiskyTrovesTable() {
   const [active, setActive] = useState(1);
-  const [pageNumber, setPageNumber] = useState(10);
-  const [tableData, setTableData] = useState([]);
+
+  const queries = useQueries([
+    { queryKey: ["riskyHistoryData", active], queryFn: () => getRiskyHistoryData(active, 10) },
+    { queryKey: "riskyHistoryNumber", queryFn: getRiskyHistoryNumber },
+  ]);
+
+  const tableData = queries[0]?.data ?? [];
+  const pageNumber = Math.ceil((queries[1]?.data ?? 0) / 10);
 
   const next = async () => {
     if (active === pageNumber) return;
     setActive(active + 1);
-    setTableData(await getRiskyHistoryData(active + 1, 10));
   };
 
-  const prev = async () => {
+  const prev = () => {
     if (active === 1) return;
     setActive(active - 1);
-    setTableData(await getRiskyHistoryData(active - 1, 10));
   };
 
-  const refreshData = async () => {
-    const data = await getRiskyHistoryData(active, 10);
-    setTableData(data);
-    const pageNumber = Math.ceil((await getRiskyHistoryNumber()) / 10);
-    setPageNumber(pageNumber);
+  const refreshData = () => {
+    queries.forEach((query) => query.refetch());
   };
 
-  useEffect(() => {
-    refreshData();
-  }, []);
-
-  if (tableData.length === 0) {
+  if (queries.some((query) => query.isLoading)) {
     return (
       <div>
         <Typography variant="h3" color="white" className="flex mb-2">
           Risky Troves
         </Typography>
-        <Spinner className="h-12 w-12" />
+        <Spinner className="h-8 w-8" />
       </div>
     );
   }
