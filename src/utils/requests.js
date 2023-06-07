@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const nftScanUrl = "https://restapi.nftscan.com/api/v2";
+// Set the proxy in package.json
 // const dataUrl = "http://20.231.201.88:4002/api";
 
 export const getNFTAccountData = async (account, contract = "") => {

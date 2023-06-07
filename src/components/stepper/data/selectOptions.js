@@ -196,6 +196,10 @@ export const addressOptions = [
     layer: "1",
     addresses: [
       {
+        value: "0xE2AF2a4CEb57B6b7BfBE350e9daC59be9d402F1A",
+        label: "test",
+      },
+      {
         value: "0x59468516a8259058bad1ca5f8f4bff190d30e066",
         label: "Invisible Friends",
       },

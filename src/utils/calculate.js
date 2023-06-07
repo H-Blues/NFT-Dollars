@@ -5,46 +5,31 @@ import { contracts } from "./contracts";
 // Collection Score = 1 – 6 months volatility in percentage + 0.003% * 7 days moving average sales
 // Security deposit = nftUSD extracted * 10%
 
-const calculateData = async (nftUSD, nftAddress) => {
+const calcExtractionAndCollateral = async (address) => {
   try {
-    const nftUSDFloat = parseFloat(nftUSD);
-    const [sevenDaysAvgPrice, sevenDaysAvgSale, sixDaysVolatility] =
-      await contracts.oracle.getAssetPrice(nftAddress);
+    const [avgPrice7Days, avgSale7Days, volatility6Days] = await contracts.oracle.getAssetPrice(
+      address
+    );
+    const collateral = 1 - volatility6Days * 0.0001 + 0.00003 * avgSale7Days;
+    const maxExtraction = avgPrice7Days * 0.01 * collateral;
 
-    const collateral = 1 - sixDaysVolatility * 0.0001 + 0.00003 * sevenDaysAvgSale;
-    const maxExtraction = sevenDaysAvgPrice * 0.01 * collateral;
-    const liquidationPrice = nftUSDFloat;
-    const securityDeposit = nftUSDFloat * 0.1;
-    const obtained = nftUSDFloat - securityDeposit;
-
-    const dataList = [
-      {
-        type: "Max Extraction",
-        value: `${maxExtraction} nftUSD`,
-      },
-      {
-        type: "Collateral Ratio",
-        value: `${collateral}%`,
-      },
-      {
-        type: "Liquidation Price",
-        value: `${liquidationPrice} nftUSD`,
-      },
-      {
-        type: "Security Deposit",
-        value: `${securityDeposit} nftUSD`,
-      },
-      {
-        type: "Obtained",
-        value: `${obtained} nftUSD`,
-      },
-    ];
-
-    return dataList;
+    return [maxExtraction, collateral];
   } catch (error) {
-    console.error("Error in calculateData:", error);
-    throw error;
+    console.error(error);
+    // Handle the error here or rethrow it if necessary
+    // Return a default value or an empty array if needed
+    return [undefined, undefined];
   }
 };
 
-export default calculateData;
+const calcSecurityDeposit = (nftUSD) => {
+  return nftUSD * 0.1;
+};
+
+const calcObtained = (nftUSD) => {
+  return nftUSD - calcSecurityDeposit(nftUSD);
+};
+
+const calculationFn = { calcExtractionAndCollateral, calcSecurityDeposit, calcObtained };
+
+export default calculationFn;
