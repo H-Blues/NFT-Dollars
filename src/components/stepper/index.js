@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import LayerSelect from "./subcomponents/layerSelect";
+import NFTSelect from "././subcomponents/nftSelect";
 import ConfirmationList from "./subcomponents/confirmationList";
 import PreviewList from "./subcomponents/previewList";
 
@@ -72,11 +72,9 @@ const ExtractionStepper = () => {
             <StepLabel>{step.label}</StepLabel>
             <StepContent>
               <Typography>{step.description}</Typography>
-              {index === 0 && <LayerSelect next={handleNext} back={handleBack} />}
+              {index === 0 && <NFTSelect next={handleNext} back={handleBack} />}
               {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
-              {index === STEPS.length - 1 && (
-                <ConfirmationList next={handleNext} back={handleBack} />
-              )}
+              {index === 2 && <ConfirmationList next={handleNext} back={handleBack} />}
             </StepContent>
           </Step>
         ))}
