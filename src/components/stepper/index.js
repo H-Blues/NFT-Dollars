@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 
+import NFTSelectContextProvider from "../../contexts/nftSelectContext";
 import NFTSelect from "././subcomponents/nftSelect";
 import ConfirmationList from "./subcomponents/confirmationList";
 import PreviewList from "./subcomponents/previewList";
@@ -65,30 +66,32 @@ const ExtractionStepper = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500 }}>
-      <Stepper activeStep={activeStep} orientation="vertical" sx={stepStyle}>
-        {STEPS.map((step, index) => (
-          <Step key={step.label}>
-            <StepLabel>{step.label}</StepLabel>
-            <StepContent>
-              <Typography>{step.description}</Typography>
-              {index === 0 && <NFTSelect next={handleNext} back={handleBack} />}
-              {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
-              {index === 2 && <ConfirmationList next={handleNext} back={handleBack} />}
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
+    <NFTSelectContextProvider>
+      <Box sx={{ maxWidth: 500 }}>
+        <Stepper activeStep={activeStep} orientation="vertical" sx={stepStyle}>
+          {STEPS.map((step, index) => (
+            <Step key={step.label}>
+              <StepLabel>{step.label}</StepLabel>
+              <StepContent>
+                <Typography>{step.description}</Typography>
+                {index === 0 && <NFTSelect next={handleNext} back={handleBack} />}
+                {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
+                {index === 2 && <ConfirmationList next={handleNext} back={handleBack} />}
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
 
-      {activeStep === STEPS.length && (
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All STEPS completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
-          </Button>
-        </Paper>
-      )}
-    </Box>
+        {activeStep === STEPS.length && (
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All STEPS completed - you&apos;re finished</Typography>
+            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+              Reset
+            </Button>
+          </Paper>
+        )}
+      </Box>
+    </NFTSelectContextProvider>
   );
 };
 

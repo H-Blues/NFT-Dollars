@@ -1,43 +1,53 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Button } from "@mui/material";
 
+import { NFTSelectContext } from "../../../contexts/nftSelectContext";
 import USDInput from "../../input/usdInput";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-// import calculateData from "../../../utils/calculate";
-
-const dataList = [
-  {
-    type: "Max Extraction",
-    value: "500 nftUSD",
-  },
-  {
-    type: "Collateral Ratio",
-    value: "100%",
-  },
-  {
-    type: "Liquidation Price",
-    value: "9 nftUSD",
-  },
-  {
-    type: "Security Deposit",
-    value: "0.90 nftUSD",
-  },
-  {
-    type: "Obtained",
-    value: "8.10 nftUSD",
-  },
-];
+import calculateData from "../../../utils/calculate";
 
 const PreviewList = ({ next, back }) => {
   const [nftUSD, setNftUsd] = useState("");
-  const nftUsdChange = (value) => {
+  const { address, id } = useContext(NFTSelectContext);
+
+  const [dataList, setDataList] = useState([
+    {
+      type: "Max Extraction",
+      value: "0 nftUSD",
+    },
+    {
+      type: "Collateral Ratio",
+      value: "100%",
+    },
+    {
+      type: "Liquidation Price",
+      value: "0 nftUSD",
+    },
+    {
+      type: "Security Deposit",
+      value: "0 nftUSD",
+    },
+    {
+      type: "Obtained",
+      value: "0 nftUSD",
+    },
+  ]);
+
+  const nftUsdChange = async (value) => {
     setNftUsd(value);
+    const data = await calculateData(value, address);
+    setDataList(data);
   };
 
   return (
     <>
-      <USDInput title="USD" tip="Enter the USD" inputValueChange={nftUsdChange} isMax="false" />
+      <USDInput
+        title="USD"
+        tip="Enter the USD you would like to deposit"
+        inputValueChange={nftUsdChange}
+        isMax="false"
+      />
 
       <List dense={true} sx={{ backgroundColor: "white", opacity: "0.6", borderRadius: "10px" }}>
         {dataList.map((item, index) => (

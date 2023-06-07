@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Button, Select, MenuItem } from "@mui/material";
 import { layerOptions, addressOptions, idOptions } from "../data/selectOptions";
 import { Input, Typography } from "@material-tailwind/react";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
+import { NFTSelectContext } from "../../../contexts/nftSelectContext";
 // import {getNFTAccountData} from "../../../utils/requests";
 // import { contracts } from "../../../utils/contracts";
 
-const NFTSelection = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }) => {
+const IdSelect = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }) => {
   return (
     <>
       <Select
@@ -40,7 +41,7 @@ const NFTSelection = ({ id, address, handleIdChange, getIdOptions, handleLinkCli
   );
 };
 
-const NFTInput = ({ customId, address, handleInputChange, handleLinkClick }) => {
+const IdInput = ({ customId, address, handleInputChange, handleLinkClick }) => {
   return (
     <>
       <Input
@@ -61,39 +62,24 @@ const NFTInput = ({ customId, address, handleInputChange, handleLinkClick }) => 
   );
 };
 
-const LayerSelect = ({ next, back }) => {
-  const [layer, setLayer] = useState("");
-  const [address, setAddress] = useState("");
-  const [id, setId] = useState("");
+const NFTSelect = ({ next, back }) => {
+  const {
+    layer,
+    address,
+    id,
+    customId,
+    handleLayerChange,
+    handleAddressChange,
+    handleIdChange,
+    handleInputChange,
+  } = useContext(NFTSelectContext);
+
   const [isInputMode, setIsInputMode] = useState(false);
-  const [customId, setCustomId] = useState("");
 
-  const handleLayerChange = (event) => {
-    const selectedLayer = event.target.value;
-    setLayer(selectedLayer);
-    setAddress("");
-    setId("");
-  };
-
-  const handleAddressChange = (event) => {
-    const selectedAddress = event.target.value;
-    setAddress(selectedAddress);
-    setId("");
-  };
-
-  const handleIdChange = (event) => {
-    const selectedId = event.target.value;
-    setId(selectedId);
-  };
-
-  const handleLinkClick = () => {
+  const handleLinkClick = (event) => {
     setIsInputMode(!isInputMode);
-    setId("");
-    setCustomId("");
-  };
-
-  const handleInputChange = (event) => {
-    setCustomId(event.target.value);
+    handleIdChange(event);
+    handleInputChange(event);
   };
 
   const getAddressOptions = (layer) => {
@@ -152,14 +138,14 @@ const LayerSelect = ({ next, back }) => {
 
       <div>
         {isInputMode ? (
-          <NFTInput
+          <IdInput
             customId={customId}
             address={address}
             handleInputChange={handleInputChange}
             handleLinkClick={handleLinkClick}
           />
         ) : (
-          <NFTSelection
+          <IdSelect
             id={id}
             address={address}
             handleIdChange={handleIdChange}
@@ -196,4 +182,4 @@ const LayerSelect = ({ next, back }) => {
   );
 };
 
-export default LayerSelect;
+export default NFTSelect;
