@@ -12,7 +12,7 @@ const USDInput = (props) => {
     if (parseFloat(inputValue) >= 0) {
       setInputValue(inputValue);
       props.inputValueChange(inputValue);
-    } else if (inputValue == "") {
+    } else if (inputValue === "") {
       setInputValue("");
       props.inputValueChange("");
     }

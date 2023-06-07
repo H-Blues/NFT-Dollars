@@ -7,7 +7,7 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { NFTSelectContext } from "../../../contexts/nftSelectContext";
 
 const ConfirmationList = ({ next, back }) => {
-  const { layer, nftUSD, obtained } = useContext(NFTSelectContext);
+  const { layer, nftUSD } = useContext(NFTSelectContext);
 
   const getLayerName = (layer) => {
     const layerNames = {
