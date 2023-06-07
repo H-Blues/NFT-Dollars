@@ -9,8 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import calculationFn from "../../../utils/calculate";
 
 const PreviewList = ({ next, back }) => {
-  const { address } = useContext(NFTSelectContext);
-  const [nftUSD, setNftUsd] = useState(0);
+  const { address, nftUSD, setNftUsd } = useContext(NFTSelectContext);
   const [maxExtraction, setMaxExtraction] = useState(null);
   const [collateral, setCollateral] = useState(null);
   const [securityDeposit, setSecurityDeposit] = useState(0);
@@ -33,6 +32,7 @@ const PreviewList = ({ next, back }) => {
     };
 
     getExtraction();
+    setNftUsd(0);
   }, []);
 
   return (

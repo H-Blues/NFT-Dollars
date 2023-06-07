@@ -1,34 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Avatar, Box, Button, List, ListItem, ListItemAvatar } from "@mui/material";
 import LayersIcon from "@mui/icons-material/Layers";
 import TokenIcon from "@mui/icons-material/Token";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
-
-const confirmationData = [
-  {
-    icon: <LayersIcon fontSize="small" />,
-    label: "Layer",
-    value: "test",
-  },
-  {
-    icon: <TokenIcon fontSize="small" />,
-    label: "USD Amount",
-    value: "test",
-  },
-  {
-    icon: <CurrencyExchangeIcon fontSize="small" />,
-    label: "Borrowing Fee",
-    value: "test",
-  },
-  {
-    icon: <CreditScoreIcon fontSize="small" />,
-    label: "Total debt",
-    value: "test",
-  },
-];
+import { NFTSelectContext } from "../../../contexts/nftSelectContext";
 
 const ConfirmationList = ({ next, back }) => {
+  const { layer, nftUSD, obtained } = useContext(NFTSelectContext);
+
+  const getLayerName = (layer) => {
+    const layerNames = {
+      0: "Unit Layer",
+      1: "Cross Layer",
+      2: "Reserve Layer",
+    };
+    return layerNames[layer] || "Unknown Layer";
+  };
+
+  const confirmationData = [
+    {
+      icon: <LayersIcon fontSize="small" />,
+      label: "Layer",
+      value: getLayerName(layer),
+    },
+    {
+      icon: <TokenIcon fontSize="small" />,
+      label: "USD Amount",
+      value: `${nftUSD} nftUSD`,
+    },
+    {
+      icon: <CurrencyExchangeIcon fontSize="small" />,
+      label: "Borrowing Fee",
+      value: "4%",
+    },
+    {
+      icon: <CreditScoreIcon fontSize="small" />,
+      label: "Total debt",
+      value: `${nftUSD * 0.99 * 0.96} nftUSD`,
+    },
+  ];
+
   return (
     <>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "transparent" }}>

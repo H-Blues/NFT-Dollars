@@ -7,6 +7,7 @@ export const NFTSelectContextProvider = ({ children }) => {
   const [address, setAddress] = useState("");
   const [id, setId] = useState("");
   const [customId, setCustomId] = useState("");
+  const [nftUSD, setNftUsd] = useState(0);
 
   const handleLayerChange = (event) => {
     const selectedLayer = event.target.value;
@@ -36,6 +37,8 @@ export const NFTSelectContextProvider = ({ children }) => {
     address,
     id,
     customId,
+    nftUSD,
+    setNftUsd,
     handleLayerChange,
     handleAddressChange,
     handleIdChange,
