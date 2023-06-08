@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Button } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { Spinner } from "@material-tailwind/react";
 
 import { NFTSelectContext } from "../../../contexts/nftSelectContext";
@@ -8,12 +10,25 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import calculationFn from "../../../utils/calculate";
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const PreviewList = ({ next, back }) => {
   const { address, nftUSD, setNftUsd } = useContext(NFTSelectContext);
   const [maxExtraction, setMaxExtraction] = useState(null);
   const [collateral, setCollateral] = useState(null);
   const [securityDeposit, setSecurityDeposit] = useState(0);
   const [obtained, setObtained] = useState(0);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
+  };
 
   const nftUsdChange = (value) => {
     setNftUsd(value);
@@ -25,7 +40,10 @@ const PreviewList = ({ next, back }) => {
     const getExtraction = async () => {
       const [maxExtraction, collateral] = await calculationFn.calcExtractionAndCollateral(address);
       if (!maxExtraction && !collateral) {
-        back();
+        setAlertOpen(true);
+        setTimeout(() => {
+          back();
+        }, 2000);
       }
       setMaxExtraction(maxExtraction);
       setCollateral(collateral);
@@ -43,6 +61,11 @@ const PreviewList = ({ next, back }) => {
         maxValue={maxExtraction}
         inputValueChange={nftUsdChange}
       />
+      <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>
+        <Alert onClose={handleAlertClose} severity="error" sx={{ width: "100%" }}>
+          This NFT dose not exist.
+        </Alert>
+      </Snackbar>
 
       <List dense={true} sx={{ backgroundColor: "white", opacity: "0.6", borderRadius: "10px" }}>
         <ListItem>
@@ -77,7 +100,7 @@ const PreviewList = ({ next, back }) => {
         <div>
           <Button
             variant="contained"
-            disabled={!nftUSD}
+            disabled={!nftUSD || parseFloat(nftUSD) > maxExtraction}
             onClick={next}
             sx={{
               mt: 1,
