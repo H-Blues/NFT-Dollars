@@ -197,7 +197,7 @@ export const addressOptions = [
     addresses: [
       {
         value: "0xE2AF2a4CEb57B6b7BfBE350e9daC59be9d402F1A",
-        label: "test",
+        label: "Test GameItem",
       },
       {
         value: "0x59468516a8259058bad1ca5f8f4bff190d30e066",
@@ -392,6 +392,7 @@ export const idOptions = [
   {
     address: "other",
     ids: [
+      { value: "0", label: "#0" },
       { value: "1", label: "#231" },
       { value: "2", label: "#145" },
       { value: "3", label: "#115" },

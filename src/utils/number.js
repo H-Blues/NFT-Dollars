@@ -1,3 +1,5 @@
+import { ethers } from "ethers";
+
 export const numberWithCommas = (number) => {
   if (typeof number === "number") {
     return number.toLocaleString();
@@ -18,4 +20,15 @@ export const truncateAddress = (address) => {
 export const toHex = (num) => {
   const val = Number(num);
   return "0x" + val.toString(16);
+};
+
+export const convertToBigNumber = (value, decimals = 18) => {
+  const bigNumber = ethers.utils.parseUnits(value.toString(), decimals);
+  return bigNumber;
+};
+
+export const convertToReadNumber = (value, decimals = 18, precision = 4) => {
+  const bigNumber = ethers.BigNumber.from(value);
+  const number = ethers.utils.formatUnits(bigNumber.toString(), decimals);
+  return parseFloat(number).toFixed(precision);
 };

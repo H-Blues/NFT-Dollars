@@ -62,7 +62,7 @@ const IdInput = ({ customId, address, handleInputChange, handleLinkClick }) => {
   );
 };
 
-const NFTSelect = ({ next, back }) => {
+const NFTSelect = ({ next }) => {
   const {
     layer,
     address,
@@ -84,21 +84,6 @@ const NFTSelect = ({ next, back }) => {
 
   const getAddressOptions = (layer) => {
     const selectedLayer = addressOptions.find((option) => option.layer === layer);
-    // const assetsAddress = await contracts.oracle.getAssets(layer)[0];
-    // const names = await contracts.oracle.getAssets(layer)[1];
-    // const symbols = await contracts.oracle.getAssets(layer)[2];
-    // const uris = await contracts.oracle.getAssets(layer)[3];
-    //
-    // const assets = [];
-    // for (let i = 0; i < assetsAddress.length; i++) {
-    //   const asset = {
-    //     address: assetsAddress[i],
-    //     name: names[i],
-    //     symbol: symbols[i],
-    //     uri: uris[i]
-    //   };
-    //   assets.push(asset);
-    // }
     return selectedLayer ? selectedLayer.addresses : [];
   };
 
@@ -173,7 +158,7 @@ const NFTSelect = ({ next, back }) => {
           >
             Continue
           </Button>
-          <Button disabled={true} onClick={back} sx={{ mt: 1, mr: 1 }}>
+          <Button disabled={true} sx={{ mt: 1, mr: 1 }}>
             Back
           </Button>
         </div>

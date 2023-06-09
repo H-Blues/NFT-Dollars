@@ -61,10 +61,6 @@ const ExtractionStepper = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   return (
     <NFTSelectContextProvider>
       <Box sx={{ maxWidth: 500 }}>
@@ -74,22 +70,13 @@ const ExtractionStepper = () => {
               <StepLabel>{step.label}</StepLabel>
               <StepContent>
                 <Typography>{step.description}</Typography>
-                {index === 0 && <NFTSelect next={handleNext} back={handleBack} />}
+                {index === 0 && <NFTSelect next={handleNext} />}
                 {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
-                {index === 2 && <ConfirmationList next={handleNext} back={handleBack} />}
+                {index === 2 && <ConfirmationList back={handleBack} />}
               </StepContent>
             </Step>
           ))}
         </Stepper>
-
-        {activeStep === STEPS.length && (
-          <Paper square elevation={0} sx={{ p: 3 }}>
-            <Typography>All STEPS completed - you&apos;re finished</Typography>
-            <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-              Reset
-            </Button>
-          </Paper>
-        )}
       </Box>
     </NFTSelectContextProvider>
   );

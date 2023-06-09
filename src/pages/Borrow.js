@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ExtractionCard from "../components/card/extractionCard";
 import StabilityCard from "../components/card/stabilityPoolCard";
-import StakeCard from "../components/card/stakeCard";
+// import StakeCard from "../components/card/stakeCard";
 import Dashboard from "../components/statistics/dashboard";
 
 const Borrow = () => {
@@ -19,7 +19,7 @@ const Borrow = () => {
       <div className="col-span-2">
         <ExtractionCard />
         <StabilityCard />
-        <StakeCard />
+        {/* <StakeCard /> */}
       </div>
       <div className="col-span-2 xl:col-span-1">
         <Dashboard />

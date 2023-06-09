@@ -5,9 +5,8 @@ import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/ma
 import MenuIcon from "@mui/icons-material/Menu";
 import { WalletIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useWeb3React } from "@web3-react/core";
-import { ethers } from "ethers";
 
-import { truncateAddress } from "../../utils/number";
+import { truncateAddress, convertToReadNumber } from "../../utils/number";
 import { contracts } from "../../utils/contracts";
 import logo from "../../assets/logo.svg";
 import Wallet from "../../components/wallet";
@@ -61,8 +60,8 @@ const Header = () => {
       if (account) {
         let usdBalance = await contracts.nftUSD.balanceOf(account);
         let dollarBalance = await contracts.nftDollar.balanceOf(account);
-        setUSDBalance(ethers.utils.formatEther(usdBalance));
-        setDollarBalance(ethers.utils.formatEther(dollarBalance));
+        setUSDBalance(convertToReadNumber(usdBalance));
+        setDollarBalance(convertToReadNumber(dollarBalance));
       }
     };
     getBalance();
