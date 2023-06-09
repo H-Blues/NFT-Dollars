@@ -8,15 +8,9 @@ import walletRight from "../../assets/wallet-rightAnimal.svg";
 
 const DATA = [
   { type: "Borrowing Fee", value: "4%" },
-  { type: "TVL", value: "399K ETH" },
   { type: "Troves", value: 50 },
   { type: "NFTUSD supply", value: 2000 },
   { type: "NFTUSD in Stability Pool", value: 500 },
-  { type: "Staked NFTdollars", value: 100 },
-  { type: "NFTUSD in Stability Pool", value: 300 },
-  { type: "Recovery Mode", value: "No" },
-  { type: "Recovery Mode Price Threshold", value: 0.9 },
-  { type: "Kickback Rate", value: 0.2 },
 ];
 
 const Dashboard = () => {

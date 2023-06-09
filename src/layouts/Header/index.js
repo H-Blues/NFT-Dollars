@@ -19,10 +19,6 @@ const ROUTES = [
   "/record",
 ];
 
-// const TransitionUp = (props) => {
-//   return <Slide {...props} direction="up" />;
-// };
-
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [walletModal, setWalletModal] = useState(false);
@@ -33,7 +29,6 @@ const Header = () => {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -41,7 +36,6 @@ const Header = () => {
   const openWalletConnection = () => {
     setWalletModal(true);
   };
-
   const closeWalletConnection = () => {
     setWalletModal(false);
   };
@@ -178,14 +172,6 @@ const Header = () => {
           <Wallet open={walletModal} onClose={closeWalletConnection}></Wallet>
         </Toolbar>
       </Container>
-
-      {/* <Snackbar
-        open={chainId !== 1}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        TransitionComponent={TransitionUp}
-        message="Please Connect to Ethereum Mainnet"
-        key="notice"
-      /> */}
     </AppBar>
   );
 };

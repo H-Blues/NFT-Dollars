@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SvgIcon } from "@mui/material";
 import {
   Dialog,
@@ -22,6 +22,17 @@ const Wallet = ({ open, onClose }) => {
   const setProvider = (type) => {
     window.localStorage.setItem("provider", type);
   };
+
+  useEffect(() => {
+    const provider = window.localStorage.getItem("provider");
+    if (provider === "injected") {
+      activate(connectors.injected);
+    } else if (provider === "walletConnect") {
+      activate(connectors.walletConnect);
+    } else if (provider === "coinbaseWallet") {
+      activate(connectors.coinbaseWallet);
+    }
+  }, []);
 
   return (
     <Dialog size="xs" open={open} handler={onClose}>
