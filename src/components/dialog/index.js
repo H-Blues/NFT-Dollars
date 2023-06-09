@@ -27,19 +27,23 @@ export const AlertDialog = ({ open, onClose, retry, title, msg }) => {
   );
 };
 
-export const SuccessDialog = ({ open, onClose }) => {
+export const SuccessDialog = ({ open, onClose, isBorrow }) => {
+  const title = isBorrow ? "Transaction Success!" : "Deposit Successfully!";
+  const borrowMsg =
+    " You have successfully borrowed NFTUSD, please check your wallet for details. Thank you for your use.";
+  const depositMsg =
+    "You have successfully deposited NFTUSD in stability pool. Thank you for your use.";
+  const msg = isBorrow ? borrowMsg : depositMsg;
+
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle color="green">Transaction Success!</DialogTitle>
+      <DialogTitle color="green">{title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          You have successfully borrowed NFTUSD, please check your wallet for details. Thank you for
-          your use.
-        </DialogContentText>
+        <DialogContentText>{msg}</DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button variant="contained" color="primary" onClick={onClose}>
-          Confirm
+          Yes
         </Button>
       </DialogActions>
     </Dialog>

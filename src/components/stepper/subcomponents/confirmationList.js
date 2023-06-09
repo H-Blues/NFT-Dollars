@@ -151,7 +151,7 @@ const ConfirmationList = ({ back }) => {
         title={alertTitle}
         msg={alertMsg}
       />
-      <SuccessDialog open={isSuccessOpen} onClose={handleSuccessClose} />
+      <SuccessDialog open={isSuccessOpen} onClose={handleSuccessClose} isBorrow={true} />
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "transparent" }}>
         {confirmationData.map((item, index) => (
           <ListItem key={index}>
