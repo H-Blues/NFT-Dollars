@@ -16,7 +16,7 @@ const ROUTES = [
   "/",
   "https://sylvain-code.gitbook.io/nftdollars-white-paper/",
   "/borrow",
-  "/record",
+  "/riskyTroves",
 ];
 
 const Header = () => {

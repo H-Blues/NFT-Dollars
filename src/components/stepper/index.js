@@ -12,8 +12,8 @@ const STEPS = [
     description: `Choose the layer you to continue your transaction`,
   },
   {
-    label: "Enter USD to Deposit",
-    description: "Enter the USD your would like to deposit",
+    label: "Enter NFTUSD to Deposit",
+    description: "Enter the NFTUSD you would like to deposit",
   },
   {
     label: "Check and Confirm",

@@ -56,8 +56,8 @@ const PreviewList = ({ next, back }) => {
   return (
     <>
       <USDInput
-        title="USD"
-        tip="Enter the USD you would like to deposit"
+        title="NFTUSD"
+        tip="Enter the NFTUSD you would like to deposit"
         maxValue={maxExtraction}
         inputValueChange={nftUsdChange}
       />

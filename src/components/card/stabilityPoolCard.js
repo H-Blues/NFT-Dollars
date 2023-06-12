@@ -20,7 +20,7 @@ import { convertToBigNumber, convertToReadNumber } from "../../utils/number";
 
 const title = "Stability Pool";
 const icon = poolIcon;
-const description = "Earn LQTY rewards and buy ETH at a discount by depositing LUSD. ";
+const description = "Earn NFTDollars rewards and get NFTs by depositing NFTUSD. ";
 const tip = "Enter the amount of NFTUSD";
 const operation = "Deposit";
 

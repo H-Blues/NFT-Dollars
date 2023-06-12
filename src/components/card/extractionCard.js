@@ -16,7 +16,7 @@ import ExtractionStepper from "../stepper";
 
 const title = "Extraction";
 const icon = extractionIcon;
-const description = "You can borrow USD from your NFT by opening a Trove. ";
+const description = "You can borrow NFTUSD from your NFT by opening a Trove. ";
 const operation = "Deposit";
 
 const ExtractionCard = () => {

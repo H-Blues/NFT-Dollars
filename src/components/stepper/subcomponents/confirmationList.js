@@ -59,7 +59,7 @@ const ConfirmationList = ({ back, reset }) => {
     },
     {
       icon: <TokenIcon fontSize="small" />,
-      label: "USD Amount",
+      label: "NFTUSD Amount",
       value: `${parseFloat(nftUSD).toFixed(2)} nftUSD`,
     },
     {
@@ -135,7 +135,7 @@ const ConfirmationList = ({ back, reset }) => {
     if (!isBorrowed) {
       const cancelTitle = "Transaction Failure";
       const cancelMsg =
-        "Please check the NFT status and the value of USD you want to borrow. You can retry through the following button.";
+        "Please check the NFT status and the value of NFTUSD you want to borrow. You can retry through the following button.";
       handleAlertOpen(cancelTitle, cancelMsg);
       return;
     }
