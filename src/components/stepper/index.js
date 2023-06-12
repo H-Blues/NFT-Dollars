@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  Button,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Box, Stepper, Step, StepLabel, StepContent, Typography } from "@mui/material";
 
 import NFTSelectContextProvider from "../../contexts/nftSelectContext";
 import NFTSelect from "././subcomponents/nftSelect";
@@ -61,6 +52,10 @@ const ExtractionStepper = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  const reset = () => {
+    setActiveStep(0);
+  };
+
   return (
     <NFTSelectContextProvider>
       <Box sx={{ maxWidth: 500 }}>
@@ -72,7 +67,7 @@ const ExtractionStepper = () => {
                 <Typography>{step.description}</Typography>
                 {index === 0 && <NFTSelect next={handleNext} />}
                 {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
-                {index === 2 && <ConfirmationList back={handleBack} />}
+                {index === 2 && <ConfirmationList back={handleBack} reset={reset} />}
               </StepContent>
             </Step>
           ))}

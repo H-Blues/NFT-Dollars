@@ -13,7 +13,7 @@ const calcExtractionAndCollateral = async (address) => {
     const collateral = 1 - volatility6Days * 0.0001 + 0.00003 * avgSale7Days;
     const maxExtraction = avgPrice7Days * 0.01 * collateral;
 
-    return [maxExtraction, collateral];
+    return [maxExtraction.toFixed(3), collateral.toFixed(3)];
   } catch (error) {
     console.error(error);
     // Handle the error here or rethrow it if necessary
@@ -23,11 +23,13 @@ const calcExtractionAndCollateral = async (address) => {
 };
 
 const calcSecurityDeposit = (nftUSD) => {
-  return nftUSD * 0.1;
+  const securityDeposit = nftUSD * 0.1;
+  return securityDeposit.toFixed(2);
 };
 
 const calcObtained = (nftUSD) => {
-  return nftUSD - calcSecurityDeposit(nftUSD);
+  const obtained = nftUSD - calcSecurityDeposit(nftUSD);
+  return obtained.toFixed(2);
 };
 
 const calculationFn = { calcExtractionAndCollateral, calcSecurityDeposit, calcObtained };

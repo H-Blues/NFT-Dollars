@@ -11,7 +11,7 @@ import { convertToBigNumber } from "../../../utils/number";
 import { NFTSelectContext } from "../../../contexts/nftSelectContext";
 import { contracts } from "../../../utils/contracts";
 
-const ConfirmationList = ({ back }) => {
+const ConfirmationList = ({ back, reset }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
@@ -31,6 +31,7 @@ const ConfirmationList = ({ back }) => {
 
   const handleAlertClose = () => {
     setIsAlertOpen(false);
+    reset();
   };
 
   const handleSuccessOpen = () => {
@@ -59,17 +60,17 @@ const ConfirmationList = ({ back }) => {
     {
       icon: <TokenIcon fontSize="small" />,
       label: "USD Amount",
-      value: `${nftUSD} nftUSD`,
+      value: `${parseFloat(nftUSD).toFixed(2)} nftUSD`,
     },
     {
       icon: <CurrencyExchangeIcon fontSize="small" />,
       label: "Borrowing Fee",
-      value: "4%",
+      value: "4.00%",
     },
     {
       icon: <CreditScoreIcon fontSize="small" />,
       label: "Total debt",
-      value: `${nftUSD * 0.99 * 0.96} nftUSD`,
+      value: `${(nftUSD * 0.9).toFixed(2)} nftUSD`,
     },
   ];
 
@@ -95,7 +96,6 @@ const ConfirmationList = ({ back }) => {
 
   const borrowNFTUSD = async () => {
     try {
-      console.log(bigNumberUSD);
       await contracts.pool.borrow(account, bigNumberUSD, address, nftId, account);
       return true;
     } catch (error) {
@@ -112,7 +112,8 @@ const ConfirmationList = ({ back }) => {
 
     if (!isOwner && !isInLoan) {
       const ownerErrorTitle = "Before NFT Approval";
-      const ownerErrorMsg = "This NFT belongs to others. Please make sure the ownership is yours.";
+      const ownerErrorMsg =
+        "This NFT belongs to others or dose not exist. Please make sure the ownership is yours.";
       handleAlertOpen(ownerErrorTitle, ownerErrorMsg);
       return;
     }

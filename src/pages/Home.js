@@ -3,7 +3,8 @@ import { Button } from "@material-tailwind/react";
 import { Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-import { numberWithCommas } from "../utils/number";
+import { contracts } from "../utils/contracts";
+import { convertToReadNumber, numberWithCommas } from "../utils/number";
 import MaleFileImage from "../assets/MaleFile.svg";
 import block1 from "../assets/index_block1.svg";
 import block2 from "../assets/index_block2.svg";
@@ -41,6 +42,19 @@ const Home = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    const fetchLockedData = async () => {
+      try {
+        const lockedData = await contracts.pool.getTotalNFTUSDDeposits();
+        setLockedValue(convertToReadNumber(lockedData));
+      } catch (error) {
+        console.error(error);
+        return;
+      }
+    };
+    fetchLockedData();
+  });
 
   return (
     <>

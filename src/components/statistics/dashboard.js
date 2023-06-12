@@ -5,15 +5,47 @@ import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import priceIcon from "../../assets/avatar.svg";
 import walletLeft from "../../assets/wallet-leftAnimal.svg";
 import walletRight from "../../assets/wallet-rightAnimal.svg";
-
-const DATA = [
-  { type: "Borrowing Fee", value: "4%" },
-  { type: "Troves", value: 50 },
-  { type: "NFTUSD supply", value: 2000 },
-  { type: "NFTUSD in Stability Pool", value: 500 },
-];
+import { useEffect, useState } from "react";
+import { contracts } from "../../utils/contracts";
+import { convertToReadNumber } from "../../utils/number";
 
 const Dashboard = () => {
+  // const [troves, setTroves] = useState(0);
+  const [ndlSupply, setNDLSupply] = useState(0);
+  const [nftUSDSupply, setNFTUSDSupply] = useState(0);
+  const [nftUSDInPool, setNFTUSDInPool] = useState(0);
+  const [extractionFee, setExtractionFee] = useState(0);
+  const [securityDeposit, setSecurityDeposit] = useState(0);
+
+  const data = [
+    { type: "Borrowing Fee", value: "4.00%" },
+    { type: "Troves", value: 0 },
+    { type: "NFT Dollars supply", value: ndlSupply },
+    { type: "NFTUSD supply", value: nftUSDSupply },
+    { type: "NFTUSD in Stability Pool", value: nftUSDInPool },
+    { type: "Total Extraction Fee", value: extractionFee },
+    { type: "Total Security Deposit", value: securityDeposit },
+  ];
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      // const troves = await contracts.pool
+      const ndlSupply = await contracts.nftDollar.totalSupply();
+      const nftUSDSupply = await contracts.nftUSD.totalSupply();
+      const nftUSDInPool = await contracts.pool.getTotalNFTUSDDeposits();
+      const totalExtractionFee = await contracts.pool.totalExtractionFee();
+      const totalSecurityDeposit = await contracts.pool.totalSecurityDeposit();
+
+      setNDLSupply(convertToReadNumber(ndlSupply));
+      setNFTUSDSupply(convertToReadNumber(nftUSDSupply));
+      setNFTUSDInPool(convertToReadNumber(nftUSDInPool));
+      setExtractionFee(convertToReadNumber(totalExtractionFee));
+      setSecurityDeposit(convertToReadNumber(totalSecurityDeposit));
+    };
+
+    fetchDashboardData();
+  }, []);
+
   return (
     <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent border-2">
       <CardHeader
@@ -72,7 +104,7 @@ const Dashboard = () => {
         </Typography>
         <div className="ml-0">
           <List dense={true} sx={{ marginLeft: "-18px" }}>
-            {DATA.map((item, index) => (
+            {data.map((item, index) => (
               <div key={index}>
                 {/* Data item */}
                 <ListItem>
