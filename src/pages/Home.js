@@ -21,7 +21,7 @@ const BENEFITS = [
     image: block2,
     advantage: "110% Collateral Ratio",
     description:
-      "Liquity's efficient liquidation mechanism allows users to get the most liquidity for their ETH. *Under normal operation.",
+      "Liquity's efficient liquidation mechanism allows users to get the most liquidity for their NFT. *Under normal operation.",
   },
   {
     image: block3,

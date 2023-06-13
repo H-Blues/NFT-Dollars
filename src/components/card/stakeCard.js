@@ -16,7 +16,7 @@ import PoolShareInput from "../input/poolShareInput";
 
 const title = "Stake";
 const icon = stakeIcon;
-const description = "Stake LQTY to earn a share of protocol fees in ETH and NFTUSD. ";
+const description = "Stake to earn a share of protocol fees in NFT and NFTUSD. ";
 const tip = "Enter the amount of NFTUSD";
 const operation = "Start Staking";
 
