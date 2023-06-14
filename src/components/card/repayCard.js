@@ -116,6 +116,7 @@ const RepayCard = () => {
 
   useEffect(() => {
     getUserNFTUSD();
+    // eslint-disable-next-line
   }, [account, borrowSuccess, repaySuccess]);
 
   return (

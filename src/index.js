@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
-import SuccessContextProvider, { SuccessContext } from "./contexts/successContext";
+import SuccessContextProvider from "./contexts/successContext";
 import Home from "./pages/Home";
 import Borrow from "./pages/Borrow";
 import RiskyTroves from "./pages/RiskyTroves";
