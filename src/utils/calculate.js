@@ -10,8 +10,8 @@ const calcExtractionAndCollateral = async (address) => {
     const [avgPrice7Days, avgSale7Days, volatility6Days] = await contracts.oracle.getAssetPrice(
       address
     );
-    const collateral = 1 - volatility6Days * 0.0001 + 0.00003 * avgSale7Days;
-    const maxExtraction = avgPrice7Days * 0.01 * collateral;
+    const collateral = 1 - volatility6Days * 0.000001 + 0.00003 * avgSale7Days;
+    const maxExtraction = avgPrice7Days * 0.0001 * collateral;
 
     return [maxExtraction.toFixed(3), collateral.toFixed(3)];
   } catch (error) {

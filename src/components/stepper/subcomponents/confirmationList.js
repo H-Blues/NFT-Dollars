@@ -105,44 +105,59 @@ const ConfirmationList = ({ back, reset }) => {
     }
   };
 
+  const openFailureAlert = (isBorrowed) => {
+    const cancelTitle = "Transaction Failure";
+    const cancelMsg =
+      "Please check the NFT status and the value of NFTUSD you want to borrow. You can retry through the following button.";
+    handleAlertOpen(cancelTitle, cancelMsg);
+  };
+
   const submit = async () => {
     setIsAlertOpen(false);
-    const owner = await getOwnership();
-    const isOwner = owner === account;
-    const isInLoan = owner === contracts.loan;
-    let isBorrowed = true;
 
-    if (!isOwner && !isInLoan) {
-      const ownerErrorTitle = "Before NFT Approval";
-      const ownerErrorMsg =
-        "This NFT belongs to others or dose not exist. Please make sure the ownership is yours.";
-      handleAlertOpen(ownerErrorTitle, ownerErrorMsg);
-      return;
-    }
+    try {
+      const owner = await getOwnership();
+      const isOwner = owner === account;
+      const isInLoan = owner === contracts.loan;
 
-    if (isInLoan) {
-      isBorrowed = await borrowNFTUSD();
-    } else {
-      const isApproved = await approveNFT();
-      if (!isApproved) {
-        const cancelTitle = "Cancel NFT Approval?";
-        const cancelMsg = "Before borrowing the NFTUSD, you need to make your NFT approved.";
-        handleAlertOpen(cancelTitle, cancelMsg);
-        console.error("User denied transaction signature: NFT approval is cancelled");
+      if (!isOwner && !isInLoan) {
+        const ownerErrorTitle = "Before NFT Approval";
+        const ownerErrorMsg =
+          "This NFT belongs to others or does not exist. Please make sure the ownership is yours.";
+        handleAlertOpen(ownerErrorTitle, ownerErrorMsg);
         return;
       }
-      isBorrowed = await borrowNFTUSD();
-    }
 
-    if (!isBorrowed) {
-      const cancelTitle = "Transaction Failure";
-      const cancelMsg =
-        "Please check the NFT status and the value of NFTUSD you want to borrow. You can retry through the following button.";
-      handleAlertOpen(cancelTitle, cancelMsg);
-      return;
-    }
+      if (isInLoan) {
+        const isBorrowed = await borrowNFTUSD();
+        if (!isBorrowed) {
+          openFailureAlert();
+          return;
+        }
+      }
 
-    handleSuccessOpen();
+      if (isOwner) {
+        const isApproved = await approveNFT();
+        if (!isApproved) {
+          const cancelTitle = "Cancel NFT Approval?";
+          const cancelMsg = "Before borrowing the NFTUSD, you need to make your NFT approved.";
+          handleAlertOpen(cancelTitle, cancelMsg);
+          console.error("User denied transaction signature: NFT approval is cancelled");
+          return;
+        } else {
+          const isBorrowed = await borrowNFTUSD();
+          if (!isBorrowed) {
+            if (!isBorrowed) {
+              openFailureAlert();
+              return;
+            }
+          }
+          handleSuccessOpen();
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting:", error);
+    }
   };
 
   return (
