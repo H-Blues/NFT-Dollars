@@ -37,7 +37,7 @@ const ExtractionCard = () => {
         <Typography variant="paragraph" className="inline mb-0">
           {description}
           <a
-            href="https://sylvain-code.gitbook.io/nftdollars-white-paper/extract-nftusd"
+            href="https://docs.nftdollars.xyz/extract-nftusd"
             className="inline-flex font-bold items-center hover:underline"
           >
             What is {title}?

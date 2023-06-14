@@ -4,11 +4,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { ethers } from "ethers";
+import SuccessContextProvider, { SuccessContext } from "./contexts/successContext";
 import Home from "./pages/Home";
 import Borrow from "./pages/Borrow";
-// import Doc from "./pages/Doc";
 import RiskyTroves from "./pages/RiskyTroves";
-// import { Test } from "./components/stepper/subcomponents/test";
 import Header from "./layouts/Header";
 import Footer from "./layouts/Footer";
 import "./index.css";
@@ -50,19 +49,19 @@ const App = () => {
     <>
       {chainId === 97 ? (
         <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/doc" element={<Doc />} /> */}
-            <Route path="/borrow" element={<Borrow />} />
-            <Route path="/riskyTroves" element={<RiskyTroves />} />
-            {/* <Route path="/test" element={<Test />} /> */}
-          </Routes>
-          <Footer />
+          <SuccessContextProvider>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/borrow" element={<Borrow />} />
+              <Route path="/riskyTroves" element={<RiskyTroves />} />
+            </Routes>
+            <Footer />
+          </SuccessContextProvider>
         </BrowserRouter>
       ) : (
         <div className="flex flex-col h-screen justify-center">
-          <p className="text-center">⚠️ Please switch network to Ethereum Mainnet!</p>
+          <p className="text-center">⚠️ Please switch network to BSC Testnet!</p>
         </div>
       )}
     </>

@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from "react";
 import { Avatar, Card, CardHeader, CardBody, Typography } from "@material-tailwind/react";
 import { List, ListItem, Divider } from "@mui/material";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
@@ -5,9 +6,9 @@ import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import priceIcon from "../../assets/avatar.svg";
 import walletLeft from "../../assets/wallet-leftAnimal.svg";
 import walletRight from "../../assets/wallet-rightAnimal.svg";
-import { useEffect, useState } from "react";
 import { contracts } from "../../utils/contracts";
 import { convertToReadNumber } from "../../utils/number";
+import { SuccessContext } from "../../contexts/successContext";
 
 const Dashboard = () => {
   // const [troves, setTroves] = useState(0);
@@ -16,6 +17,8 @@ const Dashboard = () => {
   const [nftUSDInPool, setNFTUSDInPool] = useState(0);
   const [extractionFee, setExtractionFee] = useState(0);
   const [securityDeposit, setSecurityDeposit] = useState(0);
+
+  const { borrowSuccess, depositSuccess, repaySuccess } = useContext(SuccessContext);
 
   const data = [
     { type: "Borrowing Fee", value: "4.00%" },
@@ -44,7 +47,7 @@ const Dashboard = () => {
     };
 
     fetchDashboardData();
-  }, []);
+  }, [borrowSuccess, depositSuccess, repaySuccess]);
 
   return (
     <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent border-2">

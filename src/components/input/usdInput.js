@@ -57,7 +57,7 @@ const USDInput = (props) => {
         }`}
       >
         <InformationCircleIcon className="w-4 h-4 -mt-px" />
-        {!exceedMax ? props.tip : "Your input exceeds the maximum extraction "}
+        {!exceedMax ? props.tip : "Your input exceeds your NFTUSD balance "}
       </Typography>
     </div>
   );

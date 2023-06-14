@@ -13,12 +13,7 @@ const CONTENTS = [
   {
     title: "Pages",
     items: ["Home", "Docs", "Borrow", "RiskyTroves"],
-    routes: [
-      "/",
-      "https://sylvain-code.gitbook.io/nftdollars-white-paper/",
-      "/borrow",
-      "/riskyTroves",
-    ],
+    routes: ["/", "https://docs.nftdollars.xyz/", "/borrow", "/riskyTroves"],
   },
   {
     title: "Contact",

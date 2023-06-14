@@ -200,6 +200,10 @@ export const addressOptions = [
         label: "Test GameItem",
       },
       {
+        value: "0x8210B9651eEb8F113cf4A0743Cae33E083012F4d",
+        label: "Test GameItem2",
+      },
+      {
         value: "0x59468516a8259058bad1ca5f8f4bff190d30e066",
         label: "Invisible Friends",
       },

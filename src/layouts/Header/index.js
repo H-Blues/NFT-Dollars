@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Container, Box } from "@mui/material";
 import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
@@ -7,17 +7,13 @@ import { WalletIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useWeb3React } from "@web3-react/core";
 
 import { truncateAddress, convertToReadNumber } from "../../utils/number";
+import { SuccessContext } from "../../contexts/successContext";
 import { contracts } from "../../utils/contracts";
 import logo from "../../assets/logo.svg";
 import Wallet from "../../components/wallet";
 
 const PAGES = ["Home", "Docs", "Borrow", "RiskyTroves"];
-const ROUTES = [
-  "/",
-  "https://sylvain-code.gitbook.io/nftdollars-white-paper/",
-  "/borrow",
-  "/riskyTroves",
-];
+const ROUTES = ["/", "https://docs.nftdollars.xyz/", "/borrow", "/riskyTroves"];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -25,6 +21,7 @@ const Header = () => {
   const [usdBalance, setUSDBalance] = useState("0.0");
   const [dollarBalance, setDollarBalance] = useState("0.0");
   const { chainId, account, deactivate, active } = useWeb3React();
+  const { borrowSuccess, depositSuccess, repaySuccess } = useContext(SuccessContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -56,10 +53,11 @@ const Header = () => {
         let dollarBalance = await contracts.nftDollar.balanceOf(account);
         setUSDBalance(convertToReadNumber(usdBalance));
         setDollarBalance(convertToReadNumber(dollarBalance));
+        console.log(usdBalance, dollarBalance);
       }
     };
     getBalance();
-  }, [chainId, account]);
+  }, [chainId, account, borrowSuccess, depositSuccess, repaySuccess]);
 
   return (
     <AppBar position="static" color="transparent">

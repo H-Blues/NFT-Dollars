@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Avatar, Collapse, Typography, Button } from "@material-tailwind/react";
@@ -10,6 +10,7 @@ import repayIcon from "../../assets/avatar.svg";
 import USDInput from "../input/usdInput";
 import { contracts } from "../../utils/contracts";
 import { convertToBigNumber, convertToReadNumber } from "../../utils/number";
+import { SuccessContext } from "../../contexts/successContext";
 
 const title = "Unlock NFT";
 const icon = repayIcon;
@@ -26,10 +27,11 @@ const RepayCard = () => {
   const [nft, setNFT] = useState("");
   const [nftList, setNFTList] = useState([]);
   const [nftUSD, setNftUsd] = useState(0);
-  const [nftAmountLeft, setNFTAmountLeft] = useState(0);
+  const [nftAmountLeft, setNFTAmountLeft] = useState(null);
   const [userNFTUSD, setUserNFTUSD] = useState(0);
 
   const { account } = useWeb3React();
+  const { borrowSuccess, repaySuccess, addRepaySuccess } = useContext(SuccessContext);
 
   const toggle = () => {
     setContentOpen((cur) => !cur);
@@ -60,10 +62,11 @@ const RepayCard = () => {
   const handleNFThandle = (event) => {
     const nft = event.target.value;
     setNFT(nft);
+    setNFTAmountLeft(nftAmountLeft ? nftAmountLeft : nft.amount);
   };
 
   const submit = async () => {
-    setNFTAmountLeft(nft.amount - nftUSD);
+    setNFTAmountLeft(nftAmountLeft - nftUSD);
     handleAlertClose(false);
     if (!userNFTUSD) {
       handleAlertOpen("Before Repay", "You have not connected your wallet.");
@@ -71,45 +74,49 @@ const RepayCard = () => {
     }
     try {
       await contracts.pool.repay(nft.address, nft.id, convertToBigNumber(nftUSD));
+      handleSuccessOpen();
+      addRepaySuccess();
     } catch (error) {
+      console.error(error);
       handleAlertOpen(
         "Repay Failure",
         "If you did not cancel the transaction, please check your NFTUSD balance and make sure your input is valid."
       );
+      setTimeout(() => {
+        getUserNFTUSD();
+      }, 5000);
       return;
     }
+  };
 
-    handleSuccessOpen();
+  const getUserNFTUSD = async () => {
+    try {
+      const userNFTUSD = await contracts.nftUSD.balanceOf(account);
+      setUserNFTUSD(convertToReadNumber(userNFTUSD));
+
+      const nftInfo = await contracts.pool.getAllLoanMessage(account);
+      const nftList = [];
+      for (let i = 0; i < nftInfo.length; i++) {
+        const item = {
+          loanId: nftInfo[i][0],
+          address: nftInfo[i][3],
+          name: nftInfo[i][4],
+          id: convertToReadNumber(nftInfo[i][5], 0, 0),
+          amount: convertToReadNumber(nftInfo[i][6]),
+        };
+        nftList.push(item);
+      }
+      console.log(nftList);
+      setNFTList(nftList);
+    } catch (error) {
+      console.error(error);
+      return;
+    }
   };
 
   useEffect(() => {
-    const getUserNFTUSD = async () => {
-      try {
-        const userNFTUSD = await contracts.nftUSD.balanceOf(account);
-        setUserNFTUSD(convertToReadNumber(userNFTUSD));
-
-        const nftInfo = await contracts.pool.getAllLoanMessage(account);
-        const addressList = nftInfo[1];
-        const idList = nftInfo[2];
-        const amountList = nftInfo[3];
-        const nftList = [];
-        for (let i = 0; i < addressList.length; i++) {
-          const item = {
-            address: addressList[i],
-            id: parseInt(convertToReadNumber(idList[i], 0, 1)),
-            amount: convertToReadNumber(amountList[i]),
-          };
-          nftList.push(item);
-        }
-        // const nftList = await contracts.test.getData();
-        setNFTList(nftList);
-      } catch (error) {
-        console.error(error);
-        return;
-      }
-    };
     getUserNFTUSD();
-  }, [account]);
+  }, [account, borrowSuccess, repaySuccess]);
 
   return (
     <>
@@ -141,7 +148,7 @@ const RepayCard = () => {
           <Typography variant="paragraph" className="inline mb-0">
             {description}
             <a
-              href="https://sylvain-code.gitbook.io/nftdollars-white-paper/unlock-nft"
+              href="https://docs.nftdollars.xyz/unlock-nft"
               className="inline-flex font-bold items-center hover:underline"
             >
               What is {title}?
@@ -160,11 +167,13 @@ const RepayCard = () => {
                   className="w-full rounded-lg h-10"
                 >
                   {nftList &&
-                    nftList.map((item) => (
-                      <MenuItem key={item.id} value={item}>
-                        Game Item
-                      </MenuItem>
-                    ))}
+                    nftList
+                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .map((item) => (
+                        <MenuItem key={item.loanId} value={item}>
+                          {item.name} #{item.id}
+                        </MenuItem>
+                      ))}
                 </Select>
               </div>
 

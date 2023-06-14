@@ -9,6 +9,7 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { AlertDialog, SuccessDialog } from "../../dialog";
 import { convertToBigNumber } from "../../../utils/number";
 import { NFTSelectContext } from "../../../contexts/nftSelectContext";
+import { SuccessContext } from "../../../contexts/successContext";
 import { contracts } from "../../../utils/contracts";
 
 const ConfirmationList = ({ back, reset }) => {
@@ -18,6 +19,7 @@ const ConfirmationList = ({ back, reset }) => {
   const [alertMsg, setAlertMsg] = useState("");
 
   const { layer, address, id, customId, nftUSD } = useContext(NFTSelectContext);
+  const { addBorrowSuccess } = useContext(SuccessContext);
   const bigNumberUSD = convertToBigNumber(nftUSD);
   const nftContract = contracts.createNFTContract(address);
   const nftId = id ? id : customId;
@@ -144,17 +146,16 @@ const ConfirmationList = ({ back, reset }) => {
           handleAlertOpen(cancelTitle, cancelMsg);
           console.error("User denied transaction signature: NFT approval is cancelled");
           return;
-        } else {
-          const isBorrowed = await borrowNFTUSD();
-          if (!isBorrowed) {
-            if (!isBorrowed) {
-              openFailureAlert();
-              return;
-            }
-          }
-          handleSuccessOpen();
+        }
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        const isBorrowed = await borrowNFTUSD();
+        if (!isBorrowed) {
+          openFailureAlert();
+          return;
         }
       }
+      handleSuccessOpen();
+      addBorrowSuccess();
     } catch (error) {
       console.error("Error submitting:", error);
     }

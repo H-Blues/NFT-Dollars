@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
 import {
   Avatar,
@@ -16,6 +16,7 @@ import poolIcon from "../../assets/avatar.svg";
 import USDInput from "../input/usdInput";
 import PoolShareInput from "../input/poolShareInput";
 import { contracts } from "../../utils/contracts";
+import { SuccessContext } from "../../contexts/successContext";
 import { convertToBigNumber, convertToReadNumber } from "../../utils/number";
 
 const title = "Stability Pool";
@@ -34,6 +35,7 @@ const StatbilityPoolCard = () => {
   const [userNFTUSD, setUserNFTUSD] = useState(0);
 
   const { account } = useWeb3React();
+  const { addDepositSuccess } = useContext(SuccessContext);
 
   const toggle = () => {
     setContentOpen((cur) => !cur);
@@ -78,6 +80,7 @@ const StatbilityPoolCard = () => {
     }
 
     handleSuccessOpen();
+    addDepositSuccess();
   };
 
   useEffect(() => {
@@ -120,7 +123,7 @@ const StatbilityPoolCard = () => {
           <Typography variant="paragraph" className="inline mb-0">
             {description}
             <a
-              href="https://sylvain-code.gitbook.io/nftdollars-white-paper/stability-pool"
+              href="https://docs.nftdollars.xyz/stability-pool"
               className="inline-flex font-bold items-center hover:underline"
             >
               What is {title}?

@@ -101,7 +101,7 @@ const Home = () => {
             className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"
             onClick={() => {
               // navigate("/doc");
-              window.location.href = "https://sylvain-code.gitbook.io/nftdollars-white-paper/";
+              window.location.href = "https://docs.nftdollars.xyz/";
             }}
           >
             <span className="w-full font-bold text-lg">Learn More</span>
