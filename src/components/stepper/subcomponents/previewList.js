@@ -51,6 +51,7 @@ const PreviewList = ({ next, back }) => {
 
     getExtraction();
     setNftUsd(0);
+    // eslint-disable-next-line
   }, []);
 
   return (

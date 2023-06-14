@@ -32,6 +32,7 @@ const Wallet = ({ open, onClose }) => {
     } else if (provider === "coinbaseWallet") {
       activate(connectors.coinbaseWallet);
     }
+    // eslint-disable-next-line
   }, []);
 
   return (
