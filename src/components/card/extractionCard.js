@@ -47,7 +47,7 @@ const ExtractionCard = () => {
 
         <Collapse open={open} className="space-y-4">
           <Divider />
-          <ExtractionStepper />
+          <ExtractionStepper close={toggle} />
         </Collapse>
       </CardBody>
 

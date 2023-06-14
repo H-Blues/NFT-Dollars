@@ -3,9 +3,8 @@ import { useQueries } from "react-query";
 import { SvgIcon } from "@mui/material";
 import { Card, Typography, IconButton, Spinner } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
-
 import CopyButton from "./copyButton";
-import { ReactComponent as EthLogo } from "../../assets/logos_ethereum.svg";
+import { ReactComponent as NFTUSD } from "../../assets/nftusd.svg";
 import { getRiskyHistoryNumber, getRiskyHistoryData } from "../../utils/requests";
 
 const tableHead = ["Owner", "Collateral", "Debt(NFTUSD)", "Call Ratio"];
@@ -108,8 +107,8 @@ export default function RiskyTrovesTable() {
                   </Typography>
                 </td>
                 <td>
-                  <div className="flex p-2">
-                    <SvgIcon component={EthLogo} viewBox="0 0 18 18" />
+                  <div className="flex p-1 gap-1">
+                    <SvgIcon component={NFTUSD} className="h-6 w-6" />
                     <Typography variant="small" color="blue-gray" className="font-normal">
                       {Collateral}
                     </Typography>

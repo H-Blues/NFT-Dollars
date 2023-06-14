@@ -33,8 +33,8 @@ const Dashboard = () => {
       const ndlSupply = await contracts.nftDollar.totalSupply();
       const nftUSDSupply = await contracts.nftUSD.totalSupply();
       const nftUSDInPool = await contracts.pool.getTotalNFTUSDDeposits();
-      const totalExtractionFee = await contracts.pool.totalExtractionFee();
-      const totalSecurityDeposit = await contracts.pool.totalSecurityDeposit();
+      const totalExtractionFee = await contracts.pool.getTotalExtractionFee();
+      const totalSecurityDeposit = await contracts.pool.getTotalSecurityDeposit();
 
       setNDLSupply(convertToReadNumber(ndlSupply));
       setNFTUSDSupply(convertToReadNumber(nftUSDSupply));

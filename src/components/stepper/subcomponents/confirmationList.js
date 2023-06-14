@@ -40,6 +40,7 @@ const ConfirmationList = ({ back, reset }) => {
 
   const handleSuccessClose = () => {
     setIsSuccessOpen(false);
+    reset();
   };
 
   const getLayerName = (layer) => {
@@ -74,13 +75,13 @@ const ConfirmationList = ({ back, reset }) => {
     },
   ];
 
-  const checkOwnership = async () => {
+  const getOwnership = async () => {
     try {
       const owner = await nftContract.ownerOf(nftId);
-      return owner === account;
+      return owner;
     } catch (error) {
-      console.error("Error checking ownership:", error);
-      return false;
+      console.error("Error getting ownership:", error);
+      return null;
     }
   };
 
@@ -106,8 +107,9 @@ const ConfirmationList = ({ back, reset }) => {
 
   const submit = async () => {
     setIsAlertOpen(false);
-    const isOwner = await checkOwnership();
-    const isInLoan = isOwner === contracts.loan;
+    const owner = await getOwnership();
+    const isOwner = owner === account;
+    const isInLoan = owner === contracts.loan;
     let isBorrowed = true;
 
     if (!isOwner && !isInLoan) {
@@ -152,7 +154,14 @@ const ConfirmationList = ({ back, reset }) => {
         title={alertTitle}
         msg={alertMsg}
       />
-      <SuccessDialog open={isSuccessOpen} onClose={handleSuccessClose} isBorrow={true} />
+      <SuccessDialog
+        open={isSuccessOpen}
+        onClose={handleSuccessClose}
+        title={"Transaction Success!"}
+        message={
+          "You have successfully borrowed NFTUSD, please check your wallet for details. Thank you for your use."
+        }
+      />
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "transparent" }}>
         {confirmationData.map((item, index) => (
           <ListItem key={index}>

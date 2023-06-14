@@ -41,7 +41,7 @@ const stepStyle = {
   },
 };
 
-const ExtractionStepper = () => {
+const ExtractionStepper = ({ close }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -53,6 +53,7 @@ const ExtractionStepper = () => {
   };
 
   const reset = () => {
+    close();
     setActiveStep(0);
   };
 
