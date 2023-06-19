@@ -106,7 +106,6 @@ const RepayCard = () => {
         };
         nftList.push(item);
       }
-      console.log(nftList);
       setNFTList(nftList);
     } catch (error) {
       console.error(error);
