@@ -57,7 +57,7 @@ const Home = () => {
       }
     };
     chainId === 97 && fetchLockedData();
-  });
+  }, [chainId]);
 
   return (
     <>

@@ -30,7 +30,6 @@ const Wallet = ({ open, onClose }) => {
         method: "wallet_switchEthereumChain",
         params: [{ chainId: toHex(targetNetworkId) }],
       });
-      console.log("Change Network");
     } catch (switchError) {
       if (switchError.code === 4902) {
         try {
