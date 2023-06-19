@@ -9,6 +9,7 @@ import walletRight from "../../assets/wallet-rightAnimal.svg";
 import { contracts } from "../../utils/contracts";
 import { convertToReadNumber } from "../../utils/number";
 import { SuccessContext } from "../../contexts/successContext";
+import { useWeb3React } from "@web3-react/core";
 
 const Dashboard = () => {
   // const [troves, setTroves] = useState(0);
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const [securityDeposit, setSecurityDeposit] = useState(0);
 
   const { borrowSuccess, depositSuccess, repaySuccess } = useContext(SuccessContext);
+  const { chainId } = useWeb3React();
 
   const data = [
     { type: "Borrowing Fee", value: "4.00%" },
@@ -46,8 +48,9 @@ const Dashboard = () => {
       setSecurityDeposit(convertToReadNumber(totalSecurityDeposit));
     };
 
-    fetchDashboardData();
-  }, [borrowSuccess, depositSuccess, repaySuccess]);
+    chainId === 97 && fetchDashboardData();
+    // eslint-disable-next-line
+  }, [borrowSuccess, depositSuccess, repaySuccess, chainId]);
 
   return (
     <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent border-2">

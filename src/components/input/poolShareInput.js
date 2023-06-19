@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Input } from "@material-tailwind/react";
 import { contracts } from "../../utils/contracts";
 import { convertToReadNumber } from "../../utils/number";
+import { useWeb3React } from "@web3-react/core";
 
 const PoolShareInput = (props) => {
   const [pool, setPool] = useState(null);
+  const { chainId } = useWeb3React();
 
   useEffect(() => {
     const getTotalUSDDeposit = async () => {
@@ -12,7 +14,7 @@ const PoolShareInput = (props) => {
       setPool(convertToReadNumber(totalDeposit));
     };
 
-    getTotalUSDDeposit();
+    chainId === 97 && getTotalUSDDeposit();
   });
 
   return (

@@ -13,6 +13,7 @@ import Divider from "@mui/material/Divider";
 import extractionIcon from "../../assets/avatar.svg";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import ExtractionStepper from "../stepper";
+import { useWeb3React } from "@web3-react/core";
 
 const title = "Extraction";
 const icon = extractionIcon;
@@ -21,6 +22,8 @@ const operation = "Deposit";
 
 const ExtractionCard = () => {
   const [open, setOpen] = useState(false);
+  const { chainId } = useWeb3React();
+
   const toggle = () => {
     setOpen((cur) => !cur);
   };
@@ -54,7 +57,12 @@ const ExtractionCard = () => {
       <CardFooter className="pt-0">
         <div className="flex justify-end">
           {!open && (
-            <Button color="amber" className="ml-auto text-white" onClick={toggle}>
+            <Button
+              color="amber"
+              className="ml-auto text-white"
+              disabled={chainId !== 97}
+              onClick={toggle}
+            >
               {operation}
             </Button>
           )}

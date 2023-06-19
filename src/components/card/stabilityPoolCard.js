@@ -34,7 +34,7 @@ const StatbilityPoolCard = () => {
   const [nftUSD, setNftUsd] = useState(0);
   const [userNFTUSD, setUserNFTUSD] = useState(0);
 
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
   const { addDepositSuccess } = useContext(SuccessContext);
 
   const toggle = () => {
@@ -152,7 +152,12 @@ const StatbilityPoolCard = () => {
         <CardFooter className="pt-0">
           <div className="flex justify-end">
             {!contentOpen && (
-              <Button color="amber" className="ml-auto text-white" onClick={toggle}>
+              <Button
+                color="amber"
+                className="ml-auto text-white"
+                disabled={chainId !== 97}
+                onClick={toggle}
+              >
                 {operation}
               </Button>
             )}

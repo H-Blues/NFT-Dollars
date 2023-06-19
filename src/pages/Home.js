@@ -9,6 +9,7 @@ import MaleFileImage from "../assets/MaleFile.svg";
 import block1 from "../assets/index_block1.svg";
 import block2 from "../assets/index_block2.svg";
 import block3 from "../assets/index_block3.svg";
+import { useWeb3React } from "@web3-react/core";
 
 const BENEFITS = [
   {
@@ -33,6 +34,7 @@ const BENEFITS = [
 
 const Home = () => {
   const [lockedValue, setLockedValue] = useState(7547692844);
+  const { chainId } = useWeb3React();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const Home = () => {
         return;
       }
     };
-    fetchLockedData();
+    chainId === 97 && fetchLockedData();
   });
 
   return (

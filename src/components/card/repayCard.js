@@ -30,7 +30,7 @@ const RepayCard = () => {
   const [nftAmountLeft, setNFTAmountLeft] = useState(null);
   const [userNFTUSD, setUserNFTUSD] = useState(0);
 
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
   const { borrowSuccess, repaySuccess, addRepaySuccess } = useContext(SuccessContext);
 
   const toggle = () => {
@@ -115,7 +115,9 @@ const RepayCard = () => {
   };
 
   useEffect(() => {
-    getUserNFTUSD();
+    if (chainId === 97) {
+      getUserNFTUSD();
+    }
     // eslint-disable-next-line
   }, [account, borrowSuccess, repaySuccess]);
 
@@ -196,7 +198,12 @@ const RepayCard = () => {
         <CardFooter className="pt-0">
           <div className="flex justify-end">
             {!contentOpen && (
-              <Button color="amber" className="ml-auto text-white" onClick={toggle}>
+              <Button
+                color="amber"
+                className="ml-auto text-white"
+                disabled={chainId !== 97}
+                onClick={toggle}
+              >
                 {operation}
               </Button>
             )}
