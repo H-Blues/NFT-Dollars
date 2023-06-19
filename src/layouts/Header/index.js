@@ -2,13 +2,12 @@ import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Container, Box } from "@mui/material";
 import { Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import { WalletIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useWeb3React } from "@web3-react/core";
-
 import { truncateAddress, convertToReadNumber } from "../../utils/number";
 import { SuccessContext } from "../../contexts/successContext";
 import { contracts } from "../../utils/contracts";
+import { WalletIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../../assets/logo.svg";
 import Wallet from "../../components/wallet";
 
@@ -48,12 +47,16 @@ const Header = () => {
 
   useEffect(() => {
     const getBalance = async () => {
-      if (account) {
-        let usdBalance = await contracts.nftUSD.balanceOf(account);
-        let dollarBalance = await contracts.nftDollar.balanceOf(account);
-        setUSDBalance(convertToReadNumber(usdBalance));
-        setDollarBalance(convertToReadNumber(dollarBalance));
-        console.log(usdBalance, dollarBalance);
+      if (account && chainId === 97) {
+        try {
+          let usdBalance = await contracts.nftUSD.balanceOf(account);
+          let dollarBalance = await contracts.nftDollar.balanceOf(account);
+          setUSDBalance(convertToReadNumber(usdBalance));
+          setDollarBalance(convertToReadNumber(dollarBalance));
+        } catch (error) {
+          console.error(error);
+          return;
+        }
       }
     };
     getBalance();
@@ -124,7 +127,7 @@ const Header = () => {
             })}
           </Box>
 
-          {account && (
+          {account && chainId === 97 && (
             <div className="hidden md:flex space-x-4 mr-4 text-white">
               <WalletIcon className="none md:w-8 " />
               <div className="grid place-items-center">
@@ -137,8 +140,9 @@ const Header = () => {
               </div>
             </div>
           )}
+
           {/* Wallet Connection */}
-          {!active ? (
+          {!active || chainId !== 97 ? (
             <Button
               key="connect"
               onClick={openWalletConnection}

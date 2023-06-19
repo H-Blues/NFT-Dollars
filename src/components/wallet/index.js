@@ -12,12 +12,49 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useWeb3React } from "@web3-react/core";
 
 import { connectors } from "./connectors";
+import { toHex } from "../../utils/number";
 import { ReactComponent as MetamaskSvg } from "../../assets/metamask-logo.svg";
 import { ReactComponent as WallerSvg } from "../../assets/index-wallet.svg";
 import { ReactComponent as CoinbaseSvg } from "../../assets/index-coinbase.svg";
 
 const Wallet = ({ open, onClose }) => {
-  const { activate } = useWeb3React();
+  const { activate, library, chainId } = useWeb3React();
+
+  const switchNetwork = async () => {
+    const targetNetworkId = 97;
+    if (chainId === targetNetworkId) {
+      return;
+    }
+    try {
+      await library.provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: toHex(targetNetworkId) }],
+      });
+      console.log("Change Network");
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        try {
+          await library.provider.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: toHex(targetNetworkId),
+                rpcUrls: ["https://endpoints.omniatech.io/v1/bsc/testnet/public"],
+                chainName: "Binance Smart Chain Testnet",
+                nativeCurrency: {
+                  name: "tBNB",
+                  symbol: "tBNB",
+                  decimals: 18,
+                },
+              },
+            ],
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+  };
 
   const setProvider = (type) => {
     window.localStorage.setItem("provider", type);
@@ -52,6 +89,7 @@ const Wallet = ({ open, onClose }) => {
               className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.injected);
+                switchNetwork();
                 setProvider("injected");
                 onClose();
               }}
@@ -66,6 +104,7 @@ const Wallet = ({ open, onClose }) => {
               className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.walletConnect);
+                switchNetwork();
                 setProvider("walletConnect");
                 onClose();
               }}
