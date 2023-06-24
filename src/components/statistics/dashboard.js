@@ -10,9 +10,10 @@ import { contracts } from "../../utils/contracts";
 import { convertToReadNumber } from "../../utils/number";
 import { SuccessContext } from "../../contexts/successContext";
 import { useWeb3React } from "@web3-react/core";
+import { getRiskyHistoryNumber } from "../../utils/requests";
 
 const Dashboard = () => {
-  // const [troves, setTroves] = useState(0);
+  const [address, setAddress] = useState(0);
   const [ndlSupply, setNDLSupply] = useState(0);
   const [nftUSDSupply, setNFTUSDSupply] = useState(0);
   const [nftUSDInPool, setNFTUSDInPool] = useState(0);
@@ -24,7 +25,7 @@ const Dashboard = () => {
 
   const data = [
     { type: "Borrowing Fee", value: "4.00%" },
-    { type: "Troves", value: 0 },
+    { type: "Address", value: address },
     { type: "NFT Dollars supply", value: ndlSupply },
     { type: "NFTUSD supply", value: nftUSDSupply },
     { type: "NFTUSD in Stability Pool", value: nftUSDInPool },
@@ -34,18 +35,23 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchDashboardData = async () => {
-      // const troves = await contracts.pool
-      const ndlSupply = await contracts.nftDollar.totalSupply();
-      const nftUSDSupply = await contracts.nftUSD.totalSupply();
-      const nftUSDInPool = await contracts.pool.getTotalNFTUSDDeposits();
-      const totalExtractionFee = await contracts.pool.getTotalExtractionFee();
-      const totalSecurityDeposit = await contracts.pool.getTotalSecurityDeposit();
-
-      setNDLSupply(convertToReadNumber(ndlSupply));
-      setNFTUSDSupply(convertToReadNumber(nftUSDSupply));
-      setNFTUSDInPool(convertToReadNumber(nftUSDInPool));
-      setExtractionFee(convertToReadNumber(totalExtractionFee));
-      setSecurityDeposit(convertToReadNumber(totalSecurityDeposit));
+      try {
+        const address = await getRiskyHistoryNumber();
+        const ndlSupply = await contracts.nftDollar.totalSupply();
+        const nftUSDSupply = await contracts.nftUSD.totalSupply();
+        const nftUSDInPool = await contracts.pool.getTotalNFTUSDDeposits();
+        const totalExtractionFee = await contracts.pool.getTotalExtractionFee();
+        const totalSecurityDeposit = await contracts.pool.getTotalSecurityDeposit();
+        setAddress(address);
+        setNDLSupply(convertToReadNumber(ndlSupply));
+        setNFTUSDSupply(convertToReadNumber(nftUSDSupply));
+        setNFTUSDInPool(convertToReadNumber(nftUSDInPool));
+        setExtractionFee(convertToReadNumber(totalExtractionFee));
+        setSecurityDeposit(convertToReadNumber(totalSecurityDeposit));
+      } catch (error) {
+        // console.error(error);
+        return;
+      }
     };
 
     chainId === 97 && fetchDashboardData();
