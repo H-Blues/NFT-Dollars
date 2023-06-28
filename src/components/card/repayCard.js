@@ -61,8 +61,10 @@ const RepayCard = () => {
 
   const handleNFThandle = (event) => {
     const nft = event.target.value;
-    setNFT(nft);
-    setNFTAmountLeft(nftAmountLeft ? nftAmountLeft : nft.amount);
+    if (nft) {
+      setNFT(nft);
+      setNFTAmountLeft(nftAmountLeft ? nftAmountLeft : nft.amount);
+    }
   };
 
   const submit = async () => {
@@ -122,13 +124,7 @@ const RepayCard = () => {
 
   return (
     <>
-      <AlertDialog
-        open={isAlertOpen}
-        onClose={handleAlertClose}
-        retry={submit}
-        title={alertTitle}
-        msg={alertMsg}
-      />
+      <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
         open={isSuccessOpen}
         onClose={handleSuccessClose}
@@ -168,23 +164,23 @@ const RepayCard = () => {
                   disabled={!userNFTUSD}
                   className="w-full rounded-lg h-10"
                 >
-                  {nftList &&
+                  {nftList.length !== 0 ? (
                     nftList
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((item) => (
                         <MenuItem key={item.loanId} value={item}>
                           {item.name} #{item.id}
                         </MenuItem>
-                      ))}
+                      ))
+                  ) : (
+                    <MenuItem key="default" value="">
+                      No NFT data
+                    </MenuItem>
+                  )}
                 </Select>
               </div>
 
-              <USDInput
-                title={title}
-                tip={tip}
-                inputValueChange={nftUsdChange}
-                maxValue={userNFTUSD}
-              />
+              <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={userNFTUSD} />
             </div>
             <div className="ml-6">
               <Button color="orange" onClick={submit}>
@@ -197,12 +193,7 @@ const RepayCard = () => {
         <CardFooter className="pt-0">
           <div className="flex justify-end">
             {!contentOpen && (
-              <Button
-                color="amber"
-                className="ml-auto text-white"
-                disabled={chainId !== 97}
-                onClick={toggle}
-              >
+              <Button color="amber" className="ml-auto text-white" disabled={chainId !== 97} onClick={toggle}>
                 {operation}
               </Button>
             )}

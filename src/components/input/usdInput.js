@@ -41,23 +41,16 @@ const USDInput = (props) => {
           onChange={handleChange}
           error={exceedMax}
         />
-        <Button
-          color="orange"
-          size="sm"
-          className="!absolute right-1 top-1 rounded"
-          onClick={setMaxValue}
-        >
+        <Button color="orange" size="sm" className="!absolute right-1 top-1 rounded" onClick={setMaxValue}>
           max
         </Button>
       </div>
       <Typography
         variant="small"
-        className={`flex items-center gap-1 font-normal mt-2 ${
-          exceedMax ? "text-red-500" : "text-gray-700"
-        }`}
+        className={`flex items-center gap-1 font-normal mt-2 ${exceedMax ? "text-red-500" : "text-gray-700"}`}
       >
         <InformationCircleIcon className="w-4 h-4 -mt-px" />
-        {!exceedMax ? props.tip : "Your input exceeds your NFTUSD balance "}
+        {!exceedMax ? props.tip : "Your input exceeds the limitation "}
       </Typography>
     </div>
   );

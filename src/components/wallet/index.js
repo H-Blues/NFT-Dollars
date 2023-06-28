@@ -22,9 +22,6 @@ const Wallet = ({ open, onClose }) => {
 
   const switchNetwork = async () => {
     const targetNetworkId = 97;
-    if (chainId === targetNetworkId) {
-      return;
-    }
     try {
       await library.provider.request({
         method: "wallet_switchEthereumChain",
@@ -50,8 +47,10 @@ const Wallet = ({ open, onClose }) => {
           });
         } catch (error) {
           console.error(error);
+          return;
         }
       }
+      return;
     }
   };
 
@@ -88,7 +87,7 @@ const Wallet = ({ open, onClose }) => {
               className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.injected);
-                switchNetwork();
+                chainId !== 97 && switchNetwork();
                 setProvider("injected");
                 onClose();
               }}
@@ -103,7 +102,7 @@ const Wallet = ({ open, onClose }) => {
               className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.walletConnect);
-                switchNetwork();
+                chainId !== 97 && switchNetwork();
                 setProvider("walletConnect");
                 onClose();
               }}
@@ -118,6 +117,7 @@ const Wallet = ({ open, onClose }) => {
               className="flex items-center justify-center gap-3"
               onClick={() => {
                 activate(connectors.coinbaseWallet);
+                chainId !== 97 && switchNetwork();
                 setProvider("coinbaseWallet");
                 onClose();
               }}

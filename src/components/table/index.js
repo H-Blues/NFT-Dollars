@@ -7,7 +7,7 @@ import CopyButton from "./copyButton";
 import { ReactComponent as NFTUSD } from "../../assets/nftusd.svg";
 import { getRiskyHistoryNumber, getRiskyHistoryData } from "../../utils/requests";
 
-const tableHead = ["Owner", "Collateral", "Debt(NFTUSD)", "Call Ratio"];
+const tableHead = ["Owner", "Debt", "Collateral", "Call Ratio"];
 
 export default function RiskyTrovesTable() {
   const [active, setActive] = useState(1);
@@ -55,26 +55,14 @@ export default function RiskyTrovesTable() {
           <IconButton size="sm" variant="text" color="blue-gray" onClick={refreshData}>
             <ArrowPathIcon strokeWidth={2} className="h-4 w-4" />
           </IconButton>
-          <IconButton
-            size="sm"
-            variant="outlined"
-            color="blue-gray"
-            onClick={prev}
-            disabled={active === 1}
-          >
+          <IconButton size="sm" variant="outlined" color="blue-gray" onClick={prev} disabled={active === 1}>
             <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
           </IconButton>
           <Typography color="gray" variant="small" className="font-normal mt-1">
             Page <strong className="text-blue-gray-900">{active}</strong> of{" "}
             <strong className="text-blue-gray-900">{pageNumber}</strong>
           </Typography>
-          <IconButton
-            size="sm"
-            variant="outlined"
-            color="blue-gray"
-            onClick={next}
-            disabled={active === pageNumber}
-          >
+          <IconButton size="sm" variant="outlined" color="blue-gray" onClick={next} disabled={active === pageNumber}>
             <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
           </IconButton>
         </div>
@@ -86,11 +74,7 @@ export default function RiskyTrovesTable() {
             <tr>
               {tableHead.map((head) => (
                 <th key={head} className="border-b border-blue-gray-100 bg-white bg-opacity-80 p-4">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
-                  >
+                  <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
                     {head}
                   </Typography>
                 </th>

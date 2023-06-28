@@ -10,11 +10,18 @@ const PoolShareInput = (props) => {
 
   useEffect(() => {
     const getTotalUSDDeposit = async () => {
-      const totalDeposit = await contracts.pool.getTotalNFTUSDDeposits();
-      setPool(convertToReadNumber(totalDeposit));
+      try {
+        const totalDeposit = await contracts.pool.getTotalNFTUSDDeposits();
+        setPool(convertToReadNumber(totalDeposit));
+      } catch (error) {
+        console.error(error);
+        return;
+      }
     };
 
-    chainId === 97 && getTotalUSDDeposit();
+    if (chainId === 97) {
+      getTotalUSDDeposit();
+    }
   });
 
   return (
