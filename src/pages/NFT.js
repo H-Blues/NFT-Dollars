@@ -3,30 +3,23 @@ import { useWeb3React } from "@web3-react/core";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-import ExtractionCard from "../components/card/extractionCard";
-import StabilityCard from "../components/card/stabilityPoolCard";
-import RepayCard from "../components/card/repayCard";
 import Dashboard from "../components/statistics/dashboard";
-import { WaitDialog } from "../components/dialog";
+import LockNFTCard from "../components/card/lockNFTCard";
+import UnlockNFTCard from "../components/card/unlockNFTCard";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Borrow = () => {
+const NFT = () => {
   const { active } = useWeb3React();
   const [alertOpen, setAlertOpen] = useState(!active);
-  const [pendingOpen, setPendingOpen] = useState(false);
 
   const handleAlertClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
     setAlertOpen(false);
-  };
-
-  const handlePendingClose = () => {
-    setPendingOpen(false);
   };
 
   useEffect(() => {
@@ -56,10 +49,8 @@ const Borrow = () => {
       </Snackbar>
       <div className="grid xl:grid-cols-3">
         <div className="col-span-2">
-          <WaitDialog open={pendingOpen} onClose={handlePendingClose} />
-          <ExtractionCard />
-          <StabilityCard />
-          <RepayCard />
+          <LockNFTCard />
+          <UnlockNFTCard />
         </div>
         <div className="col-span-2 xl:col-span-1">
           <Dashboard />
@@ -69,4 +60,4 @@ const Borrow = () => {
   );
 };
 
-export default Borrow;
+export default NFT;

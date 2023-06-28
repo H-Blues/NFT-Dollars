@@ -11,8 +11,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../../assets/logo.svg";
 import Wallet from "../../components/wallet";
 
-const PAGES = ["Home", "Docs", "Borrow", "RiskyTroves"];
-const ROUTES = ["/", "https://docs.nftdollars.xyz/", "/borrow", "/riskyTroves"];
+const PAGES = ["Home", "Docs", "NFT", "Borrow", "RiskyTroves"];
+const ROUTES = ["/", "https://docs.nftdollars.xyz/", "/nft", "/borrow", "/riskyTroves"];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -47,10 +47,12 @@ const Header = () => {
 
   useEffect(() => {
     const getBalance = async () => {
+      console.log("Get user balance...");
       if (account && chainId === 97) {
         try {
           let usdBalance = await contracts.nftUSD.balanceOf(account);
           let dollarBalance = await contracts.nftDollar.balanceOf(account);
+          console.log(convertToReadNumber(usdBalance), convertToReadNumber(dollarBalance));
           setUSDBalance(convertToReadNumber(usdBalance));
           setDollarBalance(convertToReadNumber(dollarBalance));
         } catch (error) {
@@ -162,10 +164,7 @@ const Header = () => {
               <p>Connected as</p>
               <span className="flex items-center">
                 <span>{truncateAddress(account)}</span>
-                <XMarkIcon
-                  className="ml-2 h-4 w-4 text-white cursor-pointer"
-                  onClick={disconnect}
-                />
+                <XMarkIcon className="ml-2 h-4 w-4 text-white cursor-pointer" onClick={disconnect} />
               </span>
             </div>
           )}

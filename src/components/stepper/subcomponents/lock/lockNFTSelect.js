@@ -1,22 +1,18 @@
 import React, { useState, useContext } from "react";
 import { Box, Button, Select, MenuItem } from "@mui/material";
-import { layerOptions, addressOptions, idOptions } from "../data/selectOptions";
-import { Input, Typography } from "@material-tailwind/react";
+import { layerOptions, addressOptions, idOptions } from "../../data/selectOptions";
+import { Checkbox, Input, Typography } from "@material-tailwind/react";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
-import { NFTSelectContext } from "../../../contexts/nftSelectContext";
+import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
 // import {getNFTAccountData} from "../../../utils/requests";
 // import { contracts } from "../../../utils/contracts";
 
 const IdSelect = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }) => {
   return (
     <>
-      <Select
-        value={id}
-        onChange={handleIdChange}
-        disabled={!address}
-        className="mb-1 w-full rounded-lg h-10"
-      >
+      <Select value={id} onChange={handleIdChange} disabled={!address} className="mb-1 w-full rounded-lg h-10">
         {getIdOptions(address).map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
@@ -25,11 +21,7 @@ const IdSelect = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }
       </Select>
 
       {address && (
-        <Typography
-          variant="small"
-          color="gray"
-          className="flex items-center gap-1 font-normal mt-0"
-        >
+        <Typography variant="small" color="gray" className="flex items-center gap-1 font-normal mt-0">
           <QuestionMarkCircleIcon className="w-4 h-4 -mt-px" />
           Not found NFT in this collection?
           <span onClick={handleLinkClick} className="underline cursor-pointer">
@@ -68,12 +60,15 @@ const NFTSelect = ({ next }) => {
     address,
     id,
     customId,
+    isLayerUp,
+    threshold,
+    handleLayerUpChange,
+    handleThresholdChange,
     handleLayerChange,
     handleAddressChange,
     handleIdChange,
     handleInputChange,
   } = useContext(NFTSelectContext);
-
   const [isInputMode, setIsInputMode] = useState(false);
 
   const handleLinkClick = (event) => {
@@ -95,32 +90,27 @@ const NFTSelect = ({ next }) => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <Select
-        value={layer}
-        onChange={handleLayerChange}
-        className="mb-4 w-full rounded-lg h-10 border-amber-100"
-      >
+    <div className="mt-2 w-full max-w-md mx-auto">
+      <Select value={layer} onChange={handleLayerChange} className="mb-4 w-full rounded-lg h-10 border-amber-100">
         {layerOptions.map((option) => (
           <MenuItem key={option.value} value={option.value}>
             {option.label}
           </MenuItem>
         ))}
       </Select>
-
-      <Select
-        value={address}
-        onChange={handleAddressChange}
-        disabled={!layer}
-        className="mb-4 w-full rounded-lg h-10"
-      >
+      <Select value={address} disabled={!layer} className="mb-4 w-full rounded-lg h-10">
         {getAddressOptions(layer).map((option) => (
-          <MenuItem key={option.value} value={option.value}>
+          <MenuItem
+            key={option.value}
+            value={option.value}
+            onClick={(e) => {
+              handleAddressChange(e, option.value);
+            }}
+          >
             {option.label}
           </MenuItem>
         ))}
       </Select>
-
       <div>
         {isInputMode ? (
           <IdInput
@@ -139,6 +129,28 @@ const NFTSelect = ({ next }) => {
           />
         )}
       </div>
+
+      {layer !== "" && layer !== "2" && (
+        <div className="mt-1 mb-1 flex items-center space-x-6 h-14">
+          <Checkbox color="amber" label="Levelup" checked={isLayerUp} onChange={handleLayerUpChange} />
+          {isLayerUp && (
+            <div className="mb-3 mt-0 pt-0 w-full">
+              <Input
+                value={threshold}
+                variant="static"
+                placeholder="Enter the NFT threshold (NFTUSD)"
+                onChange={handleThresholdChange}
+                color="amber"
+                type="number"
+              />
+              <Typography variant="small" color="gray" className="flex items-center gap-1 font-normal">
+                <InformationCircleIcon className="w-4 h-4 -mt-px" />
+                The threshold value must be bigger than 100%
+              </Typography>
+            </div>
+          )}
+        </div>
+      )}
 
       <Box sx={{ mb: 1 }}>
         <div>

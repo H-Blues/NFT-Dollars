@@ -6,6 +6,7 @@ export const SuccessContextProvider = ({ children }) => {
   const [borrowSuccess, setBorrowSuccess] = useState(0);
   const [depositSuccess, setDepositSuccess] = useState(0);
   const [repaySuccess, setRepaySuccess] = useState(0);
+  const [nftOperSuccess, setNFTOperSuccess] = useState(0);
 
   const addBorrowSuccess = () => {
     console.log("Borrow success: ", borrowSuccess + 1);
@@ -25,16 +26,25 @@ export const SuccessContextProvider = ({ children }) => {
     console.log("Repay success: ", repaySuccess + 1);
     setTimeout(() => {
       setRepaySuccess(repaySuccess + 1);
-    }, 12000);
+    }, 15000);
+  };
+
+  const addNFTOperSuccess = () => {
+    console.log("Lock/Unlock NFT success: ", nftOperSuccess + 1);
+    setTimeout(() => {
+      setNFTOperSuccess(nftOperSuccess + 1);
+    }, 6000);
   };
 
   const contextValue = {
     borrowSuccess,
     depositSuccess,
     repaySuccess,
+    nftOperSuccess,
     addBorrowSuccess,
     addDepositSuccess,
     addRepaySuccess,
+    addNFTOperSuccess,
   };
 
   return <SuccessContext.Provider value={contextValue}>{children}</SuccessContext.Provider>;

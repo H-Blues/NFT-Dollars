@@ -1,26 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
+import { useWeb3React } from "@web3-react/core";
 import { Box, Button } from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Spinner } from "@material-tailwind/react";
 
-import { NFTSelectContext } from "../../../contexts/nftSelectContext";
-import USDInput from "../../input/usdInput";
+import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
+import USDInput from "../../../input/usdInput";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import calculationFn from "../../../utils/calculate";
+import calculationFn from "../../../../utils/calculate";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const PreviewList = ({ next, back }) => {
-  const { address, nftUSD, setNftUsd } = useContext(NFTSelectContext);
-  const [maxExtraction, setMaxExtraction] = useState(null);
-  const [collateral, setCollateral] = useState(null);
-  const [securityDeposit, setSecurityDeposit] = useState(0);
-  const [obtained, setObtained] = useState(0);
-
+  const { account } = useWeb3React();
+  const { address, maxExtraction, setMaxExtraction, isLayerUp } = useContext(NFTSelectContext);
+  const [nftUSD, setNftUsd] = useState("0.0000");
+  const [securityDeposit, setSecurityDeposit] = useState("0.0000");
+  const [obtained, setObtained] = useState("0.0000");
   const [alertOpen, setAlertOpen] = useState(false);
 
   const handleAlertClose = (event, reason) => {
@@ -31,34 +31,33 @@ const PreviewList = ({ next, back }) => {
   };
 
   const nftUsdChange = (value) => {
-    setNftUsd(value);
+    setNftUsd(value || 0);
     setSecurityDeposit(calculationFn.calcSecurityDeposit(value));
     setObtained(calculationFn.calcObtained(value));
   };
 
   useEffect(() => {
     const getExtraction = async () => {
-      const [maxExtraction, collateral] = await calculationFn.calcExtractionAndCollateral(address);
-      if (!maxExtraction && !collateral) {
+      const maxExtraction = await calculationFn.calcExtraction(address);
+      if (!maxExtraction) {
         setAlertOpen(true);
         setTimeout(() => {
           back();
         }, 2000);
       }
-      setMaxExtraction(maxExtraction);
-      setCollateral(collateral);
+      setMaxExtraction(isLayerUp ? (maxExtraction * 0.9).toFixed(4) : maxExtraction);
     };
 
     getExtraction();
     setNftUsd(0);
     // eslint-disable-next-line
-  }, []);
+  }, [account]);
 
   return (
     <>
       <USDInput
         title="NFTUSD"
-        tip="Enter the NFTUSD you would like to deposit"
+        tip="This is a calculator, not a real transaction"
         maxValue={maxExtraction}
         inputValueChange={nftUsdChange}
       />
@@ -67,7 +66,6 @@ const PreviewList = ({ next, back }) => {
           This NFT dose not exist.
         </Alert>
       </Snackbar>
-
       <List dense={true} sx={{ backgroundColor: "white", opacity: "0.6", borderRadius: "10px" }}>
         <ListItem>
           <span style={{ fontWeight: "bold" }}>Max Extraction</span>
@@ -77,15 +75,8 @@ const PreviewList = ({ next, back }) => {
           </span>
         </ListItem>
         <ListItem>
-          <span style={{ fontWeight: "bold" }}>Collateral Ratio</span>
-          <span style={{ marginLeft: "auto" }}>
-            {collateral && `${collateral * 100} %`}
-            {!collateral && <Spinner className="h-6 w-6" />}
-          </span>
-        </ListItem>
-        <ListItem>
           <span style={{ fontWeight: "bold" }}>Liquidation Price</span>
-          <span style={{ marginLeft: "auto" }}>{nftUSD} nftUSD</span>
+          <span style={{ marginLeft: "auto" }}>{parseFloat(nftUSD).toFixed(4)} nftUSD</span>
         </ListItem>
         <ListItem>
           <span style={{ fontWeight: "bold" }}>Security Deposit</span>
@@ -96,12 +87,10 @@ const PreviewList = ({ next, back }) => {
           <span style={{ marginLeft: "auto" }}>{obtained} nftUSD</span>
         </ListItem>
       </List>
-
-      <Box sx={{ mb: 1 }}>
+      <Box sx={{ mt: 1, mb: 1 }}>
         <div>
           <Button
             variant="contained"
-            disabled={!nftUSD || parseFloat(nftUSD) > maxExtraction}
             onClick={next}
             sx={{
               mt: 1,

@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import { Box, Stepper, Step, StepLabel, StepContent, Typography } from "@mui/material";
 
 import NFTSelectContextProvider from "../../contexts/nftSelectContext";
-import NFTSelect from "././subcomponents/nftSelect";
-import ConfirmationList from "./subcomponents/confirmationList";
-import PreviewList from "./subcomponents/previewList";
+import LockNFTSelect from "./subcomponents/lock/lockNFTSelect";
+import ConfirmationList from "./subcomponents/lock/confirmationList";
+import PreviewList from "./subcomponents/lock/previewList";
 
 const STEPS = [
   {
-    label: "Select the layer and NFT",
-    description: `Choose the layer you to continue your transaction`,
+    label: "Select the layer and lock NFT",
+    description: "Lock your NFT in stability pool to borrow NFTUSD.",
   },
   {
-    label: "Enter NFTUSD to Deposit",
-    description: "Enter the NFTUSD you would like to deposit",
+    label: "NFTUSD calculator",
+    description: "Calculate how much NFTUSD you can obtain.",
   },
   {
-    label: "Check and Confirm",
-    description: `Confirm your transaction information`,
+    label: "Preview transaction information",
+    description: "Confirm your NFT and account balance information.",
   },
 ];
 
@@ -41,7 +41,7 @@ const stepStyle = {
   },
 };
 
-const ExtractionStepper = ({ close }) => {
+const LockNFTStepper = ({ close }) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = () => {
@@ -66,9 +66,9 @@ const ExtractionStepper = ({ close }) => {
               <StepLabel>{step.label}</StepLabel>
               <StepContent>
                 <Typography>{step.description}</Typography>
-                {index === 0 && <NFTSelect next={handleNext} />}
-                {index === 1 && <PreviewList next={handleNext} back={handleBack} />}
-                {index === 2 && <ConfirmationList back={handleBack} reset={reset} />}
+                {index === 0 && <LockNFTSelect next={handleNext} />}
+                {index === 1 && <PreviewList isLock={true} next={handleNext} back={handleBack} />}
+                {index === 2 && <ConfirmationList isLock={true} back={handleBack} reset={reset} />}
               </StepContent>
             </Step>
           ))}
@@ -78,4 +78,4 @@ const ExtractionStepper = ({ close }) => {
   );
 };
 
-export default ExtractionStepper;
+export default LockNFTStepper;

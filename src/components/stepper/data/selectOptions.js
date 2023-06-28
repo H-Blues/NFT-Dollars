@@ -388,18 +388,18 @@ export const idOptions = [
   {
     address: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
     ids: [
-      { value: "1", label: "#10001" },
-      { value: "2", label: "#10002" },
-      { value: "3", label: "#10004" },
+      { value: "10001", label: "#10001" },
+      { value: "10002", label: "#10002" },
+      { value: "10004", label: "#10004" },
     ],
   },
   {
     address: "other",
     ids: [
       { value: "0", label: "#0" },
-      { value: "1", label: "#231" },
-      { value: "2", label: "#145" },
-      { value: "3", label: "#115" },
+      { value: "1", label: "#1" },
+      { value: "2", label: "#2" },
+      { value: "3", label: "#3" },
     ],
   },
 ];

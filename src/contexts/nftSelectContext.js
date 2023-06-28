@@ -7,7 +7,10 @@ export const NFTSelectContextProvider = ({ children }) => {
   const [address, setAddress] = useState("");
   const [id, setId] = useState("");
   const [customId, setCustomId] = useState("");
-  const [nftUSD, setNftUsd] = useState(0);
+  const [nftName, setNFTName] = useState("");
+  const [maxExtraction, setMaxExtraction] = useState(null);
+  const [isLayerUp, setIsLayerUp] = useState(false);
+  const [threshold, setThreshold] = useState(100);
 
   const handleLayerChange = (event) => {
     const selectedLayer = event.target.value;
@@ -16,9 +19,10 @@ export const NFTSelectContextProvider = ({ children }) => {
     setId("");
   };
 
-  const handleAddressChange = (event) => {
-    const selectedAddress = event.target.value;
-    setAddress(selectedAddress);
+  const handleAddressChange = (event, address) => {
+    const nftName = event.target.innerText;
+    setNFTName(nftName);
+    setAddress(address);
     setId("");
   };
 
@@ -32,17 +36,36 @@ export const NFTSelectContextProvider = ({ children }) => {
     setCustomId(customId === undefined ? "" : customId);
   };
 
+  const handleLayerUpChange = () => {
+    setIsLayerUp(!isLayerUp);
+  };
+
+  const handleThresholdChange = (event) => {
+    const regex = /^[1-9]\d*(\.\d+)?$/;
+    const value = event.target.value;
+    if (regex.test(value) && value > 100) {
+      setThreshold(value);
+    } else {
+      setThreshold(100);
+    }
+  };
+
   const contextValue = {
     layer,
     address,
     id,
     customId,
-    nftUSD,
-    setNftUsd,
+    nftName,
+    maxExtraction,
+    isLayerUp,
+    threshold,
+    handleLayerUpChange,
+    handleThresholdChange,
     handleLayerChange,
     handleAddressChange,
     handleIdChange,
     handleInputChange,
+    setMaxExtraction,
   };
 
   return <NFTSelectContext.Provider value={contextValue}>{children}</NFTSelectContext.Provider>;

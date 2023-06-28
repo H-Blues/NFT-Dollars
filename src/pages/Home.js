@@ -15,8 +15,7 @@ const BENEFITS = [
   {
     image: block1,
     advantage: "0% Interest Rate",
-    description:
-      "Liquity charges a small, one-time fee to borrow NFTUSD instead of highly variable interest rates.",
+    description: "Liquity charges a small, one-time fee to borrow NFTUSD instead of highly variable interest rates.",
   },
   {
     image: block2,
@@ -27,13 +26,12 @@ const BENEFITS = [
   {
     image: block3,
     advantage: "Unstoppable Stablecoin",
-    description:
-      "NFTUSD is a decentralized stablecoin capable of resisting all kinds of censorship.",
+    description: "NFTUSD is a decentralized stablecoin capable of resisting all kinds of censorship.",
   },
 ];
 
 const Home = () => {
-  const [lockedValue, setLockedValue] = useState(7547692844);
+  const [lockedValue, setLockedValue] = useState("Loading...");
   const { chainId } = useWeb3React();
   const navigate = useNavigate();
 
@@ -56,7 +54,10 @@ const Home = () => {
         return;
       }
     };
-    chainId === 97 && fetchLockedData();
+
+    if (chainId === 97) {
+      fetchLockedData();
+    }
   }, [chainId]);
 
   return (
@@ -102,7 +103,6 @@ const Home = () => {
           <Button
             className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"
             onClick={() => {
-              // navigate("/doc");
               window.location.href = "https://docs.nftdollars.xyz/";
             }}
           >

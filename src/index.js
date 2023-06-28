@@ -6,6 +6,7 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { ethers } from "ethers";
 import SuccessContextProvider from "./contexts/successContext";
 import Home from "./pages/Home";
+import NFT from "./pages/NFT";
 import Borrow from "./pages/Borrow";
 import RiskyTroves from "./pages/RiskyTroves";
 import Header from "./layouts/Header";
@@ -13,7 +14,7 @@ import Footer from "./layouts/Footer";
 import "./index.css";
 
 const getLibrary = (provider) => {
-  return new ethers.providers.Web3Provider(provider);
+  return new ethers.providers.Web3Provider(provider, "any");
 };
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/nft" element={<NFT />} />
             <Route path="/borrow" element={<Borrow />} />
             <Route path="/riskyTroves" element={<RiskyTroves />} />
           </Routes>
