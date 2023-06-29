@@ -3,35 +3,30 @@ import { useWeb3React } from "@web3-react/core";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Avatar, Collapse, Typography, Button } from "@material-tailwind/react";
 import { Card, CardBody, CardFooter } from "@material-tailwind/react";
-import { Select, MenuItem } from "@mui/material";
-
 import { AlertDialog, SuccessDialog } from "../dialog";
+import { contracts } from "../../utils/contracts";
+import { SuccessContext } from "../../contexts/successContext";
+import Divider from "@mui/material/Divider";
 import repayIcon from "../../assets/avatar.svg";
 import USDInput from "../input/usdInput";
-import { contracts } from "../../utils/contracts";
-import { convertToBigNumber, convertToReadNumber } from "../../utils/number";
-import { SuccessContext } from "../../contexts/successContext";
+import AvailableAmount from "../input/availableAmount";
+import { convertToBigNumber } from "../../utils/number";
 
-const title = "Unlock NFT";
+const title = "Repay";
 const icon = repayIcon;
-const description = "Repay NFTUSD to get your NFT back. ";
-const tip = "Enter the amount of NFTUSD";
+const description = "Repay NFTUSD and you can unlock your NFT then. ";
+const tip = `Due to the security fee, 90% will be deducted. `;
 const operation = "Repay";
 
-const RepayCard = () => {
+const RepayCard = ({ balance, debt, total }) => {
+  const { chainId, account } = useWeb3React();
+  const { addRepaySuccess } = useContext(SuccessContext);
   const [contentOpen, setContentOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
-  const [nft, setNFT] = useState("");
-  const [nftList, setNFTList] = useState([]);
   const [nftUSD, setNftUsd] = useState(0);
-  const [nftAmountLeft, setNFTAmountLeft] = useState(null);
-  const [userNFTUSD, setUserNFTUSD] = useState(0);
-
-  const { account, chainId } = useWeb3React();
-  const { borrowSuccess, repaySuccess, addRepaySuccess } = useContext(SuccessContext);
 
   const toggle = () => {
     setContentOpen((cur) => !cur);
@@ -59,23 +54,14 @@ const RepayCard = () => {
     setIsAlertOpen(false);
   };
 
-  const handleNFThandle = (event) => {
-    const nft = event.target.value;
-    if (nft) {
-      setNFT(nft);
-      setNFTAmountLeft(nftAmountLeft ? nftAmountLeft : nft.amount);
-    }
-  };
-
   const submit = async () => {
-    setNFTAmountLeft(nftAmountLeft - nftUSD);
     handleAlertClose(false);
-    if (!userNFTUSD) {
+    if (!account) {
       handleAlertOpen("Before Repay", "You have not connected your wallet.");
       return;
     }
     try {
-      await contracts.pool.repay(nft.address, nft.id, convertToBigNumber(nftUSD));
+      await contracts.pool.repay(account, convertToBigNumber(nftUSD));
       handleSuccessOpen();
       addRepaySuccess();
     } catch (error) {
@@ -84,43 +70,9 @@ const RepayCard = () => {
         "Repay Failure",
         "If you did not cancel the transaction, please check your NFTUSD balance and make sure your input is valid."
       );
-      setTimeout(() => {
-        getUserNFTUSD();
-      }, 5000);
       return;
     }
   };
-
-  const getUserNFTUSD = async () => {
-    try {
-      const userNFTUSD = await contracts.nftUSD.balanceOf(account);
-      setUserNFTUSD(convertToReadNumber(userNFTUSD));
-
-      const nftInfo = await contracts.pool.getAllLoanMessage(account);
-      const nftList = [];
-      for (let i = 0; i < nftInfo.length; i++) {
-        const item = {
-          loanId: nftInfo[i][0],
-          address: nftInfo[i][3],
-          name: nftInfo[i][4],
-          id: convertToReadNumber(nftInfo[i][5], 0, 0),
-          amount: convertToReadNumber(nftInfo[i][6]),
-        };
-        nftList.push(item);
-      }
-      setNFTList(nftList);
-    } catch (error) {
-      console.error(error);
-      return;
-    }
-  };
-
-  useEffect(() => {
-    if (chainId === 97) {
-      getUserNFTUSD();
-    }
-    // eslint-disable-next-line
-  }, [account, borrowSuccess, repaySuccess]);
 
   return (
     <>
@@ -129,11 +81,7 @@ const RepayCard = () => {
         open={isSuccessOpen}
         onClose={handleSuccessClose}
         title={"Repay Success!"}
-        message={
-          nftAmountLeft > 0
-            ? `You have successfully repaied. To get your NFT back, you need to repay ${nftAmountLeft} NFTUSD more. `
-            : "You have successfully repaied. The NFT will send to you later, please check your wallet for details. "
-        }
+        message={`You have successfully repaied. Please confirm the balance in your wallet. `}
       />
       <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50">
         <CardBody>
@@ -154,36 +102,17 @@ const RepayCard = () => {
             </a>
           </Typography>
 
-          <Collapse open={contentOpen}>
+          <Collapse open={contentOpen} className="space-y-2">
+            <Divider />
             <div className="md:flex space-x-10">
-              <div className="mt-4 w-5/6">
-                <Select
-                  value={nft}
-                  color="warning"
-                  onChange={handleNFThandle}
-                  disabled={!userNFTUSD}
-                  className="w-full rounded-lg h-10"
-                >
-                  {nftList.length !== 0 ? (
-                    nftList
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((item) => (
-                        <MenuItem key={item.loanId} value={item}>
-                          {item.name} #{item.id}
-                        </MenuItem>
-                      ))
-                  ) : (
-                    <MenuItem key="default" value="">
-                      No NFT data
-                    </MenuItem>
-                  )}
-                </Select>
+              <div className="w-full">
+                <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={balance} />
               </div>
-
-              <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={userNFTUSD} />
+              <AvailableAmount accountDebt={debt} totalValue={total} />
             </div>
+
             <div className="ml-6">
-              <Button color="orange" onClick={submit}>
+              <Button color="orange" onClick={submit} disabled={parseFloat(nftUSD) > parseFloat(balance)}>
                 Submit
               </Button>
             </div>

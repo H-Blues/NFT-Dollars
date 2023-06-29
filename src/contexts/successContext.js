@@ -12,14 +12,7 @@ export const SuccessContextProvider = ({ children }) => {
     console.log("Borrow success: ", borrowSuccess + 1);
     setTimeout(() => {
       setBorrowSuccess(borrowSuccess + 1);
-    }, 8000);
-  };
-
-  const addDepositSuccess = () => {
-    console.log("Deposit success: ", depositSuccess + 1);
-    setTimeout(() => {
-      setDepositSuccess(depositSuccess + 1);
-    }, 8000);
+    }, 10000);
   };
 
   const addRepaySuccess = () => {
@@ -27,6 +20,13 @@ export const SuccessContextProvider = ({ children }) => {
     setTimeout(() => {
       setRepaySuccess(repaySuccess + 1);
     }, 15000);
+  };
+
+  const addDepositSuccess = () => {
+    console.log("Deposit success: ", depositSuccess + 1);
+    setTimeout(() => {
+      setDepositSuccess(depositSuccess + 1);
+    }, 8000);
   };
 
   const addNFTOperSuccess = () => {

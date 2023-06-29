@@ -1,32 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { contracts } from "../../utils/contracts";
-import { convertToReadNumber } from "../../utils/number";
-import { useWeb3React } from "@web3-react/core";
+import React from "react";
 
-const AvailableAmount = (props) => {
-  const [accountDebt, setAccountDebt] = useState(0);
-  const [totalValue, setTotalValue] = useState(0);
-  const { chainId, account } = useWeb3React();
-
-  useEffect(() => {
-    const getExtraction = async () => {
-      try {
-        const factors = await contracts.pool.healthFactor(account);
-        const accountDebt = convertToReadNumber(factors[0]);
-        const totalNFTValue = convertToReadNumber(factors[2]);
-        setAccountDebt(parseFloat(accountDebt).toFixed(2));
-        setTotalValue(parseFloat(totalNFTValue).toFixed(2));
-      } catch (error) {
-        console.error(error);
-        return;
-      }
-    };
-
-    if (chainId === 97 && account) {
-      getExtraction();
-    }
-  }, [account, chainId]);
-
+const AvailableAmount = ({ accountDebt, totalValue }) => {
   return (
     <>
       {totalValue && (

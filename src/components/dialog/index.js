@@ -85,3 +85,29 @@ export const WaitDialog = ({ open, onClose }) => {
     </Dialog>
   );
 };
+
+export const ConfirmDialog = ({ open, onClose, confirm, title, msg }) => {
+  return (
+    <Dialog open={open} handler={onClose} size="sm">
+      <DialogBody className="flex flex-col items-center">
+        <svg width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="25" cy="25" r="21" strokeWidth="1" fill="orange" />
+          <text x="17.5" y="35" fontFamily="Arial" fontSize="30" fill="black">
+            ?
+          </text>
+        </svg>
+
+        <h3 className="text-orange-500 font-bold mb-2">{title}</h3>
+        <p className="text-black">{msg}</p>
+        <div className="flex justify-between mt-4">
+          <Button variant="outlined" onClick={confirm} className="rounded-3xl border-black text-black">
+            Confirm
+          </Button>
+          <Button variant="outlined" onClick={onClose} className="rounded-3xl border-black text-black ml-4">
+            Cancel
+          </Button>
+        </div>
+      </DialogBody>
+    </Dialog>
+  );
+};

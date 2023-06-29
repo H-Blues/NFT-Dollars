@@ -4,7 +4,7 @@ import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { AlertDialog, ConfirmDialog, SuccessDialog } from "../dialog";
 import { contracts } from "../../utils/contracts";
-import { convertToBigNumber, convertToReadNumber } from "../../utils/number";
+import { convertToBigNumber } from "../../utils/number";
 import { SuccessContext } from "../../contexts/successContext";
 import Divider from "@mui/material/Divider";
 import extractionIcon from "../../assets/avatar.svg";
@@ -17,7 +17,7 @@ const description = "You can borrow NFTUSD from your locked NFT. ";
 const tip = "Enter the amount you want to borrow.";
 const operation = "Borrow";
 
-const ExtractionCard = () => {
+const ExtractionCard = ({ available, total, debt }) => {
   const { chainId, account } = useWeb3React();
   const { addBorrowSuccess } = useContext(SuccessContext);
   const [open, setOpen] = useState(false);
@@ -28,7 +28,6 @@ const ExtractionCard = () => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [nftUSD, setNftUsd] = useState(0);
-  const [availableExtraction, setAvailableExtraction] = useState(0);
 
   const toggle = () => {
     setOpen((cur) => !cur);
@@ -83,7 +82,7 @@ const ExtractionCard = () => {
 
   const submit = async () => {
     handleAlertClose();
-    if (!toConfirm && nftUSD >= availableExtraction) {
+    if (!toConfirm && nftUSD >= available) {
       handleConfirmOpen();
       return;
     }
@@ -104,21 +103,6 @@ const ExtractionCard = () => {
       return;
     }
   };
-
-  useEffect(() => {
-    const getExtraction = async () => {
-      try {
-        const factors = await contracts.pool.healthFactor(account);
-        const accountDebt = convertToReadNumber(factors[0]);
-        const totalNFTValue = convertToReadNumber(factors[2]);
-        setAvailableExtraction(totalNFTValue - accountDebt);
-      } catch (error) {
-        console.error(error);
-        return;
-      }
-    };
-    account && getExtraction();
-  }, [account]);
 
   useEffect(() => {
     if (toConfirm) {
@@ -164,17 +148,17 @@ const ExtractionCard = () => {
             </a>
           </Typography>
 
-          <Collapse open={open} className="space-y-4">
+          <Collapse open={open} className="space-y-2">
             <Divider />
             <div className="md:flex space-x-10">
               <div className="w-full">
-                <USDInput title={operation} tip={tip} inputValueChange={nftUsdChange} maxValue={availableExtraction} />
+                <USDInput title={operation} tip={tip} inputValueChange={nftUsdChange} maxValue={available} />
               </div>
-              <AvailableAmount />
+              <AvailableAmount accountDebt={debt} totalValue={total} />
             </div>
 
             <div className="ml-6">
-              <Button color="orange" onClick={submit} disabled={nftUSD > availableExtraction}>
+              <Button color="orange" onClick={submit} disabled={parseFloat(nftUSD) > parseFloat(available)}>
                 Submit
               </Button>
             </div>

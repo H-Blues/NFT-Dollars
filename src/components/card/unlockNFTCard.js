@@ -3,14 +3,12 @@ import { useWeb3React } from "@web3-react/core";
 import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from "@material-tailwind/react";
 import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
-
 import UnlockNFTStepper from "../stepper/unlockNFT";
 import poolIcon from "../../assets/avatar.svg";
 
 const title = "Unlock NFT";
 const icon = poolIcon;
-const description =
-  "You can unlock your NFT here. Please note that your available NFTUSD balance will decrease as well. ";
+const description = "You can unlock your NFT here. And your available NFTUSD will decrease. ";
 const operation = "unlock";
 
 const UnlockNFTCard = () => {

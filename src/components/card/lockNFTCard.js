@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from "@material-tailwind/react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
-
+import Divider from "@mui/material/Divider";
 import LockNFTStepper from "../stepper/lockNFT";
 import poolIcon from "../../assets/avatar.svg";
 
@@ -38,6 +38,7 @@ const LockNFTCard = () => {
           </Typography>
 
           <Collapse open={lockContentOpen}>
+            <Divider />
             <LockNFTStepper close={toggle} />
           </Collapse>
         </CardBody>
