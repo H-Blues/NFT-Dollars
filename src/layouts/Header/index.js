@@ -47,8 +47,8 @@ const Header = () => {
 
   useEffect(() => {
     const getBalance = async () => {
-      console.log("Get user balance...");
       if (account && chainId === 97) {
+        console.log("Get user balance...");
         try {
           let usdBalance = await contracts.nftUSD.balanceOf(account);
           let dollarBalance = await contracts.nftDollar.balanceOf(account);
