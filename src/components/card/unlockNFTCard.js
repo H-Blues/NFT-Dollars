@@ -24,12 +24,12 @@ const UnlockNFTCard = () => {
     {
       label: "Personal",
       value: "personal",
-      content: <UnlockNFTStepper close={toggle} />,
+      content: <UnlockNFTStepper close={toggle} personal={true} />,
     },
     {
       label: "Pool",
       value: "pool",
-      content: <p> Hello </p>,
+      content: <UnlockNFTStepper close={toggle} personal={false} />,
     },
   ];
 

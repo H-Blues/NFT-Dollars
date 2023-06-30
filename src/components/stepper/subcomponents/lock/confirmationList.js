@@ -105,6 +105,9 @@ const ConfirmationList = ({ back, reset }) => {
   };
 
   const lockNFT = async () => {
+    setTimeout(() => {
+      console.log("Waiting Approve Finished.");
+    }, 4000);
     try {
       await contracts.pool.LockedNFT(address, nftId, isLayerUp, convertToBigNumber(threshold, 4));
       return true;

@@ -4,7 +4,7 @@ const nftScanUrl = "https://restapi.nftscan.com/api/v2";
 // Set the proxy in package.json
 // const dataUrl = "http://20.231.201.88:4002/api";
 
-export const getNFTAccountData = async (account, contract = "") => {
+export const getNFTAccountData = async (account) => {
   const url = `${nftScanUrl}/account/own/${account}?erc_type=erc721&show_attribute=false&sort_field=&sort_direction=`;
   const apiKey = process.env.NFTSCAN_KEY;
 
@@ -17,6 +17,16 @@ export const getNFTAccountData = async (account, contract = "") => {
     return response.data;
   } catch (error) {
     console.error("Error in getNFTAccountData:", error);
+    throw error;
+  }
+};
+
+export const getPoolNFT = async (layer) => {
+  try {
+    const response = await axios.get(`/api/getNFT?type=${parseInt(layer) + 1}`);
+    return response.data.data;
+  } catch (error) {
+    console.error("Error in getPoolNFT:", error);
     throw error;
   }
 };

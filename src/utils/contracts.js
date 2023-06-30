@@ -8,11 +8,11 @@ import ERC721ABI from "../abi/ERC721ABI.json";
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-const PoolAddress = "0x1453D183B516fd6FFa31662a834A5B160a012fE7";
-const NFTUSDTokenAddress = "0x4962125f3635313220C9fF5254cF18d2059BB726";
-const NDLAddress = "0xe5256a6E91c0Fe913D1DA2b7F728A3Ec6266e534";
-const NFTOracleAddress = "0x221f35a5c80A542A4D91301Bb9A048c8e3A5DD67";
-const LoanAddress = "0xaD14200DB72D89aC549377e88F6eA80e6A49F396";
+const PoolAddress = "0x147A05E2360E7330Cfa292912d3A9f8200724ADa";
+const NFTUSDTokenAddress = "0x7AC50F13b295415085fA99C15F6e80cF23C997ef";
+const NDLAddress = "0xFc4059c6E481929A4a3932375EDF8EA510002dA0";
+const NFTOracleAddress = "0x876100d2D74cE71A92138284719C885c7827e544";
+const LoanAddress = "0xf9d8db3bfA9aE4089662526bBfa4954B9a188AAc";
 
 const TokenContract = new ethers.Contract(NFTUSDTokenAddress, NFTUSDTokenABI.abi, provider);
 const OracleContract = new ethers.Contract(NFTOracleAddress, NFTOracleABI.abi, provider);

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Box, Stepper, Step, StepLabel, StepContent, Typography } from "@mui/material";
-
+import NFTSelectContextProvider from "../../contexts/nftSelectContext";
 import UnlockNFTSelect from "./subcomponents/unlock/unlockNFTSelect";
 import ConfirmationList from "./subcomponents/unlock/confirmationList";
+import PoolNFTSelect from "./subcomponents/unlock/poolNFTSelect";
 
 const STEPS = [
   {
@@ -35,9 +36,10 @@ const stepStyle = {
   },
 };
 
-const UnlockNFTStepper = ({ close }) => {
+const UnlockNFTStepper = ({ personal, close }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [nft, setNFT] = useState("");
+  const [nftUSD, setNFTUSD] = useState(0);
 
   const handleNFTChange = (event) => {
     const nft = event.target.value;
@@ -61,20 +63,27 @@ const UnlockNFTStepper = ({ close }) => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500 }}>
-      <Stepper activeStep={activeStep} orientation="vertical" sx={stepStyle}>
-        {STEPS.map((step, index) => (
-          <Step key={step.label}>
-            <StepLabel>{step.label}</StepLabel>
-            <StepContent>
-              <Typography>{step.description}</Typography>
-              {index === 0 && <UnlockNFTSelect next={handleNext} nft={nft} handleNFTChange={handleNFTChange} />}
-              {index === 1 && <ConfirmationList back={handleBack} reset={reset} nft={nft} />}
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-    </Box>
+    <NFTSelectContextProvider>
+      <Box sx={{ maxWidth: 500 }}>
+        <Stepper activeStep={activeStep} orientation="vertical" sx={stepStyle}>
+          {STEPS.map((step, index) => (
+            <Step key={step.label}>
+              <StepLabel>{step.label}</StepLabel>
+              <StepContent>
+                <Typography>{step.description}</Typography>
+                {index === 0 && personal && (
+                  <UnlockNFTSelect next={handleNext} nft={nft} handleNFTChange={handleNFTChange} />
+                )}
+                {index === 0 && !personal && <PoolNFTSelect next={handleNext} setNFTUSD={setNFTUSD} />}
+                {index === 1 && (
+                  <ConfirmationList personal={personal} back={handleBack} reset={reset} nft={nft} nftUSD={nftUSD} />
+                )}
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
+    </NFTSelectContextProvider>
   );
 };
 

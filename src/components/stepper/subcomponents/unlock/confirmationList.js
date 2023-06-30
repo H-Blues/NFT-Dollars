@@ -1,28 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
-import calculationFn from "../../../../utils/calculate";
-import { contracts } from "../../../../utils/contracts";
-
 import { Avatar, Box, Button, List, ListItem, ListItemAvatar } from "@mui/material";
 import LayersIcon from "@mui/icons-material/Layers";
 import TokenIcon from "@mui/icons-material/Token";
 import TagIcon from "@mui/icons-material/Tag";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
-
-import { AlertDialog, SuccessDialog } from "../../../dialog";
-import { convertToReadNumber } from "../../../../utils/number";
 import { SuccessContext } from "../../../../contexts/successContext";
+import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
+import { AlertDialog, SuccessDialog } from "../../../dialog";
+import { convertToBigNumber, convertToReadNumber } from "../../../../utils/number";
+import { contracts } from "../../../../utils/contracts";
+import calculationFn from "../../../../utils/calculate";
 
-const ConfirmationList = ({ back, reset, nft }) => {
+const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
   const { account } = useWeb3React();
-  const [totalExtraction, setTotalExtraction] = useState("0.0000");
   const [nftValue, setNFTValue] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
+  const [accountDebt, setAccountDebt] = useState(0);
+  const [totalExtraction, setTotalExtraction] = useState("0.00");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const { addNFTOperSuccess } = useContext(SuccessContext);
+  const { layer, address, nftName, id, setLayer, setAddress, setId } = useContext(NFTSelectContext);
 
   const handleAlertOpen = (title, msg) => {
     setAlertTitle(title);
@@ -42,6 +43,9 @@ const ConfirmationList = ({ back, reset, nft }) => {
   const handleSuccessClose = () => {
     setIsSuccessOpen(false);
     reset();
+    setLayer("");
+    setAddress("");
+    setId("");
   };
 
   const getLayerName = (layer) => {
@@ -50,10 +54,10 @@ const ConfirmationList = ({ back, reset, nft }) => {
       1: "Cross",
       2: "Reserve",
     };
-    return layerNames[layer] || "Unknown Layer";
+    return layerNames[layer];
   };
 
-  const confirmationData = [
+  const personalConfirmation = [
     {
       icon: <LayersIcon fontSize="small" />,
       label: "Layer",
@@ -62,7 +66,7 @@ const ConfirmationList = ({ back, reset, nft }) => {
     {
       icon: <TokenIcon fontSize="small" />,
       label: "NFT Name",
-      value: `${nft.name}`,
+      value: nft.name,
     },
     {
       icon: <TagIcon fontSize="small" />,
@@ -71,7 +75,7 @@ const ConfirmationList = ({ back, reset, nft }) => {
     },
     {
       icon: <CurrencyExchangeIcon fontSize="small" />,
-      label: "NFT Value",
+      label: nftValue ? "NFT Value" : "Input Value",
       value: `${nftValue} NFTUSD`,
     },
     {
@@ -81,12 +85,49 @@ const ConfirmationList = ({ back, reset, nft }) => {
     },
   ];
 
+  const publicConfirmation = [
+    {
+      icon: <LayersIcon fontSize="small" />,
+      label: "Layer",
+      value: getLayerName(layer),
+    },
+    {
+      icon: <TokenIcon fontSize="small" />,
+      label: "NFT Name",
+      value: nftName,
+    },
+    {
+      icon: <TagIcon fontSize="small" />,
+      label: "NFT ID",
+      value: `# ${id}`,
+    },
+    {
+      icon: <CurrencyExchangeIcon fontSize="small" />,
+      label: nftValue ? "NFT Value" : "Input Value",
+      value: `${nftUSD} NFTUSD`,
+    },
+  ];
+
+  const confirmationData = personal ? personalConfirmation : publicConfirmation;
+
   const unlockPersonalNFT = async () => {
     try {
-      await contracts.pool.redeemNFT(nft.address, nft.id, 0);
+      const amount = accountDebt - (totalExtraction - nftValue);
+      const value = amount < 0 ? 0 : amount;
+      await contracts.pool.redeemNFT(nft.address, nft.id, amount);
       return true;
     } catch (error) {
-      console.error("Error locking NFT:", error);
+      console.error("Error unlocking NFT:", error);
+      return false;
+    }
+  };
+
+  const unlockPoolNFT = async () => {
+    try {
+      await contracts.pool.redeemNFT(address, id, convertToBigNumber(nftUSD));
+      return true;
+    } catch (error) {
+      console.error("Error unlocking NFT:", error);
       return false;
     }
   };
@@ -94,7 +135,12 @@ const ConfirmationList = ({ back, reset, nft }) => {
   const submit = async () => {
     setIsAlertOpen(false);
     try {
-      const isUnlock = await unlockPersonalNFT();
+      let isUnlock;
+      if (personal) {
+        isUnlock = await unlockPersonalNFT();
+      } else {
+        isUnlock = await unlockPoolNFT();
+      }
 
       if (!isUnlock) {
         const unlockFailTitle = "Unlock NFT Failed";
@@ -114,7 +160,10 @@ const ConfirmationList = ({ back, reset, nft }) => {
     const getTotalExtraction = async () => {
       try {
         const factors = await contracts.pool.healthFactor(account);
-        setTotalExtraction(parseFloat(convertToReadNumber(factors[2])).toFixed(2));
+        const accountDebt = convertToReadNumber(factors[0]);
+        const totalNFTValue = convertToReadNumber(factors[2]);
+        setAccountDebt(parseFloat(accountDebt).toFixed(2));
+        setTotalExtraction(parseFloat(totalNFTValue).toFixed(2));
       } catch (error) {
         console.error(error);
         return;

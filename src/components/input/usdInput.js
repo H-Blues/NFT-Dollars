@@ -31,7 +31,7 @@ const USDInput = (props) => {
   };
 
   return (
-    <div className="md:w-full p-4">
+    <div className="md:w-full p-4 pl-0">
       <div className="relative flex">
         <Input
           type="number"

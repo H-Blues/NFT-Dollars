@@ -91,7 +91,7 @@ const Borrow = () => {
         <div className="col-span-2">
           <ExtractionCard available={availableExtraction} debt={accountDebt} total={totalValue} />
           <RepayCard balance={userUSDBalance} debt={accountDebt} total={totalValue} />
-          <StabilityCard />
+          {/* <StabilityCard /> */}
         </div>
         <div className="col-span-2 xl:col-span-1">
           <Dashboard />

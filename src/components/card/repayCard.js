@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Avatar, Collapse, Typography, Button } from "@material-tailwind/react";
@@ -61,7 +61,7 @@ const RepayCard = ({ balance, debt, total }) => {
       return;
     }
     try {
-      await contracts.pool.repay(account, convertToBigNumber(nftUSD));
+      await contracts.pool.repay(account, convertToBigNumber(nftUSD * (10 / 9)));
       handleSuccessOpen();
       addRepaySuccess();
     } catch (error) {
@@ -108,7 +108,7 @@ const RepayCard = ({ balance, debt, total }) => {
               <div className="w-full">
                 <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={balance} />
               </div>
-              <AvailableAmount accountDebt={debt} totalValue={total} />
+              <AvailableAmount accountDebt={debt} totalValue={total} nftUSD={nftUSD} />
             </div>
 
             <div className="ml-6">
