@@ -14,7 +14,8 @@ const PoolNFTSelect = ({ next, setNFTUSD }) => {
   const { layer, address, id, handleLayerChange, handleAddressChange, handleIdChange } = useContext(NFTSelectContext);
   const [nftList, setNFTList] = useState([]);
   const [userNFTUSD, setUserNFTUSD] = useState(0);
-  const [isUpLayer, setIsUpLayer] = useState(false);
+  const [isUpLayer] = useState(false);
+  // const [isUpLayer, setIsUpLayer] = useState(false);
   const { account } = useWeb3React();
 
   const nftUsdChange = (value) => {

@@ -7,7 +7,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
 import ExtractionCard from "../components/card/extractionCard";
-import StabilityCard from "../components/card/stabilityPoolCard";
+// import StabilityCard from "../components/card/stabilityPoolCard";
 import RepayCard from "../components/card/repayCard";
 import Dashboard from "../components/statistics/dashboard";
 
