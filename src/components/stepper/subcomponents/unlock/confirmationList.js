@@ -114,7 +114,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
     try {
       const amount = accountDebt - (totalExtraction - nftValue);
       const value = amount < 0 ? 0 : amount;
-      await contracts.pool.redeemNFT(nft.address, nft.id, value);
+      await contracts.pool.redeemNFT(nft.address, nft.id, convertToBigNumber(value));
       return true;
     } catch (error) {
       console.error("Error unlocking NFT:", error);
