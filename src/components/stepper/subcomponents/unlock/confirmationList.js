@@ -8,7 +8,7 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { SuccessContext } from "../../../../contexts/successContext";
 import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
-import { AlertDialog, SuccessDialog } from "../../../dialog";
+import { AlertDialog, ConfirmDialog, SuccessDialog } from "../../../dialog";
 import { convertToBigNumber, convertToReadNumber } from "../../../../utils/number";
 import { contracts } from "../../../../utils/contracts";
 import calculationFn from "../../../../utils/calculate";
@@ -16,12 +16,15 @@ import calculationFn from "../../../../utils/calculate";
 const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
   const { account } = useWeb3React();
   const [nftValue, setNFTValue] = useState("");
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [toConfirm, setToConfirm] = useState(false);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [accountDebt, setAccountDebt] = useState(0);
+  const [valueToPay, setValueToPay] = useState(0);
   const [totalExtraction, setTotalExtraction] = useState("0.00");
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const { addNFTOperSuccess } = useContext(SuccessContext);
   const { layer, address, nftName, id, setLayer, setAddress, setId } = useContext(NFTSelectContext);
 
@@ -34,6 +37,19 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
   const handleAlertClose = () => {
     setIsAlertOpen(false);
     reset();
+  };
+
+  const handleConfirmOpen = () => {
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmClose = () => {
+    setIsConfirmOpen(false);
+  };
+
+  const confirm = () => {
+    setIsConfirmOpen(false);
+    setToConfirm(true);
   };
 
   const handleSuccessOpen = () => {
@@ -110,11 +126,16 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   const confirmationData = personal ? personalConfirmation : publicConfirmation;
 
+  const calcValueToPay = () => {
+    const amount = accountDebt - (totalExtraction - nftValue);
+    const value = amount < 0 ? 0 : amount;
+    setValueToPay(value.toFixed(3));
+    return value;
+  };
+
   const unlockPersonalNFT = async () => {
     try {
-      const amount = accountDebt - (totalExtraction - nftValue);
-      const value = amount < 0 ? 0 : amount;
-      await contracts.pool.redeemNFT(nft.address, nft.id, convertToBigNumber(value));
+      await contracts.pool.redeemNFT(nft.address, nft.id, convertToBigNumber(valueToPay));
       return true;
     } catch (error) {
       console.error("Error unlocking NFT:", error);
@@ -134,6 +155,12 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   const submit = async () => {
     setIsAlertOpen(false);
+
+    if (!toConfirm && calcValueToPay() > 0) {
+      handleConfirmOpen();
+      return;
+    }
+
     try {
       let isUnlock;
       if (personal) {
@@ -182,9 +209,23 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
     nft && getNFTValue();
   }, [nft]);
 
+  useEffect(() => {
+    if (toConfirm) {
+      submit();
+    }
+    // eslint-disable-next-line
+  }, [toConfirm]);
+
   return (
     <>
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
+      <ConfirmDialog
+        open={isConfirmOpen}
+        onClose={handleConfirmClose}
+        confirm={confirm}
+        title={"Are You Sure?"}
+        msg={`You have to pay ${valueToPay} NFTUSD to unlock this NFT. Are you sure you want to proceed?`}
+      />
       <SuccessDialog
         open={isSuccessOpen}
         onClose={handleSuccessClose}

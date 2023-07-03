@@ -1,25 +1,25 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Avatar, Collapse, Typography, Button } from "@material-tailwind/react";
 import { Card, CardBody, CardFooter } from "@material-tailwind/react";
 import { AlertDialog, SuccessDialog } from "../dialog";
+import { convertToBigNumber } from "../../utils/number";
 import { contracts } from "../../utils/contracts";
 import { SuccessContext } from "../../contexts/successContext";
 import Divider from "@mui/material/Divider";
 import repayIcon from "../../assets/avatar.svg";
 import USDInput from "../input/usdInput";
-import AvailableAmount from "../input/availableAmount";
-import { convertToBigNumber } from "../../utils/number";
+import SecurityAmount from "../input/securityAmount";
 
 const title = "Repay";
 const icon = repayIcon;
 const description = "Repay NFTUSD and you can unlock your NFT then. ";
-const tip = `Due to the security fee, 90% will be deducted. `;
+const tip = "The amount you pay will be actual payment with the security deposit.";
 const operation = "Repay";
 
 const RepayCard = ({ balance, debt, total }) => {
-  const { chainId, account } = useWeb3React();
+  const { chainId, account, active } = useWeb3React();
   const { addRepaySuccess } = useContext(SuccessContext);
   const [contentOpen, setContentOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -29,7 +29,11 @@ const RepayCard = ({ balance, debt, total }) => {
   const [nftUSD, setNftUsd] = useState(0);
 
   const toggle = () => {
-    setContentOpen((cur) => !cur);
+    if (!active) {
+      setContentOpen(false);
+    } else {
+      setContentOpen((cur) => !cur);
+    }
   };
 
   const nftUsdChange = (value) => {
@@ -74,6 +78,12 @@ const RepayCard = ({ balance, debt, total }) => {
     }
   };
 
+  useEffect(() => {
+    if (!active) {
+      toggle();
+    }
+  }, [active]);
+
   return (
     <>
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
@@ -108,7 +118,7 @@ const RepayCard = ({ balance, debt, total }) => {
               <div className="w-full">
                 <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={balance} />
               </div>
-              <AvailableAmount accountDebt={debt} totalValue={total} nftUSD={nftUSD} />
+              <SecurityAmount accountDebt={debt} totalValue={total} nftUSD={nftUSD} />
             </div>
 
             <div className="ml-6">

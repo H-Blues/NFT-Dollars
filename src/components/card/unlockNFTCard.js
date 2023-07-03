@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from "@material-tailwind/react";
 import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
@@ -12,12 +12,16 @@ const description = "You can unlock your NFT here. And your available NFTUSD wil
 const operation = "unlock";
 
 const UnlockNFTCard = () => {
-  const [lockContentOpen, setLockContentOpen] = useState(false);
+  const [contentOpen, setContentOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("personal");
-  const { chainId } = useWeb3React();
+  const { chainId, active } = useWeb3React();
 
-  const toggle = (event) => {
-    setLockContentOpen(!lockContentOpen);
+  const toggle = () => {
+    if (!active) {
+      setContentOpen(false);
+    } else {
+      setContentOpen((cur) => !cur);
+    }
   };
 
   const data = [
@@ -32,6 +36,12 @@ const UnlockNFTCard = () => {
       content: <UnlockNFTStepper close={toggle} personal={false} />,
     },
   ];
+
+  useEffect(() => {
+    if (!active) {
+      toggle();
+    }
+  }, [active]);
 
   return (
     <>
@@ -51,7 +61,7 @@ const UnlockNFTCard = () => {
             </a>
           </Typography>
 
-          <Collapse open={lockContentOpen}>
+          <Collapse open={contentOpen}>
             <Tabs value={activeTab}>
               <TabsHeader
                 className="rounded-none border-b bg-transparent p-0 mt-2"
@@ -83,7 +93,7 @@ const UnlockNFTCard = () => {
 
         <CardFooter className="pt-0">
           <div className="flex justify-end">
-            {!lockContentOpen ? (
+            {!contentOpen ? (
               <Button
                 color="amber"
                 className="ml-auto text-white"

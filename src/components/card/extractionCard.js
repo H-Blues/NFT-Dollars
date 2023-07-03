@@ -18,7 +18,7 @@ const tip = "Enter the amount you want to borrow.";
 const operation = "Borrow";
 
 const ExtractionCard = ({ available, total, debt }) => {
-  const { chainId, account } = useWeb3React();
+  const { chainId, account, active } = useWeb3React();
   const { addBorrowSuccess } = useContext(SuccessContext);
   const [open, setOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -30,7 +30,11 @@ const ExtractionCard = ({ available, total, debt }) => {
   const [nftUSD, setNftUsd] = useState(0);
 
   const toggle = () => {
-    setOpen((cur) => !cur);
+    if (!active) {
+      setOpen(false);
+    } else {
+      setOpen((cur) => !cur);
+    }
   };
 
   const nftUsdChange = (value) => {
@@ -110,6 +114,12 @@ const ExtractionCard = ({ available, total, debt }) => {
     }
     // eslint-disable-next-line
   }, [toConfirm]);
+
+  useEffect(() => {
+    if (!active) {
+      toggle();
+    }
+  }, [active]);
 
   return (
     <>

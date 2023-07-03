@@ -23,7 +23,7 @@ export const getNFTAccountData = async (account) => {
 
 export const getPoolNFT = async (layer) => {
   try {
-    const response = await axios.get(`/api/getNFT?type=${parseInt(layer) + 1}`);
+    const response = await axios.get(`/api/getNFT?type=${parseInt(layer)}`);
     return response.data.data;
   } catch (error) {
     console.error("Error in getPoolNFT:", error);

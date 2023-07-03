@@ -7,8 +7,8 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
 import ExtractionCard from "../components/card/extractionCard";
-// import StabilityCard from "../components/card/stabilityPoolCard";
 import RepayCard from "../components/card/repayCard";
+import StabilityCard from "../components/card/stabilityPoolCard";
 import Dashboard from "../components/statistics/dashboard";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -91,7 +91,7 @@ const Borrow = () => {
         <div className="col-span-2">
           <ExtractionCard available={availableExtraction} debt={accountDebt} total={totalValue} />
           <RepayCard balance={userUSDBalance} debt={accountDebt} total={totalValue} />
-          {/* <StabilityCard /> */}
+          <StabilityCard balance={userUSDBalance} />
         </div>
         <div className="col-span-2 xl:col-span-1">
           <Dashboard />
