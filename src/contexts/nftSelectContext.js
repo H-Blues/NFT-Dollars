@@ -8,7 +8,7 @@ export const NFTSelectContextProvider = ({ children }) => {
   const [id, setId] = useState("");
   const [customId, setCustomId] = useState("");
   const [nftName, setNFTName] = useState("");
-  const [maxExtraction, setMaxExtraction] = useState(null);
+  const [maxExtraction, setMaxExtraction] = useState(0);
   const [isLayerUp, setIsLayerUp] = useState(false);
   const [threshold, setThreshold] = useState(100);
 

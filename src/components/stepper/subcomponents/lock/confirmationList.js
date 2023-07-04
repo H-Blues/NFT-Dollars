@@ -7,7 +7,7 @@ import TokenIcon from "@mui/icons-material/Token";
 import TagIcon from "@mui/icons-material/Tag";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
-
+import calculationFn from "../../../../utils/calculate";
 import { AlertDialog, SuccessDialog, WaitDialog } from "../../../dialog";
 import { convertToBigNumber, convertToReadNumber } from "../../../../utils/number";
 import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
@@ -15,7 +15,8 @@ import { SuccessContext } from "../../../../contexts/successContext";
 import { contracts } from "../../../../utils/contracts";
 
 const ConfirmationList = ({ back, reset }) => {
-  const { layer, address, id, customId, nftName, maxExtraction, isLayerUp, threshold } = useContext(NFTSelectContext);
+  const { layer, address, id, customId, nftName, maxExtraction, isLayerUp, threshold, setMaxExtraction } =
+    useContext(NFTSelectContext);
   const { account } = useWeb3React();
   const [totalExtraction, setTotalExtraction] = useState("0.0000");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -187,6 +188,20 @@ const ConfirmationList = ({ back, reset }) => {
       }
     };
     getTotalExtraction();
+  }, [account]);
+
+  useEffect(() => {
+    const getExtraction = async () => {
+      try {
+        const maxExtraction = await calculationFn.calcExtraction(address);
+        setMaxExtraction(isLayerUp ? (maxExtraction * 0.9).toFixed(4) : maxExtraction);
+      } catch (error) {
+        console.error("Error in getMaxExtraction: ", error);
+        return;
+      }
+    };
+    getExtraction();
+    // eslint-disable-next-line
   }, [account]);
 
   return (
