@@ -9,7 +9,7 @@ import Notice from "../input/notice";
 import USDInput from "../input/usdInput";
 
 const layerOptions = [
-  { value: "-1", label: "Default Layer" },
+  { value: "-1", label: "Stability Pool" },
   { value: "0", label: "Unit Layer" },
   { value: "1", label: "Cross Layer" },
   { value: "2", label: "Reserve Layer" },

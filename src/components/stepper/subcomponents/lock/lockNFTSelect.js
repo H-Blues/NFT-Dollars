@@ -9,47 +9,46 @@ import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
 // import {getNFTAccountData} from "../../../utils/requests";
 // import { contracts } from "../../../utils/contracts";
 
-const IdSelect = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }) => {
-  return (
-    <>
-      <Select value={id} onChange={handleIdChange} disabled={!address} className="mb-1 w-full rounded-lg h-10">
-        {getIdOptions(address).map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
-      </Select>
+// const IdSelect = ({ id, address, handleIdChange, getIdOptions, handleLinkClick }) => {
+//   return (
+//     <>
+//       <Select value={id} onChange={handleIdChange} disabled={!address} className="mb-1 w-full rounded-lg h-10">
+//         {getIdOptions(address).map((option) => (
+//           <MenuItem key={option.value} value={option.value}>
+//             {option.label}
+//           </MenuItem>
+//         ))}
+//       </Select>
 
-      {address && (
-        <Typography variant="small" color="gray" className="flex items-center gap-1 font-normal mt-0">
-          <QuestionMarkCircleIcon className="w-4 h-4 -mt-px" />
-          Not found NFT in this collection?
-          <span onClick={handleLinkClick} className="underline cursor-pointer">
-            Enter your NFT ID manually.
-          </span>
-        </Typography>
-      )}
-    </>
-  );
-};
+//       {address && (
+//         <Typography variant="small" color="gray" className="flex items-center gap-1 font-normal mt-0">
+//           <QuestionMarkCircleIcon className="w-4 h-4 -mt-px" />
+//           Not found NFT in this collection?
+//           <span onClick={handleLinkClick} className="underline cursor-pointer">
+//             Enter your NFT ID manually.
+//           </span>
+//         </Typography>
+//       )}
+//     </>
+//   );
+// };
 
 const IdInput = ({ customId, address, handleInputChange, handleLinkClick }) => {
   return (
     <>
       <Input
         value={customId}
-        disabled={!address}
         onChange={handleInputChange}
         label="Enter your NFT ID"
         color="gray"
         className="mb-1 w-full"
       />
-      <span onClick={handleLinkClick} className="underline  cursor-pointer">
+      {/* <span onClick={handleLinkClick} className="underline  cursor-pointer">
         <Typography variant="small" color="gray" className="flex items-center gap-1 font-normal">
           <ArrowUturnLeftIcon className="w-4 h-4 -mt-px" />
           Back to choose your NFT
         </Typography>
-      </span>
+      </span> */}
     </>
   );
 };
@@ -69,7 +68,7 @@ const NFTSelect = ({ next }) => {
     handleIdChange,
     handleInputChange,
   } = useContext(NFTSelectContext);
-  const [isInputMode, setIsInputMode] = useState(false);
+  const [isInputMode, setIsInputMode] = useState(true);
 
   const handleLinkClick = (event) => {
     setIsInputMode(!isInputMode);
@@ -112,19 +111,11 @@ const NFTSelect = ({ next }) => {
         ))}
       </Select>
       <div>
-        {isInputMode ? (
+        {isInputMode && (
           <IdInput
             customId={customId}
             address={address}
             handleInputChange={handleInputChange}
-            handleLinkClick={handleLinkClick}
-          />
-        ) : (
-          <IdSelect
-            id={id}
-            address={address}
-            handleIdChange={handleIdChange}
-            getIdOptions={getIdOptions}
             handleLinkClick={handleLinkClick}
           />
         )}

@@ -87,7 +87,7 @@ const ConfirmationList = ({ back, reset }) => {
     },
     {
       icon: <CreditScoreIcon fontSize="small" />,
-      label: "Available Amount",
+      label: "Max NFTUSD",
       value: `${totalExtraction} NFTUSD`,
     },
   ];

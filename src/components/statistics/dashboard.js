@@ -86,7 +86,7 @@ const Dashboard = () => {
           <div className="flex gap-16 xl:gap-4 text-black">
             {/* NFTdollars */}
             <div className="flex flex-col items-start">
-              <p className="text-xl xl:text-xs">NFTdollars</p>
+              <p className="text-xl xl:text-xs">NDL</p>
               <p className="font-bold">$11.02</p>
               <p className="text-xl xl:text-xs mt-2">Market</p>
               <div className="flex gap-1">

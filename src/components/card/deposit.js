@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Select, MenuItem } from "@mui/material";
 import { Button } from "@material-tailwind/react";
-import { layerOptions } from "../stepper/data/selectOptions";
 import { SuccessContext } from "../../contexts/successContext";
 import { AlertDialog, SuccessDialog, WaitDialog } from "../dialog";
 import { contracts } from "../../utils/contracts";
@@ -9,12 +8,25 @@ import { convertToBigNumber } from "../../utils/number";
 import Notice from "../input/notice";
 import USDInput from "../input/usdInput";
 
+const receiverLayerOptions = [
+  { value: "-1", label: "Stability Pool" },
+  { value: "0", label: "Unit Layer" },
+  { value: "1", label: "Cross Layer" },
+  { value: "2", label: "Reserve Layer" },
+];
+
+const layerOptions = [
+  { value: "0", label: "Unit Layer" },
+  { value: "1", label: "Cross Layer" },
+  { value: "2", label: "Reserve Layer" },
+];
+
 const Deposit = ({ isReceiver, balance }) => {
   const normalNotice =
-    "You can choose to become a receiver to receive NFTs after each liquidation or remain a regular deposit user and receive NDL rewards after each liquidation. Your choice is: ";
+    "To be a regular stability provider and receive NDL rewards. Or, you can choose to become a liquidation receiver to receive NFTs after the pool liquidation and obtain a seperate NDL rewards apart from stability provider.  Your choice is:";
 
   const receiverNotice =
-    "You are currently a receiver. You can choose to deposit at different layers,  where different layers mean you will receive NFT rewards at different price levels. If you don't want NFT rewards any more, you can withdraw all your deposit in pools.";
+    "You are currently a liquidaion receiver. You can still choose to deposit at different layers apart from the layer you already chose. If you don't want this rewards any more, you can withdraw all your deposit in pools.";
 
   const [wantReceiver, setWantReceiver] = useState(true);
   const [isWaitOpen, setIsWaitOpen] = useState(false);
@@ -24,7 +36,7 @@ const Deposit = ({ isReceiver, balance }) => {
   const [alertMsg, setAlertMsg] = useState("");
   const notice = isReceiver ? receiverNotice : normalNotice;
   const [layer, setLayer] = useState("");
-  const [nftUSD, setNftUsd] = useState(0);
+  const [nftUSD, setNftUsd] = useState("");
   const { addDepositSuccess } = useContext(SuccessContext);
 
   const nftUsdChange = (value) => {
@@ -37,6 +49,8 @@ const Deposit = ({ isReceiver, balance }) => {
 
   const minValue = (layer) => {
     switch (parseInt(layer)) {
+      case 0:
+        return 0;
       case 1:
         return 100;
       case 2:
@@ -147,7 +161,7 @@ const Deposit = ({ isReceiver, balance }) => {
       {isReceiver ? (
         <div className="md:flex space-x-10">
           <Select value={layer} onChange={handleLayerChange} className="mt-4 w-1/2 rounded-lg h-10 border-amber-100">
-            {layerOptions.map((option) => (
+            {receiverLayerOptions.map((option) => (
               <MenuItem key={option.value} value={parseInt(option.value) + 1}>
                 {option.label}
               </MenuItem>

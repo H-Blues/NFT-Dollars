@@ -6,14 +6,14 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import UnlockNFTStepper from "../stepper/unlockNFT";
 import poolIcon from "../../assets/avatar.svg";
 
-const title = "Unlock NFT";
+const title = "Unlock / Redeem";
 const icon = poolIcon;
 const description = "You can unlock your NFT here. And your available NFTUSD will decrease. ";
 const operation = "unlock";
 
 const UnlockNFTCard = () => {
   const [contentOpen, setContentOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("personal");
+  const [activeTab, setActiveTab] = useState("unlock");
   const { chainId, active } = useWeb3React();
 
   const toggle = () => {
@@ -26,13 +26,13 @@ const UnlockNFTCard = () => {
 
   const data = [
     {
-      label: "Personal",
-      value: "personal",
+      label: "Unlock",
+      value: "unlock",
       content: <UnlockNFTStepper close={toggle} personal={true} />,
     },
     {
-      label: "Pool",
-      value: "pool",
+      label: "Redeem",
+      value: "redeem",
       content: <UnlockNFTStepper close={toggle} personal={false} />,
     },
   ];

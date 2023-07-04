@@ -4,10 +4,10 @@ import { SvgIcon } from "@mui/material";
 import { Card, Typography, IconButton, Spinner } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import CopyButton from "./copyButton";
-import { ReactComponent as NFTUSD } from "../../assets/nftusd.svg";
+// import { ReactComponent as NFTUSD } from "../../assets/nftusd.svg";
 import { getRiskyHistoryNumber, getRiskyHistoryData } from "../../utils/requests";
 
-const tableHead = ["Owner", "Debt", "Collateral", "Call Ratio", "Is Liquity"];
+const tableHead = ["Owner", "Collateral", "Debt", "Call Ratio", "Is Liquity"];
 
 export default function RiskyTrovesTable() {
   const [active, setActive] = useState(1);
@@ -70,13 +70,6 @@ export default function RiskyTrovesTable() {
 
       <Card className="overflow-scroll h-auto w-full bg-white bg-opacity-30">
         <table className="w-full min-w-max table-auto text-center">
-          {/* <colgroup>
-            <col className="w-5/12" />
-            <col className="w-1/8" />
-            <col className="w-1/8" />
-            <col className="w-1/8" />
-            <col className="w-1/8" />
-          </colgroup> */}
           <thead>
             <tr>
               {tableHead.map((head) => (
@@ -98,8 +91,8 @@ export default function RiskyTrovesTable() {
                   </Typography>
                 </td>
                 <td>
-                  <div className="flex p-1 gap-1">
-                    <SvgIcon component={NFTUSD} className="h-6 w-6" />
+                  <div>
+                    {/* <SvgIcon component={NFTUSD} className="h-6 w-6" /> */}
                     <Typography variant="small" color="blue-gray" className="font-normal">
                       {Collateral}
                     </Typography>

@@ -133,7 +133,7 @@ const Header = () => {
             <div className="hidden md:flex space-x-4 mr-4 text-black">
               <WalletIcon className="none md:w-8 " />
               <div className="grid place-items-center">
-                <span className="text-sm md:text-base">NFTdollars</span>
+                <span className="text-sm md:text-base">NDL</span>
                 <span className="md:text-sm">$ {dollarBalance}</span>
               </div>
               <div className="grid place-items-center">

@@ -4,16 +4,12 @@ import { Box, Stepper, Step, StepLabel, StepContent, Typography } from "@mui/mat
 import NFTSelectContextProvider from "../../contexts/nftSelectContext";
 import LockNFTSelect from "./subcomponents/lock/lockNFTSelect";
 import ConfirmationList from "./subcomponents/lock/confirmationList";
-import PreviewList from "./subcomponents/lock/previewList";
+// import PreviewList from "./subcomponents/lock/previewList";
 
 const STEPS = [
   {
     label: "Select the layer and lock NFT",
     description: "Lock your NFT in stability pool to borrow NFTUSD.",
-  },
-  {
-    label: "NFTUSD calculator",
-    description: "Calculate how much NFTUSD you can obtain.",
   },
   {
     label: "Preview transaction information",
@@ -67,8 +63,8 @@ const LockNFTStepper = ({ close }) => {
               <StepContent>
                 <Typography>{step.description}</Typography>
                 {index === 0 && <LockNFTSelect next={handleNext} />}
-                {index === 1 && <PreviewList isLock={true} next={handleNext} back={handleBack} />}
-                {index === 2 && <ConfirmationList isLock={true} back={handleBack} reset={reset} />}
+                {/* {index === 1 && <PreviewList isLock={true} next={handleNext} back={handleBack} />} */}
+                {index === 1 && <ConfirmationList isLock={true} back={handleBack} reset={reset} />}
               </StepContent>
             </Step>
           ))}

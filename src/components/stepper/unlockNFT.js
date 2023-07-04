@@ -8,7 +8,7 @@ import PoolNFTSelect from "./subcomponents/unlock/poolNFTSelect";
 const STEPS = [
   {
     label: "Select your locked NFT",
-    description: "Choose your NFT in stability pool",
+    description: "Choose the NFT you want to unlock / redeem",
   },
   {
     label: "Preview balance change",
