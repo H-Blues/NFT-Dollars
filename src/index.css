@@ -7,6 +7,14 @@
 }
 
 body {
+  background: linear-gradient(to bottom, rgba(255, 165, 0, 0.6), rgba(247, 211, 88, 0.1));
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding-bottom: 130vh;
+}
+
+.home-body {
   background: url("/src/assets/bg.png");
   background-size: cover;
   background-position: center;

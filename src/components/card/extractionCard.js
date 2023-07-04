@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from "@material-tailwind/react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
-import { AlertDialog, ConfirmDialog, SuccessDialog } from "../dialog";
+import { AlertDialog, ConfirmDialog, SuccessDialog, WaitDialog } from "../dialog";
 import { contracts } from "../../utils/contracts";
 import { convertToBigNumber } from "../../utils/number";
 import { SuccessContext } from "../../contexts/successContext";
@@ -21,6 +21,7 @@ const ExtractionCard = ({ available, total, debt }) => {
   const { chainId, account, active } = useWeb3React();
   const { addBorrowSuccess } = useContext(SuccessContext);
   const [open, setOpen] = useState(false);
+  const [isWaitOpen, setIsWaitOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [toConfirm, setToConfirm] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -74,6 +75,14 @@ const ExtractionCard = ({ available, total, debt }) => {
     setIsAlertOpen(false);
   };
 
+  const handleWaitOpen = () => {
+    setIsWaitOpen(true);
+  };
+
+  const handleWaitClose = () => {
+    setIsWaitOpen(false);
+  };
+
   const borrowNFTUSD = async () => {
     try {
       await contracts.pool.extraction(account, convertToBigNumber(nftUSD));
@@ -100,8 +109,12 @@ const ExtractionCard = ({ available, total, debt }) => {
         return;
       }
 
-      handleSuccessOpen();
-      addBorrowSuccess();
+      handleWaitOpen();
+      setTimeout(() => {
+        handleWaitClose();
+        handleSuccessOpen();
+        addBorrowSuccess();
+      }, 15000);
     } catch (error) {
       console.error("Borrow Failed: " + error);
       return;
@@ -123,6 +136,7 @@ const ExtractionCard = ({ available, total, debt }) => {
 
   return (
     <>
+      <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
         open={isSuccessOpen}
@@ -139,7 +153,7 @@ const ExtractionCard = ({ available, total, debt }) => {
           "The amount of NFTUSD you want to borrow may expose you to the risk of liquidation. Are you sure you want to proceed?"
         }
       />
-      <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50">
+      <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50  border-2 border-gray-700">
         <CardBody>
           <div className="flex mb-4">
             <Avatar src={icon} alt="pool" />
@@ -162,7 +176,13 @@ const ExtractionCard = ({ available, total, debt }) => {
             <Divider />
             <div className="md:flex space-x-10">
               <div className="w-full">
-                <USDInput title={operation} tip={tip} inputValueChange={nftUsdChange} maxValue={available} />
+                <USDInput
+                  title={operation}
+                  tip={tip}
+                  inputValueChange={nftUsdChange}
+                  maxValue={available}
+                  minValue={0}
+                />
               </div>
               <AvailableAmount accountDebt={debt} totalValue={total} />
             </div>
@@ -178,7 +198,7 @@ const ExtractionCard = ({ available, total, debt }) => {
         <CardFooter className="pt-0">
           <div className="flex justify-end">
             {!open && (
-              <Button color="amber" className="ml-auto text-white" disabled={chainId !== 97} onClick={toggle}>
+              <Button color="amber" className="ml-auto text-black" disabled={chainId !== 97} onClick={toggle}>
                 {operation}
               </Button>
             )}

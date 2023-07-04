@@ -11,37 +11,27 @@ export const SuccessContextProvider = ({ children }) => {
 
   const addBorrowSuccess = () => {
     console.log("Borrow success: ", borrowSuccess + 1);
-    setTimeout(() => {
-      setBorrowSuccess(borrowSuccess + 1);
-    }, 10000);
+    setBorrowSuccess(borrowSuccess + 1);
   };
 
   const addRepaySuccess = () => {
     console.log("Repay success: ", repaySuccess + 1);
-    setTimeout(() => {
-      setRepaySuccess(repaySuccess + 1);
-    }, 15000);
+    setRepaySuccess(repaySuccess + 1);
   };
 
   const addDepositSuccess = () => {
     console.log("Deposit success: ", depositSuccess + 1);
-    setTimeout(() => {
-      setDepositSuccess(depositSuccess + 1);
-    }, 8000);
+    setDepositSuccess(depositSuccess + 1);
   };
 
   const addWithdrawSuccess = () => {
     console.log("Withdraw success: ", withdrawSuccess + 1);
-    setTimeout(() => {
-      setWithdrawSuccess(withdrawSuccess + 1);
-    }, 8000);
+    setWithdrawSuccess(withdrawSuccess + 1);
   };
 
   const addNFTOperSuccess = () => {
     console.log("Lock/Unlock NFT success: ", nftOperSuccess + 1);
-    setTimeout(() => {
-      setNFTOperSuccess(nftOperSuccess + 1);
-    }, 6000);
+    setNFTOperSuccess(nftOperSuccess + 1);
   };
 
   const contextValue = {

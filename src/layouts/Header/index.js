@@ -20,7 +20,7 @@ const Header = () => {
   const [usdBalance, setUSDBalance] = useState("0.0");
   const [dollarBalance, setDollarBalance] = useState("0.0");
   const { chainId, account, deactivate, active } = useWeb3React();
-  const { borrowSuccess, depositSuccess, repaySuccess } = useContext(SuccessContext);
+  const { borrowSuccess, depositSuccess, repaySuccess, withdrawSuccess } = useContext(SuccessContext);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -62,7 +62,7 @@ const Header = () => {
       }
     };
     getBalance();
-  }, [chainId, account, borrowSuccess, depositSuccess, repaySuccess]);
+  }, [chainId, account, borrowSuccess, depositSuccess, repaySuccess, withdrawSuccess]);
 
   return (
     <AppBar position="static" color="transparent">
@@ -116,7 +116,7 @@ const Header = () => {
                   <Button
                     sx={{
                       my: 2,
-                      color: "white",
+                      color: "black",
                       textTransform: "capitalize",
                       fontWeight: 500,
                       fontSize: "1rem",
@@ -130,7 +130,7 @@ const Header = () => {
           </Box>
 
           {account && chainId === 97 && (
-            <div className="hidden md:flex space-x-4 mr-4 text-white">
+            <div className="hidden md:flex space-x-4 mr-4 text-black">
               <WalletIcon className="none md:w-8 " />
               <div className="grid place-items-center">
                 <span className="text-sm md:text-base">NFTdollars</span>
@@ -150,7 +150,7 @@ const Header = () => {
               onClick={openWalletConnection}
               sx={{
                 mr: 2,
-                color: "white",
+                color: "black",
                 borderRadius: "50px",
                 padding: "0.5% 3%",
                 fontSize: "1%",
@@ -160,11 +160,11 @@ const Header = () => {
               Connect
             </Button>
           ) : (
-            <div className="items-center text-white text-sm">
+            <div className="items-center text-black text-sm">
               <p>Connected as</p>
               <span className="flex items-center">
                 <span>{truncateAddress(account)}</span>
-                <XMarkIcon className="ml-2 h-4 w-4 text-white cursor-pointer" onClick={disconnect} />
+                <XMarkIcon className="ml-2 h-4 w-4 text-black cursor-pointer" onClick={disconnect} />
               </span>
             </div>
           )}

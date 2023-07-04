@@ -3,7 +3,7 @@ import { Select, MenuItem } from "@mui/material";
 import { Button } from "@material-tailwind/react";
 import { layerOptions } from "../stepper/data/selectOptions";
 import { SuccessContext } from "../../contexts/successContext";
-import { AlertDialog, SuccessDialog } from "../dialog";
+import { AlertDialog, SuccessDialog, WaitDialog } from "../dialog";
 import { contracts } from "../../utils/contracts";
 import { convertToBigNumber } from "../../utils/number";
 import Notice from "../input/notice";
@@ -17,6 +17,7 @@ const Deposit = ({ isReceiver, balance }) => {
     "You are currently a receiver. You can choose to deposit at different layers,  where different layers mean you will receive NFT rewards at different price levels. If you don't want NFT rewards any more, you can withdraw all your deposit in pools.";
 
   const [wantReceiver, setWantReceiver] = useState(true);
+  const [isWaitOpen, setIsWaitOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
@@ -63,6 +64,14 @@ const Deposit = ({ isReceiver, balance }) => {
 
   const handleSuccessClose = () => {
     setIsSuccessOpen(false);
+  };
+
+  const handleWaitOpen = () => {
+    setIsWaitOpen(true);
+  };
+
+  const handleWaitClose = () => {
+    setIsWaitOpen(false);
   };
 
   const toBeReceiver = () => {
@@ -112,8 +121,12 @@ const Deposit = ({ isReceiver, balance }) => {
         return;
       }
 
-      handleSuccessOpen();
-      addDepositSuccess();
+      handleWaitOpen();
+      setTimeout(() => {
+        handleWaitClose();
+        handleSuccessOpen();
+        addDepositSuccess();
+      }, 40000);
     } catch (error) {
       console.error("");
     }
@@ -121,6 +134,7 @@ const Deposit = ({ isReceiver, balance }) => {
 
   return (
     <>
+      <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
         open={isSuccessOpen}
@@ -173,6 +187,7 @@ const Deposit = ({ isReceiver, balance }) => {
           title="Deposit"
           tip="Enter NFTUSD you want to deposit"
           maxValue={balance}
+          minValue={0}
           inputValueChange={nftUsdChange}
         />
       )}

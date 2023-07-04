@@ -8,21 +8,21 @@ import TagIcon from "@mui/icons-material/Tag";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 
-import { AlertDialog, SuccessDialog } from "../../../dialog";
+import { AlertDialog, SuccessDialog, WaitDialog } from "../../../dialog";
 import { convertToBigNumber, convertToReadNumber } from "../../../../utils/number";
 import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
 import { SuccessContext } from "../../../../contexts/successContext";
 import { contracts } from "../../../../utils/contracts";
 
 const ConfirmationList = ({ back, reset }) => {
+  const { layer, address, id, customId, nftName, maxExtraction, isLayerUp, threshold } = useContext(NFTSelectContext);
   const { account } = useWeb3React();
   const [totalExtraction, setTotalExtraction] = useState("0.0000");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
-
-  const { layer, address, id, customId, nftName, maxExtraction, isLayerUp, threshold } = useContext(NFTSelectContext);
+  const [isWaitOpen, setIsWaitOpen] = useState(false);
   const { addNFTOperSuccess } = useContext(SuccessContext);
   const nftContract = contracts.createNFTContract(address);
   const nftId = id ? id : customId;
@@ -45,6 +45,14 @@ const ConfirmationList = ({ back, reset }) => {
   const handleSuccessClose = () => {
     setIsSuccessOpen(false);
     reset();
+  };
+
+  const handleWaitOpen = () => {
+    setIsWaitOpen(true);
+  };
+
+  const handleWaitClose = () => {
+    setIsWaitOpen(false);
   };
 
   const getLayerName = (layer) => {
@@ -105,9 +113,6 @@ const ConfirmationList = ({ back, reset }) => {
   };
 
   const lockNFT = async () => {
-    setTimeout(() => {
-      console.log("Waiting Approve Finished.");
-    }, 4000);
     try {
       await contracts.pool.LockedNFT(address, nftId, isLayerUp, convertToBigNumber(threshold, 4));
       return true;
@@ -148,16 +153,24 @@ const ConfirmationList = ({ back, reset }) => {
         return;
       }
 
-      const isLocked = await lockNFT();
-      if (!isLocked) {
-        const lockErrorTitle = "Lock NFT Failed";
-        const lockErrorMsg = "Something wrong. Please retry or use another NFT.";
-        handleAlertOpen(lockErrorTitle, lockErrorMsg);
-        return;
-      }
+      handleWaitOpen();
+      setTimeout(async () => {
+        handleWaitClose();
+        const isLocked = await lockNFT();
+        if (!isLocked) {
+          const lockErrorTitle = "Lock NFT Failed";
+          const lockErrorMsg = "Something wrong. Please retry or use another NFT.";
+          handleAlertOpen(lockErrorTitle, lockErrorMsg);
+          return;
+        }
 
-      handleSuccessOpen();
-      addNFTOperSuccess();
+        handleWaitOpen();
+        setTimeout(() => {
+          handleWaitClose();
+          handleSuccessOpen();
+          addNFTOperSuccess();
+        }, 12000);
+      }, 8000);
     } catch (error) {
       console.error("Lock NFT Failed:", error);
     }
@@ -178,6 +191,7 @@ const ConfirmationList = ({ back, reset }) => {
 
   return (
     <>
+      <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
         open={isSuccessOpen}

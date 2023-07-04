@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@material-tailwind/react";
 import { Container, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import { contracts } from "../utils/contracts";
 import { convertToReadNumber, numberWithCommas } from "../utils/number";
 import MaleFileImage from "../assets/MaleFile.svg";
@@ -34,6 +33,7 @@ const Home = () => {
   const [lockedValue, setLockedValue] = useState("Loading...");
   const { chainId } = useWeb3React();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,6 +59,18 @@ const Home = () => {
       fetchLockedData();
     }
   }, [chainId]);
+
+  useEffect(() => {
+    const isHome = location.pathname === "/";
+    if (isHome) {
+      document.body.classList.add("home-body");
+    } else {
+      document.body.classList.remove("home-body");
+    }
+    return () => {
+      document.body.classList.remove("home-body");
+    };
+  }, [location]);
 
   return (
     <>

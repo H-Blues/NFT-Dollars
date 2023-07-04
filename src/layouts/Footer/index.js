@@ -88,10 +88,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
-          <Typography
-            variant="small"
-            className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0"
-          >
+          <Typography variant="small" className="mb-4 text-center font-normal text-blue-gray-900 md:mb-0">
             Copyright &copy; {currentYear} NFTdollars. All Rights Reserved.
           </Typography>
 

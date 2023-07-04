@@ -104,6 +104,7 @@ const PoolNFTSelect = ({ next, setNFTUSD }) => {
           tip="NFTUSD you would pay to unlock this NFT"
           inputValueChange={nftUsdChange}
           maxValue={userNFTUSD}
+          minValue={0}
         />
       )}
 

@@ -59,23 +59,23 @@ const Dashboard = () => {
   }, [borrowSuccess, depositSuccess, repaySuccess, chainId]);
 
   return (
-    <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent border-2">
+    <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent bg-white bg-opacity-50 border-2 border-gray-700">
       <CardHeader
         floated={false}
         shadow={false}
         color="transparent"
-        className="m-0 mb-8 rounded-none border-b border-white/10 pb-8 text-center"
+        className="m-0 mb-8 rounded-none border-b border-gray-700 pb-8 text-center"
       >
         <div className="flex items-center mb-4 justify-center">
-          <ArrowTrendingUpIcon color="white" strokeWidth={2} className="h-12 w-12" />
-          <Typography variant="h3" color="white" className="ml-2 font-normal font-bold">
+          <ArrowTrendingUpIcon strokeWidth={2} color="black" className="h-12 w-12" />
+          <Typography variant="h3" className="ml-2 font-normal font-bold text-black">
             Liquity Statistics
           </Typography>
         </div>
 
         {/* Price */}
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="flex mt-4 text-white ml-14 xl:ml-0">
+          <div className="flex mt-4 text-black ml-14 xl:ml-0">
             <Avatar src={priceIcon} alt="avatar" className="h-20 w-20 xl:h-14 xl:w-14" />
             <div className="flex flex-col items-start">
               <p className="ml-4 text-2xl xl:text-sm xl:ml-1">Price</p>
@@ -83,7 +83,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="flex gap-16 xl:gap-4 text-white">
+          <div className="flex gap-16 xl:gap-4 text-black">
             {/* NFTdollars */}
             <div className="flex flex-col items-start">
               <p className="text-xl xl:text-xs">NFTdollars</p>
@@ -111,7 +111,7 @@ const Dashboard = () => {
 
       {/* Protocol */}
       <CardBody className="p-0 ml-8 xl:ml-0">
-        <Typography variant="h5" color="white">
+        <Typography variant="h5" className="text-black">
           Protocol
         </Typography>
         <div className="ml-0">
@@ -120,11 +120,11 @@ const Dashboard = () => {
               <div key={index}>
                 {/* Data item */}
                 <ListItem>
-                  <span className="text-white">{item.type}</span>
-                  <span className="ml-auto text-white">{item.value}</span>
+                  <span className="text-black">{item.type}</span>
+                  <span className="ml-auto text-black">{item.value}</span>
                 </ListItem>
                 {/* Divider */}
-                <Divider sx={{ backgroundColor: "white" }} />
+                <Divider />
               </div>
             ))}
           </List>

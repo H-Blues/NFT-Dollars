@@ -76,7 +76,7 @@ export const WaitDialog = ({ open, onClose }) => {
         </div>
 
         <h3 className="text-yellow-500 font-bold mb-2">Operation in Progress</h3>
-        <p className="text-black">Processing... Please wait a minuite.</p>
+        <p className="text-black">Processing... Please wait a moment.</p>
 
         <Button variant="outlined" onClick={onClose} className="mt-4 rounded-3xl border-black text-black">
           Close

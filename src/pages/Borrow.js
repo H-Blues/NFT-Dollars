@@ -17,7 +17,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Borrow = () => {
   const { active, account, chainId } = useWeb3React();
-  const { borrowSuccess, repaySuccess } = useContext(SuccessContext);
+  const { borrowSuccess, repaySuccess, withdrawSuccess, depositSuccess } = useContext(SuccessContext);
   const [alertOpen, setAlertOpen] = useState(!active);
   const [accountDebt, setAccountDebt] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
@@ -73,7 +73,7 @@ const Borrow = () => {
       getExtraction();
       getBalance();
     }
-  }, [chainId, account, borrowSuccess, repaySuccess]);
+  }, [chainId, account, borrowSuccess, repaySuccess, withdrawSuccess, depositSuccess]);
 
   return (
     <>

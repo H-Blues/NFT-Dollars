@@ -8,7 +8,7 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import { SuccessContext } from "../../../../contexts/successContext";
 import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
-import { AlertDialog, ConfirmDialog, SuccessDialog } from "../../../dialog";
+import { AlertDialog, ConfirmDialog, SuccessDialog, WaitDialog } from "../../../dialog";
 import { convertToBigNumber, convertToReadNumber } from "../../../../utils/number";
 import { contracts } from "../../../../utils/contracts";
 import calculationFn from "../../../../utils/calculate";
@@ -22,6 +22,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
+  const [isWaitOpen, setIsWaitOpen] = useState(false);
   const [accountDebt, setAccountDebt] = useState(0);
   const [valueToPay, setValueToPay] = useState(0);
   const [totalExtraction, setTotalExtraction] = useState("0.00");
@@ -45,6 +46,14 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   const handleConfirmClose = () => {
     setIsConfirmOpen(false);
+  };
+
+  const handleWaitOpen = () => {
+    setIsWaitOpen(true);
+  };
+
+  const handleWaitClose = () => {
+    setIsWaitOpen(false);
   };
 
   const confirm = () => {
@@ -128,6 +137,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   const calcValueToPay = () => {
     const amount = accountDebt - (totalExtraction - nftValue);
+    console.log(amount);
     const value = amount < 0 ? 0 : amount;
     setValueToPay(value.toFixed(3));
     return value;
@@ -155,7 +165,6 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   const submit = async () => {
     setIsAlertOpen(false);
-
     if (!toConfirm && calcValueToPay() > 0) {
       handleConfirmOpen();
       return;
@@ -176,8 +185,12 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
         return;
       }
 
-      handleSuccessOpen();
-      addNFTOperSuccess();
+      handleWaitOpen();
+      setTimeout(() => {
+        handleWaitClose();
+        handleSuccessOpen();
+        addNFTOperSuccess();
+      }, 10000);
     } catch (error) {
       console.error("Unlock NFT Failed:", error);
     }
@@ -218,6 +231,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   return (
     <>
+      <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <ConfirmDialog
         open={isConfirmOpen}

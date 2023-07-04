@@ -21,7 +21,7 @@ const LockNFTCard = () => {
 
   return (
     <>
-      <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50">
+      <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50  border-2 border-gray-700">
         <CardBody>
           <div className="flex mb-4">
             <Avatar src={icon} alt="pool" />
@@ -48,7 +48,7 @@ const LockNFTCard = () => {
             {!lockContentOpen ? (
               <Button
                 color="amber"
-                className="ml-auto text-white"
+                className="ml-auto text-black"
                 disabled={chainId !== 97}
                 onClick={toggle}
                 value={operation}

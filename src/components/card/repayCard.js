@@ -3,7 +3,7 @@ import { useWeb3React } from "@web3-react/core";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { Avatar, Collapse, Typography, Button } from "@material-tailwind/react";
 import { Card, CardBody, CardFooter } from "@material-tailwind/react";
-import { AlertDialog, SuccessDialog } from "../dialog";
+import { AlertDialog, SuccessDialog, WaitDialog } from "../dialog";
 import { convertToBigNumber } from "../../utils/number";
 import { contracts } from "../../utils/contracts";
 import { SuccessContext } from "../../contexts/successContext";
@@ -22,6 +22,7 @@ const RepayCard = ({ balance, debt, total }) => {
   const { chainId, account, active } = useWeb3React();
   const { addRepaySuccess } = useContext(SuccessContext);
   const [contentOpen, setContentOpen] = useState(false);
+  const [isWaitOpen, setIsWaitOpen] = useState(false);
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
@@ -58,6 +59,14 @@ const RepayCard = ({ balance, debt, total }) => {
     setIsAlertOpen(false);
   };
 
+  const handleWaitOpen = () => {
+    setIsWaitOpen(true);
+  };
+
+  const handleWaitClose = () => {
+    setIsWaitOpen(false);
+  };
+
   const submit = async () => {
     handleAlertClose(false);
     if (!account) {
@@ -66,8 +75,12 @@ const RepayCard = ({ balance, debt, total }) => {
     }
     try {
       await contracts.pool.repay(account, convertToBigNumber(nftUSD * (10 / 9)));
-      handleSuccessOpen();
-      addRepaySuccess();
+      handleWaitOpen();
+      setTimeout(() => {
+        handleWaitClose();
+        handleSuccessOpen();
+        addRepaySuccess();
+      }, 12000);
     } catch (error) {
       console.error(error);
       handleAlertOpen(
@@ -86,6 +99,7 @@ const RepayCard = ({ balance, debt, total }) => {
 
   return (
     <>
+      <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
         open={isSuccessOpen}
@@ -93,7 +107,7 @@ const RepayCard = ({ balance, debt, total }) => {
         title={"Repay Success!"}
         message={`You have successfully repaied. Please confirm the balance in your wallet. `}
       />
-      <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50">
+      <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50  border-2 border-gray-700">
         <CardBody>
           <div className="flex mb-4">
             <Avatar src={icon} alt="pool" />
@@ -116,7 +130,7 @@ const RepayCard = ({ balance, debt, total }) => {
             <Divider />
             <div className="md:flex space-x-10">
               <div className="w-full">
-                <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={balance} />
+                <USDInput title={title} tip={tip} inputValueChange={nftUsdChange} maxValue={balance} minValue={0} />
               </div>
               <SecurityAmount accountDebt={debt} totalValue={total} nftUSD={nftUSD} />
             </div>
@@ -132,7 +146,7 @@ const RepayCard = ({ balance, debt, total }) => {
         <CardFooter className="pt-0">
           <div className="flex justify-end">
             {!contentOpen && (
-              <Button color="amber" className="ml-auto text-white" disabled={chainId !== 97} onClick={toggle}>
+              <Button color="amber" className="ml-auto text-black" disabled={chainId !== 97} onClick={toggle}>
                 {operation}
               </Button>
             )}

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Select, MenuItem } from "@mui/material";
 import { Button } from "@material-tailwind/react";
 import { SuccessContext } from "../../contexts/successContext";
-import { AlertDialog, SuccessDialog } from "../dialog";
+import { AlertDialog, SuccessDialog, WaitDialog } from "../dialog";
 import { contracts } from "../../utils/contracts";
 import { convertToBigNumber, convertToReadNumber } from "../../utils/number";
 import Notice from "../input/notice";
@@ -19,6 +19,7 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
   const notice =
     "You can choose to withdraw from the following layers. Please note that some layers have deposit threshold. Check your balance and have a happy transaction!";
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [isWaitOpen, setIsWaitOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
@@ -58,6 +59,14 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
     setIsSuccessOpen(false);
   };
 
+  const handleWaitOpen = () => {
+    setIsWaitOpen(true);
+  };
+
+  const handleWaitClose = () => {
+    setIsWaitOpen(false);
+  };
+
   const withdraw = async () => {
     try {
       await contracts.pool.withdraw(layer, convertToBigNumber(nftUSD));
@@ -94,9 +103,12 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
         handleAlertOpen(withdrawFailTitle, withdrawFailMsg);
         return;
       }
-
-      handleSuccessOpen();
-      addWithdrawSuccess();
+      handleWaitOpen();
+      setTimeout(() => {
+        handleWaitClose();
+        handleSuccessOpen();
+        addWithdrawSuccess();
+      }, 30000);
     } catch (error) {
       console.error("");
     }
@@ -104,6 +116,7 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
 
   return (
     <>
+      <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
         open={isSuccessOpen}
@@ -126,6 +139,7 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
             title="Deposit"
             tip="Enter NFTUSD you want to deposit"
             maxValue={maxValue[layer]}
+            minValue={0}
             inputValueChange={nftUsdChange}
           />
         </div>

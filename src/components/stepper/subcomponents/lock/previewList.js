@@ -59,6 +59,7 @@ const PreviewList = ({ next, back }) => {
         title="NFTUSD"
         tip="This is a calculator, not a real transaction"
         maxValue={maxExtraction}
+        minValue={0}
         inputValueChange={nftUsdChange}
       />
       <Snackbar open={alertOpen} autoHideDuration={2000} onClose={handleAlertClose}>

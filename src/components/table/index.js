@@ -6,7 +6,6 @@ import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/2
 import CopyButton from "./copyButton";
 import { ReactComponent as NFTUSD } from "../../assets/nftusd.svg";
 import { getRiskyHistoryNumber, getRiskyHistoryData } from "../../utils/requests";
-import { abbreviateAddress } from "../../utils/number";
 
 const tableHead = ["Owner", "Debt", "Collateral", "Call Ratio", "Is Liquity"];
 
@@ -49,7 +48,7 @@ export default function RiskyTrovesTable() {
   return (
     <div className="flex flex-col">
       <div className="flex w-full">
-        <Typography variant="h3" color="white" className="flex mb-2">
+        <Typography variant="h3" color="black" className="flex mb-2">
           Risky Troves
         </Typography>
         <div className="flex ml-auto mt-2 gap-2">
@@ -70,14 +69,14 @@ export default function RiskyTrovesTable() {
       </div>
 
       <Card className="overflow-scroll h-auto w-full bg-white bg-opacity-30">
-        <table className="w-full min-w-max table-auto text-left">
-          <colgroup>
+        <table className="w-full min-w-max table-auto text-center">
+          {/* <colgroup>
             <col className="w-5/12" />
             <col className="w-1/8" />
             <col className="w-1/8" />
             <col className="w-1/8" />
             <col className="w-1/8" />
-          </colgroup>
+          </colgroup> */}
           <thead>
             <tr>
               {tableHead.map((head) => (
@@ -91,8 +90,8 @@ export default function RiskyTrovesTable() {
           </thead>
           <tbody>
             {tableData.map(({ Address, Coll_ratio, Debt, Collateral, IsLiquity }) => (
-              <tr key={Address} className="even:bg-blue-gray-50/50 w-auto">
-                <td className="flex pt-4 pl-2">
+              <tr key={Address} className="even:bg-blue-gray-50/50">
+                <td className="flex mt-3 ml-10">
                   <CopyButton textToCopy={Address} />
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {Address}
