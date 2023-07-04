@@ -133,7 +133,7 @@ const NFTSelect = ({ next }) => {
       {layer !== "" && layer !== "2" && (
         <div className="mt-1 mb-1 flex items-center space-x-6 h-14">
           <Checkbox color="amber" label="Levelup" checked={isLayerUp} onChange={handleLayerUpChange} />
-          {isLayerUp && (
+          {isLayerUp + parseInt(layer) === 1 && (
             <div className="mb-3 mt-0 pt-0 w-full">
               <Input
                 value={threshold}
