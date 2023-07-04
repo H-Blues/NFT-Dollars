@@ -6,8 +6,9 @@ import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/2
 import CopyButton from "./copyButton";
 import { ReactComponent as NFTUSD } from "../../assets/nftusd.svg";
 import { getRiskyHistoryNumber, getRiskyHistoryData } from "../../utils/requests";
+import { abbreviateAddress } from "../../utils/number";
 
-const tableHead = ["Owner", "Debt", "Collateral", "Call Ratio"];
+const tableHead = ["Owner", "Debt", "Collateral", "Call Ratio", "Is Liquity"];
 
 export default function RiskyTrovesTable() {
   const [active, setActive] = useState(1);
@@ -70,10 +71,17 @@ export default function RiskyTrovesTable() {
 
       <Card className="overflow-scroll h-auto w-full bg-white bg-opacity-30">
         <table className="w-full min-w-max table-auto text-left">
+          <colgroup>
+            <col className="w-5/12" />
+            <col className="w-1/8" />
+            <col className="w-1/8" />
+            <col className="w-1/8" />
+            <col className="w-1/8" />
+          </colgroup>
           <thead>
             <tr>
               {tableHead.map((head) => (
-                <th key={head} className="border-b border-blue-gray-100 bg-white bg-opacity-80 p-4">
+                <th key={head} className="border-b border-blue-gray-100 bg-white bg-opacity-80 p-4 w-auto">
                   <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
                     {head}
                   </Typography>
@@ -82,9 +90,9 @@ export default function RiskyTrovesTable() {
             </tr>
           </thead>
           <tbody>
-            {tableData.map(({ Address, Coll_ratio, Debt, Collateral }, index) => (
-              <tr key={Address} className="even:bg-blue-gray-50/50">
-                <td className="flex p-4">
+            {tableData.map(({ Address, Coll_ratio, Debt, Collateral, IsLiquity }) => (
+              <tr key={Address} className="even:bg-blue-gray-50/50 w-auto">
+                <td className="flex pt-4 pl-2">
                   <CopyButton textToCopy={Address} />
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {Address}
@@ -106,6 +114,11 @@ export default function RiskyTrovesTable() {
                 <td className="p-4">
                   <Typography variant="small" color="blue-gray" className="font-normal">
                     {Coll_ratio}
+                  </Typography>
+                </td>
+                <td className="p-4">
+                  <Typography variant="small" color="blue-gray" className="font-normal">
+                    {IsLiquity ? "No" : "Yes"}
                   </Typography>
                 </td>
               </tr>

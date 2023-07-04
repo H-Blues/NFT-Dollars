@@ -32,3 +32,9 @@ export const convertToReadNumber = (value, decimals = 18, precision = 4) => {
   const number = ethers.utils.formatUnits(bigNumber.toString(), decimals);
   return parseFloat(number).toFixed(precision);
 };
+
+export const abbreviateAddress = (address) => {
+  const prefix = address.slice(0, 10);
+  const suffix = address.slice(-8);
+  return `${prefix}......${suffix}`;
+};
