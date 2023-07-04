@@ -132,6 +132,7 @@ const ExtractionCard = ({ available, total, debt }) => {
     if (!active) {
       toggle();
     }
+    // eslint-disable-next-line
   }, [active]);
 
   return (

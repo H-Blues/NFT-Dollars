@@ -28,7 +28,6 @@ const RepayCard = ({ balance, debt, total }) => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [nftUSD, setNftUsd] = useState(0);
-  const [leftToRepay, setLeftToRepay] = useState(debt);
 
   const toggle = () => {
     if (!active) {
@@ -97,6 +96,7 @@ const RepayCard = ({ balance, debt, total }) => {
     if (!active) {
       toggle();
     }
+    // eslint-disable-next-line
   }, [active]);
 
   return (
