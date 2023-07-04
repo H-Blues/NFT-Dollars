@@ -28,9 +28,9 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
   const { addWithdrawSuccess } = useContext(SuccessContext);
   const maxValue = [
     Math.max(convertToReadNumber(layer0Deposit), 0),
-    Math.max(convertToReadNumber(layer1Deposit) - 100, 0),
-    Math.max(convertToReadNumber(layer2Deposit) - 500, 0),
-    Math.max(convertToReadNumber(layer3Deposit) - 1000, 0),
+    Math.max(convertToReadNumber(layer1Deposit), 0),
+    Math.max(convertToReadNumber(layer2Deposit), 0),
+    Math.max(convertToReadNumber(layer3Deposit), 0),
   ];
 
   const nftUsdChange = (value) => {
@@ -121,8 +121,8 @@ const Withdraw = ({ layer0Deposit, layer1Deposit, layer2Deposit, layer3Deposit }
       <SuccessDialog
         open={isSuccessOpen}
         onClose={handleSuccessClose}
-        title={"Deposit Success"}
-        message={"You have successfully deposited your NFTUSD. After each liquidation, you perhaps get NFTs as rewards"}
+        title={"Withdraw Success"}
+        message={"You have successfully withdrawed your NFTUSD. Please check your wallet for details."}
       />
       <Notice hasButton={false} message={notice} />
 

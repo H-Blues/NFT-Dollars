@@ -28,6 +28,7 @@ const RepayCard = ({ balance, debt, total }) => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMsg, setAlertMsg] = useState("");
   const [nftUSD, setNftUsd] = useState(0);
+  const [leftToRepay, setLeftToRepay] = useState(debt);
 
   const toggle = () => {
     if (!active) {
@@ -73,8 +74,9 @@ const RepayCard = ({ balance, debt, total }) => {
       handleAlertOpen("Before Repay", "You have not connected your wallet.");
       return;
     }
+
     try {
-      await contracts.pool.repay(account, convertToBigNumber(nftUSD * (10 / 9)));
+      await contracts.pool.repay(account, convertToBigNumber(parseFloat(nftUSD) * (10 / 9)));
       handleWaitOpen();
       setTimeout(() => {
         handleWaitClose();
@@ -105,7 +107,9 @@ const RepayCard = ({ balance, debt, total }) => {
         open={isSuccessOpen}
         onClose={handleSuccessClose}
         title={"Repay Success!"}
-        message={`You have successfully repaied. Please confirm the balance in your wallet. `}
+        message={`You have successfully repaied NFTUSD. Please confirm the balance in your wallet. After this transaction you still have ${parseFloat(
+          debt
+        ).toFixed(2)} NFTUSD waiting to be repaid. `}
       />
       <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50  border-2 border-gray-700">
         <CardBody>

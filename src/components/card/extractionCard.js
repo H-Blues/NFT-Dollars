@@ -142,7 +142,7 @@ const ExtractionCard = ({ available, total, debt }) => {
         open={isSuccessOpen}
         onClose={handleSuccessClose}
         title={"Borrow Success!"}
-        message={"You have successfully borrowed. Please check your wallet for details. "}
+        message={"You have successfully borrowed NFTUSD. Please check your wallet for details. "}
       />
       <ConfirmDialog
         open={isConfirmOpen}
@@ -184,7 +184,7 @@ const ExtractionCard = ({ available, total, debt }) => {
                   minValue={0}
                 />
               </div>
-              <AvailableAmount accountDebt={debt} totalValue={total} />
+              <AvailableAmount accountDebt={debt} totalValue={total} nftUSD={nftUSD} />
             </div>
 
             <div className="ml-6">

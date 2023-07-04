@@ -36,7 +36,11 @@ const USDInput = (props) => {
   };
 
   useEffect(() => {
-    setInputValue(props.minValue);
+    if (props.minValue) {
+      setInputValue(props.minValue);
+    } else {
+      setInputValue(0);
+    }
   }, [props.minValue]);
 
   return (
