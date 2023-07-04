@@ -20,7 +20,7 @@ const Dashboard = () => {
   const [extractionFee, setExtractionFee] = useState(0);
   const [securityDeposit, setSecurityDeposit] = useState(0);
 
-  const { borrowSuccess, depositSuccess, repaySuccess } = useContext(SuccessContext);
+  const { borrowSuccess, depositSuccess, repaySuccess, withdrawSuccess } = useContext(SuccessContext);
   const { chainId } = useWeb3React();
 
   const data = [
@@ -39,7 +39,7 @@ const Dashboard = () => {
         const address = await getRiskyHistoryNumber();
         const ndlSupply = await contracts.nftDollar.totalSupply();
         const nftUSDSupply = await contracts.nftUSD.totalSupply();
-        const nftUSDInPool = await contracts.pool.getTotalNFTUSDDeposits();
+        const nftUSDInPool = await contracts.pool.getTotalSecurityDeposit();
         const totalExtractionFee = await contracts.pool.getTotalExtractionFee();
         const totalSecurityDeposit = await contracts.pool.getTotalSecurityDeposit();
         setAddress(address);
@@ -56,7 +56,7 @@ const Dashboard = () => {
 
     chainId === 97 && fetchDashboardData();
     // eslint-disable-next-line
-  }, [borrowSuccess, depositSuccess, repaySuccess, chainId]);
+  }, [borrowSuccess, depositSuccess, repaySuccess, withdrawSuccess, chainId]);
 
   return (
     <Card className="ml-6 mt-12 p-8 w-11/12 xl:mr-12 xl:ml-0 bg-transparent bg-white bg-opacity-50 border-2 border-gray-700">

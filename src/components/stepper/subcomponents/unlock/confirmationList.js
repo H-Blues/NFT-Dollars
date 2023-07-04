@@ -137,7 +137,6 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
   const calcValueToPay = () => {
     const amount = accountDebt - (totalExtraction - nftValue);
-    console.log(amount);
     const value = amount < 0 ? 0 : amount;
     setValueToPay(value.toFixed(3));
     return value;
