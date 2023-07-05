@@ -5,10 +5,16 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { contracts } from "../utils/contracts";
 import { convertToReadNumber, numberWithCommas } from "../utils/number";
 import MaleFileImage from "../assets/MaleFile.svg";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import block1 from "../assets/index_block1.svg";
 import block2 from "../assets/index_block2.svg";
 import block3 from "../assets/index_block3.svg";
 import { useWeb3React } from "@web3-react/core";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const BENEFITS = [
   {
@@ -30,12 +36,18 @@ const BENEFITS = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
   const [lockedValue, setLockedValue] = useState("Loading...");
   const { chainId } = useWeb3React();
   const location = useLocation();
-  const navigate = useNavigate();
+  const [alertOpen, setAlertOpen] = useState(true);
 
-  const launchApp = () => {};
+  const handleAlertClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlertOpen(false);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +61,7 @@ const Home = () => {
   useEffect(() => {
     const fetchLockedData = async () => {
       try {
-        const lockedData = await contracts.pool.getTotalNFTUSDDeposits();
+        const lockedData = await contracts.pool.getTotalSecurityDeposit();
         setLockedValue(convertToReadNumber(lockedData));
       } catch (error) {
         console.error(error);
@@ -76,6 +88,23 @@ const Home = () => {
 
   return (
     <>
+      <Snackbar
+        open={alertOpen}
+        onClose={handleAlertClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ marginTop: "4%", width: "70%" }}
+      >
+        <Alert onClose={handleAlertClose} severity="warning">
+          This project is running on the BSC Testnet. You can use the following credentials for testing.
+          <br />
+          <p>Address: 0xd610bBec46d26017Ee05Da79Dbee6dF1DF2a96B1</p>
+          <p>Private Key: 47113c4a17df843d62661bff55ec319341774ff046a6a50ff2e7173c8a272603</p>
+          <p>Available NFT Name: GameItem</p>
+          <p> Available NFT IDs: 60, 61, 62, 63, 64</p>
+          <p>Layer: Cross Layer</p>
+        </Alert>
+      </Snackbar>
+
       {/* Background Image */}
       <div
         className="-z-50 w-1/3 h-1/3 bg-div hidden lg:block bg-center bg-cover absolute absolute top-1/4 left-1/2 right-0 bottom-0 bg-no-repeat"
@@ -112,7 +141,7 @@ const Home = () => {
               navigate("/borrow");
             }}
           >
-            <span className="w-full font-bold text-lg">Launch App</span>
+            <span className="w-full font-bold text-lg">Borrow Now</span>
           </Button>
           <Button
             className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"

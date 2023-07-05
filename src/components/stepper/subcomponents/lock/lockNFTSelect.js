@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { Box, Button, Select, MenuItem } from "@mui/material";
-import { layerOptions, addressOptions, idOptions } from "../../data/selectOptions";
+import { layerOptions, addressOptions } from "../../data/selectOptions";
 import { Checkbox, Input, Typography } from "@material-tailwind/react";
-import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+// import { ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
+// import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { NFTSelectContext } from "../../../../contexts/nftSelectContext";
 // import {getNFTAccountData} from "../../../utils/requests";
 // import { contracts } from "../../../utils/contracts";
@@ -81,12 +81,12 @@ const NFTSelect = ({ next }) => {
     return selectedLayer ? selectedLayer.addresses : [];
   };
 
-  const getIdOptions = (address) => {
-    // const selectedAddress = await getNFTAccountData(address);
-    const selectedAddress = idOptions.find((option) => option.address === address);
-    const otherAddressOptions = idOptions.find((option) => option.address === "other");
-    return selectedAddress ? selectedAddress.ids : otherAddressOptions.ids;
-  };
+  // const getIdOptions = (address) => {
+  //   // const selectedAddress = await getNFTAccountData(address);
+  //   const selectedAddress = idOptions.find((option) => option.address === address);
+  //   const otherAddressOptions = idOptions.find((option) => option.address === "other");
+  //   return selectedAddress ? selectedAddress.ids : otherAddressOptions.ids;
+  // };
 
   return (
     <div className="mt-2 w-full max-w-md mx-auto">

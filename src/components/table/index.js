@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useQueries } from "react-query";
-import { SvgIcon } from "@mui/material";
 import { Card, Typography, IconButton, Spinner } from "@material-tailwind/react";
 import { ArrowRightIcon, ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 import CopyButton from "./copyButton";

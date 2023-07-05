@@ -41,6 +41,7 @@ const UnlockNFTCard = () => {
     if (!active) {
       toggle();
     }
+    // eslint-disable-next-line
   }, [active]);
 
   return (
