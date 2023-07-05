@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
 import { SvgIcon } from "@mui/material";
-import {
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  IconButton,
-  Typography,
-  MenuItem,
-} from "@material-tailwind/react";
+import { Dialog, DialogHeader, DialogBody, IconButton, Typography, MenuItem } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useWeb3React } from "@web3-react/core";
 

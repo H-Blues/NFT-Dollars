@@ -32,8 +32,10 @@ const BENEFITS = [
 const Home = () => {
   const [lockedValue, setLockedValue] = useState("Loading...");
   const { chainId } = useWeb3React();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const launchApp = () => {};
 
   useEffect(() => {
     const handleResize = () => {
@@ -110,7 +112,7 @@ const Home = () => {
               navigate("/borrow");
             }}
           >
-            <span className="w-full font-bold text-lg">Borrow Now</span>
+            <span className="w-full font-bold text-lg">Launch App</span>
           </Button>
           <Button
             className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"
