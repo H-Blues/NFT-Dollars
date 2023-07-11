@@ -9,7 +9,7 @@ import ConfirmationList from "./subcomponents/lock/confirmationList";
 const STEPS = [
   {
     label: "Select the layer and lock NFT",
-    description: "Lock your NFT in stability pool to borrow NFTUSD.",
+    description: "Lock your NFT in stability pool to borrow FRAX.",
   },
   {
     label: "Preview transaction information",

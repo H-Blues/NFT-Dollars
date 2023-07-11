@@ -13,7 +13,7 @@ import AvailableAmount from "../input/availableAmount";
 
 const title = "Extraction";
 const icon = extractionIcon;
-const description = "You can borrow NFTUSD from your locked NFT. ";
+const description = "You can borrow FRAX from your locked NFT. ";
 const tip = "Enter the amount you want to borrow.";
 const operation = "Borrow";
 
@@ -104,7 +104,7 @@ const ExtractionCard = ({ available, total, debt }) => {
       const isBorrowed = await borrowNFTUSD();
       if (!isBorrowed) {
         const borrowFailTitle = "Borrow Failed";
-        const borrowFailMsg = "Sorry. You cannot borrow NFTUSD now. Please make sure you have locked at least one NFT.";
+        const borrowFailMsg = "Sorry. You cannot borrow FRAX now. Please make sure you have locked at least one NFT.";
         handleAlertOpen(borrowFailTitle, borrowFailMsg);
         return;
       }

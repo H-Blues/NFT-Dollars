@@ -14,7 +14,7 @@ import SecurityAmount from "../input/securityAmount";
 
 const title = "Repay";
 const icon = repayIcon;
-const description = "Repay NFTUSD and you can unlock your NFT then. ";
+const description = "Repay FRAX and you can unlock your NFT then. ";
 const tip = "The amount you pay will be actual payment with the security deposit.";
 const operation = "Repay";
 

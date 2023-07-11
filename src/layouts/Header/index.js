@@ -137,7 +137,7 @@ const Header = () => {
                 <span className="md:text-sm">$ {dollarBalance}</span>
               </div>
               <div className="grid place-items-center">
-                <span className="text-sm md:text-base">NFTUSD</span>
+                <span className="text-sm md:text-base">FRAX</span>
                 <span className="md:text-sm">$ {usdBalance}</span>
               </div>
             </div>

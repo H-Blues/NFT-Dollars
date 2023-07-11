@@ -140,7 +140,7 @@ const ConfirmationList = ({ back, reset }) => {
       if (isInLoan) {
         const duplErrorTitle = "NFT is Already Locked";
         const duplErrorMsg =
-          "Sorry. This NFT is in the pool now. You can borrow NFTUSD against it or approve a new NFT.";
+          "Sorry. This NFT is in the pool now. You can borrow FRAX against it or approve a new NFT.";
         handleAlertOpen(duplErrorTitle, duplErrorMsg);
         return;
       }
@@ -213,7 +213,7 @@ const ConfirmationList = ({ back, reset }) => {
         onClose={handleSuccessClose}
         title={"Lock NFT Success!"}
         message={
-          "We have successfully locked your NFT, and now you can borrow NFTUSD. Please click on the Borrow page. Thank you for using it."
+          "We have successfully locked your NFT, and now you can borrow FRAX. Please click on the Borrow page. Thank you for using it."
         }
       />
       <List sx={{ width: "95%", bgcolor: "transparent" }}>

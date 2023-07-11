@@ -27,8 +27,8 @@ const Dashboard = () => {
     { type: "Borrowing Fee", value: "4.00%" },
     { type: "Address", value: address },
     { type: "NFT Dollars supply", value: ndlSupply },
-    { type: "NFTUSD supply", value: nftUSDSupply },
-    { type: "NFTUSD in Stability Pool", value: nftUSDInPool },
+    { type: "FRAX supply", value: nftUSDSupply },
+    { type: "FRAX in Stability Pool", value: nftUSDInPool },
     { type: "Total Extraction Fee", value: extractionFee },
     { type: "Total Security Deposit", value: securityDeposit },
   ];
@@ -87,7 +87,7 @@ const Dashboard = () => {
             {/* NFTdollars */}
             <div className="flex flex-col items-start">
               <p className="text-xl xl:text-xs">NDL</p>
-              <p className="font-bold">$11.02</p>
+              <p className="font-bold">$1.00</p>
               <p className="text-xl xl:text-xs mt-2">Market</p>
               <div className="flex gap-1">
                 <Avatar src={walletLeft} alt="avatar" className="h-6 w-6" />
@@ -97,8 +97,8 @@ const Dashboard = () => {
 
             {/* NFTUSD */}
             <div className="flex flex-col items-start">
-              <p className="text-xl xl:text-xs">NFTUSD</p>
-              <p className="font-bold">$11.02</p>
+              <p className="text-xl xl:text-xs">FRAX</p>
+              <p className="font-bold">$1.00</p>
               <p className="text-xl xl:text-xs mt-2">Market</p>
               <div className="flex gap-1">
                 <Avatar src={walletLeft} alt="avatar" className="h-6 w-6" />

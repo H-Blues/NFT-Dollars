@@ -12,7 +12,7 @@ import Withdraw from "./withdraw";
 
 const title = "Stability Pool";
 const icon = poolIcon;
-const description = "Earn NFTDollars rewards and get NFTs by depositing NFTUSD. ";
+const description = "Earn NFTDollars rewards and get NFTs by depositing FRAX. ";
 const operation = "Operate";
 
 const StatbilityPoolCard = ({ balance }) => {

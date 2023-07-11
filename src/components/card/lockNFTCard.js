@@ -8,7 +8,7 @@ import poolIcon from "../../assets/avatar.svg";
 
 const title = "Lock NFT";
 const icon = poolIcon;
-const description = "You can lock your NFT to borrow NFTUSD here. ";
+const description = "You can lock your NFT to borrow FRAX here. ";
 const operation = "lock";
 
 const LockNFTCard = () => {

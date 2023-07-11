@@ -8,7 +8,7 @@ import poolIcon from "../../assets/avatar.svg";
 
 const title = "Unlock / Redeem";
 const icon = poolIcon;
-const description = "You can unlock your NFT here. And your available NFTUSD will decrease. ";
+const description = "You can unlock your NFT here. And your available FRAX will decrease. ";
 const operation = "unlock";
 
 const UnlockNFTCard = () => {

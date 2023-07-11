@@ -20,7 +20,7 @@ const BENEFITS = [
   {
     image: block1,
     advantage: "0% Interest Rate",
-    description: "Liquity charges a small, one-time fee to borrow NFTUSD instead of highly variable interest rates.",
+    description: "Liquity charges a small, one-time fee to borrow FRAX instead of highly variable interest rates.",
   },
   {
     image: block2,
@@ -31,7 +31,7 @@ const BENEFITS = [
   {
     image: block3,
     advantage: "Unstoppable Stablecoin",
-    description: "NFTUSD is a decentralized stablecoin capable of resisting all kinds of censorship.",
+    description: "FRAX is a decentralized stablecoin capable of resisting all kinds of censorship.",
   },
 ];
 
@@ -133,7 +133,7 @@ const Home = () => {
         <Typography variant="h1" className="text-bold uppercase">
           0% interest loans
         </Typography>
-        <Typography variant="h4"> Borrow NFTUSD against Your NFTs</Typography>
+        <Typography variant="h4"> Borrow FRAX against Your NFTs</Typography>
         <div className="flex flex-col mt-20 justify-center items-center space-y-4">
           <Button
             className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"
