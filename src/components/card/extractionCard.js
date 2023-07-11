@@ -140,18 +140,18 @@ const ExtractionCard = ({ available, total, debt }) => {
       <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
-        open={isSuccessOpen}
+        open={isSuccessOpen}  
         onClose={handleSuccessClose}
         title={"Borrow Success!"}
-        message={"You have successfully borrowed NFTUSD. Please check your wallet for details. "}
+        message={"You have successfully borrowed FRAX. Please check your wallet for details. "}
       />
       <ConfirmDialog
         open={isConfirmOpen}
-        onClose={handleConfirmClose}
+        onClose={handleConfirmClose}  
         confirm={confirm}
         title={"Are You Sure?"}
         msg={
-          "The amount of NFTUSD you want to borrow may expose you to the risk of liquidation. Are you sure you want to proceed?"
+          "The amount of FRAX you want to borrow may expose you to the risk of liquidation. Are you sure you want to proceed?"
         }
       />
       <Card className="m-auto w-5/6 md:ml-12 mt-12 bg-transparent bg-white bg-opacity-50  border-2 border-gray-700">

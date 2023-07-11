@@ -84,12 +84,12 @@ const ConfirmationList = ({ back, reset }) => {
     {
       icon: <CurrencyExchangeIcon fontSize="small" />,
       label: "NFT Value",
-      value: `${parseFloat(maxExtraction).toFixed(2)} NFTUSD`,
+      value: `${parseFloat(maxExtraction).toFixed(2)} FRAX`,
     },
     {
       icon: <CreditScoreIcon fontSize="small" />,
-      label: "Max NFTUSD",
-      value: `${totalExtraction} NFTUSD`,
+      label: "Max FRAX",
+      value: `${totalExtraction} FRAX`,
     },
   ];
 
@@ -148,7 +148,7 @@ const ConfirmationList = ({ back, reset }) => {
       const isApproved = await approveNFT();
       if (!isApproved) {
         const cancelTitle = "Cancel NFT Approval?";
-        const cancelMsg = "Before borrowing the NFTUSD, you need to make your NFT approved.";
+        const cancelMsg = "Before borrowing the FRAX, you need to make your NFT approved.";
         handleAlertOpen(cancelTitle, cancelMsg);
         console.error("User denied transaction signature: NFT approval is cancelled");
         return;

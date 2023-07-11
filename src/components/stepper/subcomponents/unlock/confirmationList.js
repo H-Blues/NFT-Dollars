@@ -101,12 +101,12 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
     {
       icon: <CurrencyExchangeIcon fontSize="small" />,
       label: nftValue ? "NFT Value" : "Input Value",
-      value: `${nftValue} NFTUSD`,
+      value: `${nftValue} FRAX`,
     },
     {
       icon: <CreditScoreIcon fontSize="small" />,
       label: "Available Amount",
-      value: `${totalExtraction} NFTUSD`,
+      value: `${totalExtraction} FRAX`,
     },
   ];
 
@@ -129,7 +129,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
     {
       icon: <CurrencyExchangeIcon fontSize="small" />,
       label: nftValue ? "NFT Value" : "Input Value",
-      value: `${nftUSD} NFTUSD`,
+      value: `${nftUSD} FRAX`,
     },
   ];
 
@@ -179,7 +179,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
 
       if (!isUnlock) {
         const unlockFailTitle = "Unlock NFT Failed";
-        const unlockFailMsg = "Something wrong. Please retry or check your NFTUSD balance.";
+        const unlockFailMsg = "Something wrong. Please retry or check your FRAX balance.";
         handleAlertOpen(unlockFailTitle, unlockFailMsg);
         return;
       }
@@ -237,7 +237,7 @@ const ConfirmationList = ({ personal, back, reset, nft, nftUSD }) => {
         onClose={handleConfirmClose}
         confirm={confirm}
         title={"Are You Sure?"}
-        msg={`You have to pay ${valueToPay} NFTUSD to unlock this NFT. Are you sure you want to proceed?`}
+        msg={`You have to pay ${valueToPay} FRAX to unlock this NFT. Are you sure you want to proceed?`}
       />
       <SuccessDialog
         open={isSuccessOpen}

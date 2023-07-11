@@ -101,7 +101,7 @@ const PoolNFTSelect = ({ next, setNFTUSD }) => {
       {id && !isUpLayer && (
         <USDInput
           title="Unlock"
-          tip="NFTUSD you would pay to unlock this NFT"
+          tip="FRAX you would pay to unlock this NFT"
           inputValueChange={nftUsdChange}
           maxValue={userNFTUSD}
           minValue={0}
