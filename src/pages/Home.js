@@ -10,6 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import block1 from "../assets/index_block1.svg";
 import block2 from "../assets/index_block2.svg";
 import block3 from "../assets/index_block3.svg";
+import CopyButton from "../components/table/copyButton";
 import { useWeb3React } from "@web3-react/core";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -94,16 +95,44 @@ const Home = () => {
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ marginTop: "4%", width: "70%" }}
       >
-        <Alert onClose={handleAlertClose} severity="warning">
-          This project is running on the BSC Testnet. You can use the following credentials for testing.
-          <br />
-          <p>Address: 0xd610bBec46d26017Ee05Da79Dbee6dF1DF2a96B1</p>
-          <p>Private Key: 47113c4a17df843d62661bff55ec319341774ff046a6a50ff2e7173c8a272603</p>
-          <p>Available NFT Name: GameItem</p>
-          <p> Available NFT IDs: 60, 61, 62, 63, 64</p>
-          <p>Layer: Cross Layer</p>
+        <Alert
+          onClose={handleAlertClose}
+          sx={{
+            backgroundColor: "#ffa500",
+            color: "#fff",
+            display: "flex",
+          }}
+        >
+          <div style={{}}>
+            <Typography variant="body1" sx={{ marginBottom: "1rem" }}>
+              This project is on the BSC Testnet. You can use the following credentials for testing.
+            </Typography>
+            <Typography variant="body2" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.2em" }}>
+              <strong>Private Key:</strong>
+              <div style={{ display: "flex" }}>47113c4a17df843d62661bff55ec319341774ff046a6a50ff2e7173c8a272603
+                <CopyButton textToCopy="47113c4a17df843d62661bff55ec319341774ff046a6a50ff2e7173c8a272603" />
+              </div>
+            </Typography>
+            <Typography variant="body2" sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.2em" }}>
+              <strong>Test Account Address:</strong>
+              <div style={{ display: "flex" }}>0xd610bBec46d26017Ee05Da79Dbee6dF1DF2a96B1
+                <CopyButton textToCopy="0xd610bBec46d26017Ee05Da79Dbee6dF1DF2a96B1" />
+              </div>
+            </Typography>
+            <Typography variant="body2" sx={{ display: "flex", justifyContent: "space-between", marginRight: "1em", marginBottom: "0.2em" }}>
+              <strong>Available NFT Name:</strong> Test GameItem
+            </Typography>
+            <Typography variant="body2" sx={{ display: "flex", justifyContent: "space-between", marginRight: "1em", marginBottom: "0.2em" }}>
+              <strong>Available NFT IDs:</strong> 60, 61, 62, 63, 64
+            </Typography>
+            <Typography variant="body2" sx={{ display: "flex", justifyContent: "space-between", marginRight: "1em" }}>
+              <strong>Transaction Layer:</strong> Cross Layer
+            </Typography>
+          </div>
         </Alert>
       </Snackbar>
+
+
 
       {/* Background Image */}
       <div
