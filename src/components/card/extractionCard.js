@@ -7,7 +7,7 @@ import { contracts } from "../../utils/contracts";
 import { convertToBigNumber } from "../../utils/number";
 import { SuccessContext } from "../../contexts/successContext";
 import Divider from "@mui/material/Divider";
-import extractionIcon from "../../assets/avatar.svg";
+import extractionIcon from "../../assets/png/borrow.png";
 import USDInput from "../input/usdInput";
 import AvailableAmount from "../input/availableAmount";
 
@@ -140,14 +140,14 @@ const ExtractionCard = ({ available, total, debt }) => {
       <WaitDialog open={isWaitOpen} onClose={handleWaitClose} />
       <AlertDialog open={isAlertOpen} onClose={handleAlertClose} retry={submit} title={alertTitle} msg={alertMsg} />
       <SuccessDialog
-        open={isSuccessOpen}  
+        open={isSuccessOpen}
         onClose={handleSuccessClose}
         title={"Borrow Success!"}
         message={"You have successfully borrowed FRAX. Please check your wallet for details. "}
       />
       <ConfirmDialog
         open={isConfirmOpen}
-        onClose={handleConfirmClose}  
+        onClose={handleConfirmClose}
         confirm={confirm}
         title={"Are You Sure?"}
         msg={

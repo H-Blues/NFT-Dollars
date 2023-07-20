@@ -8,7 +8,7 @@ import { convertToBigNumber } from "../../utils/number";
 import { contracts } from "../../utils/contracts";
 import { SuccessContext } from "../../contexts/successContext";
 import Divider from "@mui/material/Divider";
-import repayIcon from "../../assets/avatar.svg";
+import repayIcon from "../../assets/png/repay.png";
 import USDInput from "../input/usdInput";
 import SecurityAmount from "../input/securityAmount";
 

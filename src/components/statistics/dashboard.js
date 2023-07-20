@@ -3,7 +3,7 @@ import { Avatar, Card, CardHeader, CardBody, Typography } from "@material-tailwi
 import { List, ListItem, Divider } from "@mui/material";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 
-import priceIcon from "../../assets/avatar.svg";
+import userIcon from "../../assets/png/user.png";
 import walletLeft from "../../assets/wallet-leftAnimal.svg";
 import walletRight from "../../assets/wallet-rightAnimal.svg";
 import { contracts } from "../../utils/contracts";
@@ -76,7 +76,7 @@ const Dashboard = () => {
         {/* Price */}
         <div className="grid md:grid-cols-2 gap-4">
           <div className="flex mt-4 text-black ml-14 xl:ml-0">
-            <Avatar src={priceIcon} alt="avatar" className="h-20 w-20 xl:h-14 xl:w-14" />
+            <Avatar src={userIcon} alt="avatar" className="h-20 w-20 xl:h-14 xl:w-14" />
             <div className="flex flex-col items-start">
               <p className="ml-4 text-2xl xl:text-sm xl:ml-1">Price</p>
               <p className="ml-4 font-bold xl:ml-1">$131.0938</p>

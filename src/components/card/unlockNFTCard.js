@@ -4,10 +4,10 @@ import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from
 import { Tabs, TabsHeader, TabsBody, Tab, TabPanel } from "@material-tailwind/react";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import UnlockNFTStepper from "../stepper/unlockNFT";
-import poolIcon from "../../assets/avatar.svg";
+import redeemIcon from "../../assets/png/redeem.png";
 
 const title = "Unlock / Redeem";
-const icon = poolIcon;
+const icon = redeemIcon;
 const description = "You can unlock your NFT here. And your available FRAX will decrease. ";
 const operation = "unlock";
 

@@ -159,10 +159,26 @@ const Home = () => {
 
       {/* Main Content */}
       <Container maxWidth="lg" className="flex flex-col text-center text-white mt-64">
-        <Typography variant="h1" className="text-bold uppercase">
+        <Typography
+          variant="h1"
+          sx={{
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            transition: 'letter-spacing 0.3s',
+            '&:hover': {
+              letterSpacing: '3px',
+            },
+          }}
+        >
           0% interest loans
         </Typography>
-        <Typography variant="h4"> Borrow FRAX against Your NFTs</Typography>
+
+        <Typography variant="h4" sx={{
+          transition: 'letter-spacing 0.3s',
+          '&:hover': {
+            letterSpacing: '1px',
+          },
+        }}> Borrow FRAX against Your NFTs</Typography>
         <div className="flex flex-col mt-20 justify-center items-center space-y-4">
           <Button
             className="w-1/4 normal-case bg-transparent hover:bg-orange-500 text-white py-2 px-4 rounded-3xl border border-white border-solid transition-colors duration-300"

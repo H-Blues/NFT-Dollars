@@ -4,10 +4,10 @@ import { Avatar, Card, CardBody, CardFooter, Typography, Button, Collapse } from
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import Divider from "@mui/material/Divider";
 import LockNFTStepper from "../stepper/lockNFT";
-import poolIcon from "../../assets/avatar.svg";
+import lockIcon from "../../assets/png/lock.png";
 
 const title = "Lock NFT";
-const icon = poolIcon;
+const icon = lockIcon;
 const description = "You can lock your NFT to borrow FRAX here. ";
 const operation = "lock";
 

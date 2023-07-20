@@ -6,7 +6,7 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/24/solid";
 import { AlertDialog, SuccessDialog } from "../dialog";
 import { SuccessContext } from "../../contexts/successContext";
 import { contracts } from "../../utils/contracts";
-import poolIcon from "../../assets/avatar.svg";
+import poolIcon from "../../assets/png/pool.png";
 import Deposit from "./deposit";
 import Withdraw from "./withdraw";
 
